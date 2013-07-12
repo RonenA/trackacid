@@ -32,8 +32,6 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   songIndex: function() {
-    App.songs.fetch();
-
     var view = new App.Views.SongIndex({collection: App.songs});
     this.$rootEl.html( view.render().$el );
   }

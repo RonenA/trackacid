@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130711001207) do
+ActiveRecord::Schema.define(:version => 20130712062850) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -19,7 +19,6 @@ ActiveRecord::Schema.define(:version => 20130711001207) do
     t.string   "title",           :null => false
     t.datetime "published_at",    :null => false
     t.integer  "feed_id",         :null => false
-    t.text     "json",            :null => false
     t.text     "content_encoded", :null => false
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
@@ -27,6 +26,13 @@ ActiveRecord::Schema.define(:version => 20130711001207) do
 
   add_index "entries", ["feed_id"], :name => "index_entries_on_feed_id"
   add_index "entries", ["guid"], :name => "index_entries_on_guid", :unique => true
+
+  create_table "entry_songs", :force => true do |t|
+    t.integer  "entry_id"
+    t.integer  "song_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "feeds", :force => true do |t|
     t.string   "url",        :null => false

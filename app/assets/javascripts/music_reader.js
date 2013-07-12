@@ -9,7 +9,9 @@ window.App = {
     });
 
     App.feeds = new App.Collections.Feeds();
-    App.songs = new App.Collections.Songs();
+    App.songs = new App.Collections.Songs(
+      JSON.parse($('#song-json').html())
+    );
 
     App.router = new App.Routers.Main({
       $rootEl: $('#content')

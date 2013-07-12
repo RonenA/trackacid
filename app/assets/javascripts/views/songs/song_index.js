@@ -3,89 +3,60 @@ App.Views.SongIndex = Backbone.View.extend({
   template: HandlebarsTemplates['songs/index'],
 
   events: {
-    'click .js-play':  'play',
-    'click .js-pause': 'pause',
-    'click .js-next':  'next',
-    'click .js-prev':  'prev'
+    'click .js-play':               'play',
+    'click .js-pause':              'pause',
+    'click .js-navigate-playlist':  'navigatePlaylist',
   },
 
   initialize: function() {
-    this.listenTo(this.collection, "sync", this.render);
+    var that = this;
+    this.songViews = this.collection.map(function(song){
+      return new App.Views.SongShow({
+        model: song,
+        doneCallback: that.continuePlaylist.bind(that)
+      });
+    });
+
     this.currentIdx = 0;
-    this.currentSongObject = null;
   },
 
   render: function() {
     var content = this.template({songs: this.collection.toJSON()});
     this.$el.html(content);
+    this.renderCurrentSong();
     return this;
   },
 
-  currentSong: function() {
-    return this.collection.at(this.currentIdx);
+  renderCurrentSong: function() {
+    var content = this.currentSongView().render().$el;
+    this.$el.find('#current-song').html( content );
+    this.currentSongView().loadSound();
+  },
+
+  currentSongView: function() {
+    return this.songViews[this.currentIdx];
   },
 
   play: function() {
-    if (this.currentSongObject){
-      this.currentSongObject.play();
-    } else {
-      this.continuePlaylist();
-    }
-  },
-
-  continuePlaylist: function(direction) {
-    var direction = direction || 'next';
-
-    var that = this;
-    var currentSong = that.currentSong();
-    var url = currentSong.get('url');
-
-    if(currentSong.get('provider') === "soundcloud"){
-      SC.stream( url,
-        function(song){
-          that.currentSongObject = song;
-          that._playSong(song);
-        }
-      );
-    } else if(currentSong.get('provider') === "youtube") {
-      var videoId = url.match(/\/embed\/([^\?\/]*).*/)[1];
-
-      var videoTarget = $('<div>').attr('id', 'song');
-      this.$el.append(videoTarget);
-
-      player = new YT.Player('song', {
-        height: '200',
-        width: '200',
-        videoId: videoId,
-        events: {
-          'onReady': function(e){
-            e.target.playVideo();
-          }
-        }
-      });
-    } else {
-      that[direction]();
-    }
-  },
-
-  _playSong: function(song) {
-    song.play({ onfinish: this.next.bind(this) });
-  },
-
-  next: function() {
-    if (this.currentSongObject) this.currentSongObject.stop();
-    this.currentIdx++;
-    this.continuePlaylist();
-  },
-
-  prev: function() {
-    if (this.currentSongObject) this.currentSongObject.stop();
-    this.currentIdx--;
-    this.continuePlaylist('prev');
+    this.currentSongView().play();
   },
 
   pause: function() {
-    this.currentSongObject.pause();
-  }
+    this.currentSongView().pause();
+  },
+
+  continuePlaylist: function(direction) {
+    this.currentSongView().remove();
+    var delta = (direction === "prev") ? -1 : 1;
+
+    this.currentIdx += delta;
+    this.renderCurrentSong();
+    this.currentSongView().play();
+  },
+
+  navigatePlaylist: function(e) {
+    var target = $(e.currentTarget);
+    this.continuePlaylist( target.data('direction') );
+  },
 
 });

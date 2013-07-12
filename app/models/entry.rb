@@ -1,10 +1,11 @@
 require 'cgi'
 
 class Entry < ActiveRecord::Base
-  attr_accessible :guid, :link, :published_at, :title, :json, :feed_id, :content_encoded
+  attr_accessible :guid, :link, :published_at, :title, :feed_id, :content_encoded
 
   belongs_to :feed
-  has_many :songs
+  has_many :entry_songs
+  has_many :songs, :through => :entry_songs
 
   after_create :find_songs
 
@@ -15,7 +16,6 @@ class Entry < ActiveRecord::Base
       published_at: entryData.pubDate,
       title: entryData.title,
       content_encoded: CGI.unescapeHTML(entryData.content_encoded || entryData.description),
-      json: entryData,
       feed_id: feed.id
     })
   end

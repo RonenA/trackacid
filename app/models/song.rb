@@ -1,13 +1,14 @@
 class Song < ActiveRecord::Base
   attr_accessible :provider, :url
 
-  belongs_to :entry
+  has_many :entry_songs
+  has_many :entries, :through => :entry_songs
 
   @@PROVIDERS = {
-    :soundcloud => {
+    :SoundCloud => {
       :url => "soundcloud.com/player"
     },
-    :youtube => {
+    :YouTube => {
       :url => "youtube.com/embed"
     }
   }
@@ -17,9 +18,9 @@ class Song < ActiveRecord::Base
   end
 
   def self.parse_iframe_src(src, provider)
-    if provider == :soundcloud
+    if provider == :SoundCloud
       CGI::parse( URI.parse(src).query )["url"].first
-    elsif provider == :youtube
+    elsif provider == :YouTube
       src
     end
   end
