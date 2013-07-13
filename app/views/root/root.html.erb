@@ -2,5 +2,14 @@
 </div>
 
 <script type="application/data" id="song-json">
-  <%= current_user.songs.to_json.html_safe %>
+  <%= current_user.songs.to_json(
+    :include => {
+      :entries => {
+        :only => [:link, :published_at, :title, :feed_id]
+      }
+    }).html_safe %>
+</script>
+
+<script type="application/data" id="feed-json">
+  <%= current_user.feeds.to_json.html_safe %>
 </script>

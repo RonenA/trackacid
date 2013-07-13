@@ -8,7 +8,10 @@ window.App = {
       client_id: '33e780b8fadb971a1cd5793866664a05'
     });
 
-    App.feeds = new App.Collections.Feeds();
+    App.feeds = new App.Collections.Feeds(
+      JSON.parse($('#feed-json').html())
+    );
+
     App.songs = new App.Collections.Songs(
       JSON.parse($('#song-json').html())
     );

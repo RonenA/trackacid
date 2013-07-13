@@ -7,16 +7,16 @@ App.Views.ProviderSong = Backbone.View.extend({
 
   initialize: function(options) {
     this.doneCallback = options.doneCallback;
-    this.loadingSound = new $.Deferred();
+    this.sound = new $.Deferred();
   },
 
   remove: function() {
-    //this.$el.remove();
+    this.$el.remove();
     //This line causes a fatal error in the YouTube code.
     //It is part of the default BackBone remove so I don't
     //want to completely remove it.
     this.stopListening();
-    this.loadingSound.done(function(sound) {
+    this.sound.done(function(sound) {
       sound.stop();
     });
     return this;
@@ -27,7 +27,7 @@ App.Views.ProviderSong = Backbone.View.extend({
 
     that.$el.html("loading");
 
-    this.model.dataFromProvider().done(function(songData){
+    this.model.dataFromProvider().done(function(songData) {
       var content = that.template(songData);
       that.$el.html(content);
     });
@@ -35,24 +35,20 @@ App.Views.ProviderSong = Backbone.View.extend({
     return this;
   },
 
-  loadSound: function() {
-    var that = this;
-
-    this.model.sound().done(function(sound) {
-      that.loadingSound.resolve(sound);
-    });
+  startLoadingSound: function() {
+    this.sound.become(this.model.startLoadingSound());
   },
 
   play: function() {
     var that = this;
 
-    this.loadingSound.done(function(sound) {
+    this.sound.done(function(sound) {
       sound.play({ onfinish: that.doneCallback });
     });
   },
 
   pause: function() {
-    this.loadingSound.done(function(sound) {
+    this.sound.done(function(sound) {
       sound.pause();
     });
   }

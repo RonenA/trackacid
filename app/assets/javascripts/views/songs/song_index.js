@@ -30,7 +30,7 @@ App.Views.SongIndex = Backbone.View.extend({
   renderCurrentSong: function() {
     var content = this.currentSongView().render().$el;
     this.$el.find('#current-song').html( content );
-    this.currentSongView().loadSound();
+    this.currentSongView().startLoadingSound();
   },
 
   currentSongView: function() {
@@ -49,9 +49,11 @@ App.Views.SongIndex = Backbone.View.extend({
     this.currentSongView().remove();
     var delta = (direction === "prev") ? -1 : 1;
 
-    this.currentIdx += delta;
-    this.renderCurrentSong();
-    this.currentSongView().play();
+    if (this.currentIdx < this.collection.length){
+      this.currentIdx += delta;
+      this.renderCurrentSong();
+      this.currentSongView().play();
+    }
   },
 
   navigatePlaylist: function(e) {

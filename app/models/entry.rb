@@ -9,14 +9,16 @@ class Entry < ActiveRecord::Base
 
   after_create :find_songs
 
+  #TODO: Do we even need to store the content_encoded?
+  #We just need to rip the song urls.
   def self.create_from_json!(entryData, feed)
     Entry.create!({
-      guid: entryData.guid,
-      link: entryData.link,
-      published_at: entryData.pubDate,
-      title: entryData.title,
+      guid:            entryData.guid,
+      link:            entryData.link,
+      published_at:    entryData.pubDate,
+      title:           entryData.title,
       content_encoded: CGI.unescapeHTML(entryData.content_encoded || entryData.description),
-      feed_id: feed.id
+      feed_id:         feed.id
     })
   end
 

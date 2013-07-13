@@ -15,6 +15,7 @@
 //= require underscore
 //= require backbone
 //= require handlebars.runtime
+//= require deferred
 //
 //= require music_reader
 //= require_tree ../templates

@@ -17,7 +17,7 @@ App.Models.Song = Backbone.Model.extend({
     return data;
   },
 
-  sound: function() {
+  startLoadingSound: function() {
     var that = this;
     var sound = new $.Deferred();
 
