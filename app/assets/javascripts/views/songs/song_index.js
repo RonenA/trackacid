@@ -10,12 +10,10 @@ App.Views.SongIndex = Backbone.View.extend({
 
   initialize: function() {
     var that = this;
-    this.songViews = this.collection.map(function(song){
-      return new App.Views.SongShow({
-        model: song,
-        doneCallback: that.continuePlaylist.bind(that)
-      });
-    });
+
+    this.listenTo(this.collection, "add", this.render);
+
+    $(window).scroll(this.loadNextPage.bind(this));
 
     this.currentIdx = 0;
   },
@@ -28,37 +26,56 @@ App.Views.SongIndex = Backbone.View.extend({
   },
 
   renderCurrentSong: function() {
-    var content = this.currentSongView().render().$el;
+    this.songView = this.makeSongView();
+
+    var content = this.songView.render().$el;
     this.$el.find('#current-song').html( content );
-    this.currentSongView().startLoadingSound();
+    this.songView.startLoadingSound();
   },
 
-  currentSongView: function() {
-    return this.songViews[this.currentIdx];
+  makeSongView: function() {
+    return new App.Views.SongShow({
+      model: this.collection.at(this.currentIdx),
+      doneCallback: this.continuePlaylist.bind(this)
+    });
   },
 
   play: function() {
-    this.currentSongView().play();
+    this.songView.play();
   },
 
   pause: function() {
-    this.currentSongView().pause();
+    this.songView.pause();
   },
 
   continuePlaylist: function(direction) {
-    this.currentSongView().remove();
+    var that = this;
     var delta = (direction === "prev") ? -1 : 1;
+    var songReady;
 
-    if (this.currentIdx < this.collection.length){
-      this.currentIdx += delta;
-      this.renderCurrentSong();
-      this.currentSongView().play();
+    if(that.currentIdx + delta >= that.collection.length) {
+      songReady = that.collection.loadNextPage();
     }
+    songReady = songReady || $.Deferred.now();
+
+    songReady.done(function() {
+      that.songView.remove();
+      that.currentIdx += delta;
+
+      that.renderCurrentSong();
+      that.songView.play();
+    });
   },
 
   navigatePlaylist: function(e) {
     var target = $(e.currentTarget);
     this.continuePlaylist( target.data('direction') );
   },
+
+  loadNextPage: function(e) {
+    if (($(window).innerHeight() + $(window).scrollTop()) >= $("body").height()) {
+      this.collection.loadNextPage();
+    }
+  }
 
 });

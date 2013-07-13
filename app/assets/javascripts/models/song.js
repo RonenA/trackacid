@@ -1,6 +1,7 @@
 App.Models.Song = Backbone.Model.extend({
 
   dataFromProvider: function() {
+    // TODO: handle errors
     var that = this;
     var data = new $.Deferred();
 

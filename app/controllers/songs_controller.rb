@@ -2,6 +2,7 @@ class SongsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    render :json => current_user.songs.uniq
+    # TODO: Why uniq after page? Why uniq at all?
+    render :json => current_user.songs.page(params[:page]).uniq
   end
 end

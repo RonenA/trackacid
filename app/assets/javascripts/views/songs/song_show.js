@@ -11,13 +11,14 @@ App.Views.ProviderSong = Backbone.View.extend({
   },
 
   remove: function() {
-    this.$el.remove();
+    var that = this;
     //This line causes a fatal error in the YouTube code.
     //It is part of the default BackBone remove so I don't
     //want to completely remove it.
     this.stopListening();
     this.sound.done(function(sound) {
-      sound.stop();
+      sound.destruct();
+      that.$el.remove();
     });
     return this;
   },

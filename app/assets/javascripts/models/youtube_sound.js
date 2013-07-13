@@ -27,6 +27,10 @@ App.Models.YouTubeSound = function() {
     this.object.stopVideo();
   };
 
+  YouTubeSound.prototype.destruct = function() {
+    this.object.destroy();
+  };
+
   return YouTubeSound;
 
 }();

@@ -13,3 +13,7 @@ $.Deferred = (function() {
     return deferred;
   };
 })();
+
+$.Deferred.now = function() {
+  return $.Deferred().resolve(null);
+};

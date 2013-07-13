@@ -47,6 +47,11 @@ end
 
 gem 'backbone-on-rails'
 
+#You may have heard of this one
 gem 'devise'
 
+#Parsing html
 gem 'nokogiri'
+
+#Pagination
+gem 'kaminari'
