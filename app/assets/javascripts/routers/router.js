@@ -11,8 +11,6 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   feedIndex: function() {
-    App.feeds.fetch();
-
     var view = new App.Views.FeedIndex({collection: App.feeds});
     this.$rootEl.html( view.render().$el );
   },
@@ -34,6 +32,9 @@ App.Routers.Main = Backbone.Router.extend({
   songIndex: function() {
     var view = new App.Views.SongIndex({collection: App.songs});
     this.$rootEl.html( view.render().$el );
+
+    var feedView = new App.Views.FeedIndex({collection: App.feeds});
+    this.$rootEl.prepend( feedView.render().$el );
   }
 
 });

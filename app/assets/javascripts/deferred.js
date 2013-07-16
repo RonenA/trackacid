@@ -15,5 +15,5 @@ $.Deferred = (function() {
 })();
 
 $.Deferred.now = function() {
-  return $.Deferred().resolve(null);
+  return $.Deferred().resolve();
 };

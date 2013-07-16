@@ -1,6 +1,5 @@
 <h1>Music Reader</h1>
 
-<h2>Now Playing</h2>
 <div id="current-song"></div>
 
 <button class="js-play">Play</button>
@@ -10,8 +9,15 @@
   <button class="js-navigate-playlist" data-direction="next">Next</button>
 </div>
 
-<ul>
+<ul class="song-list">
   {{#each songs}}
-    <li>{{url}}</li>
+    <li class="{{#if listened}} listened {{/if}}
+               {{#if playing}}  playing  {{/if}}">
+      <a href="#" class="js-switch-song" data-index="{{@index}}">{{url}}</a> --------
+      Feed ids -
+      {{#each entries}}
+        {{feed_id}}
+      {{/each}}
+    </li>
   {{/each}}
 </ul>

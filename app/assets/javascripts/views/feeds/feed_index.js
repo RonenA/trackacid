@@ -1,6 +1,5 @@
 App.Views.FeedIndex = Backbone.View.extend({
 
-  tagName: "ul",
   class: "feed-list",
 
   template: HandlebarsTemplates['feeds/index'],
@@ -24,7 +23,11 @@ App.Views.FeedIndex = Backbone.View.extend({
     var target = $(e.currentTarget);
     var url = target.find('[name=url]').val();
 
-    App.feeds.create({url: url});
+    App.feeds.create({url: url}, {
+      success: function(){
+        App.songs.fetch();
+      }
+    });
   }
 
 

@@ -1,10 +1,16 @@
+<h1>Feeds</h1>
+
 <form class="new-feed-form">
   <input name="url" placeholder="Feed URL" type="text" />
   <input type="submit" value="Add a feed" />
 </form>
 
-{{#each feeds}}
-  <li>
-    <a href="#/feeds/{{id}}"> {{title}}</a>
-  </li>
-{{/each}}
+<ul>
+  {{#each feeds}}
+    <li>
+      <a href="#/feeds/{{id}}"> {{title}}</a>
+    </li>
+  {{else}}
+    <li>No feeds.</li>
+  {{/each}}
+</ul>

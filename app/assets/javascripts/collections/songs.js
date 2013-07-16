@@ -1,5 +1,13 @@
 App.Collections.Songs = Backbone.Collection.extend({
+
   model: App.Models.Song,
+
+  comparator: function(songA, songB){
+    if (songA.get("first_published_at") > songB.get("first_published_at")) return -1;
+    if (songA.get("first_published_at") < songB.get("first_published_at")) return 1;
+    return 0;
+  },
+
   initialize: function(models, options){
     this.url = "/songs";
     this.page = 1;

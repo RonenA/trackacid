@@ -1,5 +1,3 @@
-//Ducktypes YouTube video into SoundCloud sound
-
 App.Models.YouTubeSound = function() {
 
   function YouTubeSound(object){
@@ -19,16 +17,16 @@ App.Models.YouTubeSound = function() {
     }
   };
 
-  YouTubeSound.prototype.pause = function() {
-    this.object.pauseVideo();
-  };
+  YouTubeSound.passToObject({
+    pause:   'pauseVideo',
+    stop:    'stop',
+    destroy: 'destroy'
+  });
 
-  YouTubeSound.prototype.stop = function() {
-    this.object.stopVideo();
-  };
-
-  YouTubeSound.prototype.destruct = function() {
-    this.object.destroy();
+  YouTubeSound.prototype.playing = function() {
+    // unstarted (-1), ended (0), playing (1), paused (2),
+    // buffering (3), video cued (5).
+    return _([1,3]).contains(this.object.getPlayerState);
   };
 
   return YouTubeSound;

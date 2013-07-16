@@ -6,31 +6,43 @@ App.Views.SongIndex = Backbone.View.extend({
     'click .js-play':               'play',
     'click .js-pause':              'pause',
     'click .js-navigate-playlist':  'navigatePlaylist',
+    'click .js-switch-song':        'switchSong'
   },
 
   initialize: function() {
     var that = this;
 
     this.listenTo(this.collection, "add", this.render);
+    this.listenTo(this.collection, "remove", function(){
+      that.songView.remove();
+      that.render();
+      that.play();
+    })
 
+    //TODO: Probably don't want this on the whole window
     $(window).scroll(this.loadNextPage.bind(this));
 
     this.currentIdx = 0;
   },
 
   render: function() {
-    var content = this.template({songs: this.collection.toJSON()});
-    this.$el.html(content);
+    var songs = this.collection.toJSON();
+    songs[this.currentIdx].playing = true;
+    var result = this.template({songs: songs});
+    this.$el.html(result);
     this.renderCurrentSong();
     return this;
   },
 
   renderCurrentSong: function() {
-    this.songView = this.makeSongView();
-
-    var content = this.songView.render().$el;
-    this.$el.find('#current-song').html( content );
-    this.songView.startLoadingSound();
+    if (this.collection.length > 0){
+      this.songView = this.makeSongView();
+      var content = this.songView.render().$el;
+      this.$el.find('#current-song').html( content );
+      this.songView.startLoadingSound();
+    } else {
+      this.$el.find('#current-song').html( "No songs." );
+    }
   },
 
   makeSongView: function() {
@@ -60,10 +72,13 @@ App.Views.SongIndex = Backbone.View.extend({
 
     songReady.done(function() {
       that.songView.remove();
+      if (delta === 1) {
+        that.collection.at(that.currentIdx).recordListen();
+      }
       that.currentIdx += delta;
 
-      that.renderCurrentSong();
-      that.songView.play();
+      that.render();
+      that.play();
     });
   },
 
@@ -76,6 +91,15 @@ App.Views.SongIndex = Backbone.View.extend({
     if (($(window).innerHeight() + $(window).scrollTop()) >= $("body").height()) {
       this.collection.loadNextPage();
     }
+  },
+
+  switchSong: function(e) {
+    e.preventDefault();
+    var target = $(e.currentTarget);
+    this.currentIdx = target.data('index');
+    this.songView.remove();
+    this.render();
+    this.play();
   }
 
 });

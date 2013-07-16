@@ -11,3 +11,13 @@
  *= require_self
  *= require_tree .
  */
+
+
+.listened{
+  opacity: 0.3;
+}
+
+.playing{
+  background-color: blue;
+  color: white;
+}

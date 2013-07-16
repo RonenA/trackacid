@@ -8,7 +8,6 @@ App.Models.Feed = Backbone.Model.extend({
   toJSON: function(){
     var attrs = _.clone(this.attributes);
     if (attrs.songs) attrs.songs = attrs.songs.toJSON();
-    debugger;
     return attrs;
   }
 });

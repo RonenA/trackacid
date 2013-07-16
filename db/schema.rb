@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130712062850) do
+ActiveRecord::Schema.define(:version => 20130715214530) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -46,14 +46,23 @@ ActiveRecord::Schema.define(:version => 20130712062850) do
   create_table "songs", :force => true do |t|
     t.text     "url"
     t.string   "provider"
-    t.integer  "entry_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.datetime "first_published_at"
   end
 
   create_table "user_feeds", :force => true do |t|
     t.integer  "user_id"
     t.integer  "feed_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "user_songs", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "song_id"
+    t.boolean  "listened"
+    t.boolean  "deleted"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -71,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20130712062850) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.datetime "requested_songs_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
