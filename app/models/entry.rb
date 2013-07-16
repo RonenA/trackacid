@@ -25,11 +25,13 @@ class Entry < ActiveRecord::Base
   def find_songs
     rss_dom = Nokogiri::HTML(self.content_encoded)
 
-    #Unless you could find songs in the RSS content
+    #TODO: Logic here is very confusing
+
+    #Unless you could find some songs in the RSS content...
     unless Song.PROVIDERS.keys.any? do |provider|
       find_and_create_provider_songs(rss_dom, provider)
     end
-      #Look in the entry content
+      #...look in the entry content
       entry_dom = Nokogiri::HTML( open(self.link, &:read) )
       Song.PROVIDERS.keys.any? do |provider|
         find_and_create_provider_songs(entry_dom, provider)
@@ -44,9 +46,9 @@ class Entry < ActiveRecord::Base
     song_nokos = dom.css("[src*='#{provider_url}']")
     song_nokos.each do |song_noko|
       src = song_noko.get_attribute(:src)
-      url = Song.parse_iframe_src(src, provider)
-      song = Song.find_or_create_by_url_and_provider(url, provider)
-      self.songs << song
+      source_url = Song.parse_iframe_src(src, provider)
+      song = Song.find_or_initialize_by_source_url_and_provider(source_url, provider)
+      self.songs << song if song.persisted? || song.save
     end
     song_nokos.any?
   end

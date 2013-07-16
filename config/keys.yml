@@ -1,0 +1,11 @@
+production:
+  SoundCloud: 33e780b8fadb971a1cd5793866664a05
+  YouTube: AIzaSyBdZLZnE7_KMXrMkuXbbz-ADR7kolhxURo
+
+test:
+  SoundCloud: 33e780b8fadb971a1cd5793866664a05
+  YouTube: AIzaSyBdZLZnE7_KMXrMkuXbbz-ADR7kolhxURo
+
+development:
+  SoundCloud: 33e780b8fadb971a1cd5793866664a05
+  YouTube: AIzaSyBdZLZnE7_KMXrMkuXbbz-ADR7kolhxURo

@@ -13,7 +13,7 @@
   {{#each songs}}
     <li class="{{#if listened}} listened {{/if}}
                {{#if playing}}  playing  {{/if}}">
-      <a href="#" class="js-switch-song" data-index="{{@index}}">{{url}}</a> --------
+      <a href="#" class="js-switch-song" data-index="{{@index}}">{{title}}</a> --------
       Feed ids -
       {{#each entries}}
         {{feed_id}}

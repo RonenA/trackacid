@@ -55,3 +55,9 @@ gem 'nokogiri'
 
 #Pagination
 gem 'kaminari'
+
+#For making API requests
+gem 'rest-client'
+
+#For proccessing urls
+gem 'addressable'

@@ -1,8 +1,8 @@
 <h2>
-  <a href="{{data.permalink_url}}">{{data.title}} - {{data.user.username}}</a>
+  <a href="{{public_link}}">{{title}}</a>
 </h2>
-{{#each song.entries}}
+{{#each entries}}
   <a href='{{link}}' target="blank"> Blogged by {{feed.title}} </a>
 {{/each}}
 <button class="js-delete-song">&times;</button>
-<img src="{{data.artwork_url}}">
+<img src="{{artwork_url}}">

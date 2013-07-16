@@ -26,18 +26,14 @@ App.Views.ProviderSong = Backbone.View.extend({
 
   render: function() {
     var that = this;
-    that.$el.html("loading");
 
-    this.model.dataFromProvider().done(function(songData) {
-      var song = that.model.toJSON();
-      _(song.entries).each(function(entry) {
-        entry.feed = App.feeds.get(entry.feed_id).toJSON();
-      });
-
-      var content = that.template({data: songData,
-                                   song: song});
-      that.$el.html(content);
+    var song = that.model.toJSON();
+    _(song.entries).each(function(entry) {
+      entry.feed = App.feeds.get(entry.feed_id).toJSON();
     });
+
+    var content = that.template(song);
+    that.$el.html(content);
 
     return this;
   },

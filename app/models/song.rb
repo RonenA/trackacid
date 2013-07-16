@@ -1,12 +1,16 @@
-class Song < ActiveRecord::Base
-  attr_accessible :provider, :url
+require 'addressable/uri'
 
-  validates_presence_of :provider, :url, :first_published_at
+class Song < ActiveRecord::Base
+  attr_accessible :provider, :source_url
+
+  validates_presence_of :provider, :source_url, :first_published_at,
+    :id_from_provider, :public_link, :title, :kind
 
   has_many :entry_songs
   has_many :entries, :through => :entry_songs
 
   before_validation :set_first_published_at
+  before_validation :set_data_from_provider
 
   @@PROVIDERS = {
     :SoundCloud => {
@@ -29,13 +33,56 @@ class Song < ActiveRecord::Base
     end
   end
 
-  #This will most likely to overridden to an earlier date
-  #when the Song associated with an Entry, but if for some
-  #reason that doesn't happen, such as if someone has an
-  #improperly formatted RSS feed with no published dates,
-  #at least the song's date will not be nil.
+  # This will most likely be overridden to an earlier date
+  # when the Song is associated with an Entry, but if for some
+  # reason that doesn't happen, such as if someone has an
+  # improperly formatted RSS feed with no published dates,
+  # at least the song's date will not be nil.
   def set_first_published_at
     self.first_published_at = Time.now
+  end
+
+  def set_data_from_provider
+    send("set_data_from_#{provider.downcase}")
+  end
+
+  def set_data_from_soundcloud
+    u = Addressable::URI.parse(source_url)
+    u.query_values = nil
+    url_without_params = u.to_s
+
+    resp = RestClient.get("#{url_without_params}.json",
+                          :params => {:client_id => API_KEYS[:SoundCloud]})
+    data = JSON.parse(resp)
+
+    return false if !data["streamable"]
+
+    self.id_from_provider   = data["id"]
+    self.public_link        = data["permalink_url"]
+    self.title              = data["title"]
+    self.user_from_provider = data["user"]["username"]
+    self.description        = data["description"]
+    self.artwork_url        = data["artwork_url"]
+    self.kind               = data["kind"]
+    self.download_url       = data["download_url"] if data["downloadable"]
+  end
+
+  def set_data_from_youtube
+    params = {:part => "snippet, contentDetails, status",
+              :id   => source_url.match(/\/embed\/([^\?\/]*)/)[1],
+              :key  => API_KEYS[:YouTube]}
+    resp = RestClient.get("https://www.googleapis.com/youtube/v3/videos", :params => params)
+    data = JSON.parse(resp)["items"][0]
+
+    return false if !data["status"]["embeddable"]
+
+    self.id_from_provider   = data["id"]
+    self.public_link        = "http://www.youtube.com/watch?v=#{data["id"]}"
+    self.title              = data["snippet"]["title"]
+    self.user_from_provider = data["snippet"]["channelTitle"]
+    self.description        = data["snippet"]["description"]
+    self.artwork_url        = data["snippet"]["thumbnails"]["medium"]["url"]
+    self.kind               = data["kind"].match(/youtube#(.*)/)[1]
   end
 
 end
