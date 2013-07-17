@@ -4,6 +4,7 @@ class RootController < ApplicationController
 
   def root
     current_user.make_user_songs
+    @user = current_user.to_json(:only => :email)
     @feeds = current_user.feeds.to_json
     @songs = current_user.user_songs
                          .includes(:song => :entries)

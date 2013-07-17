@@ -1,0 +1,28 @@
+$sidebar-width: 25%;
+
+.l-root{
+  position: relative;
+}
+
+.l-sidebar, .l-main{
+  position: absolute;
+  bottom: 0;
+  top: 0;
+
+  border: 1px solid #eee;
+  padding: 10px;
+}
+
+.l-sidebar{
+  width: $sidebar-width;
+}
+
+.l-main{
+  width: 100% - $sidebar-width;
+  left: $sidebar-width;
+}
+
+.l-bottom{
+  position: absolute;
+  bottom: 0;
+}

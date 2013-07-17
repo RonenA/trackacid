@@ -1,5 +1,6 @@
 App.Views.SongIndex = Backbone.View.extend({
 
+  className: "l-main",
   template: HandlebarsTemplates['songs/index'],
 
   events: {

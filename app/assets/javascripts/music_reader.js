@@ -8,6 +8,8 @@ window.App = {
       client_id: '33e780b8fadb971a1cd5793866664a05'
     });
 
+    App.currentUser = JSON.parse($('#user-json').html());
+
     App.feeds = new App.Collections.Feeds(
       JSON.parse($('#feed-json').html())
     );
@@ -17,7 +19,7 @@ window.App = {
     );
 
     App.router = new App.Routers.Main({
-      $rootEl: $('#content')
+      $rootEl: $('.l-root')
     });
 
     Backbone.history.start();

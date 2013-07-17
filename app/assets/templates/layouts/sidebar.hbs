@@ -1,0 +1,11 @@
+<span class="sidebar__logo">MusicReader</span>
+<div id="t--feeds"></div>
+
+<div class="l-bottom">
+  {{currentUser.email}}
+  <a href="#">Settings</a>
+  <form method="post" action="/users/sign_out">
+    <input name="_method" type="hidden" value="delete" />
+    <input value="Sign out" type="submit" />
+  </form>
+</div>

@@ -1,40 +1,27 @@
 App.Routers.Main = Backbone.Router.extend({
 
   routes: {
-    ""         : "songIndex",
-    "feeds"    : "feedIndex",
-    "feeds/:id": "feedShow"
+    ""         : "root"
   },
 
   initialize: function(options) {
     this.$rootEl = options.$rootEl;
   },
 
-  feedIndex: function() {
-    var view = new App.Views.FeedIndex({collection: App.feeds});
-    this.$rootEl.html( view.render().$el );
+  root: function() {
+    var main = new App.Views.SongIndex({collection: App.songs});
+    this.$rootEl.html( main.render().$el );
+
+    var sidebar = new App.Views.Sidebar();
+    this.$rootEl.prepend( sidebar.render().$el );
+
+    this.setRootElHeight();
   },
 
-  feedShow: function(id) {
-    var feed = App.feeds.get(id);
-
-    if (!feed){
-      feed = new App.Models.Feed({ id: id }, { parse: true });
-      App.feeds.add(feed);
-    }
-
-    feed.fetch();
-
-    var view = new App.Views.FeedShow({ model: feed });
-    this.$rootEl.html( view.render().$el );
+  setRootElHeight: function(){
+    var windowHeight = $(window).height();
+    var outOfRootHeight = $('.l-out-of-root').outerHeight();
+    this.$rootEl.height(windowHeight - outOfRootHeight);
   },
-
-  songIndex: function() {
-    var view = new App.Views.SongIndex({collection: App.songs});
-    this.$rootEl.html( view.render().$el );
-
-    var feedView = new App.Views.FeedIndex({collection: App.feeds});
-    this.$rootEl.prepend( feedView.render().$el );
-  }
 
 });
