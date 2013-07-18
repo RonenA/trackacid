@@ -29,19 +29,24 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
   margin-right: 0;
 }
 
+.icon-SoundCloud:before { content: '\e811'; } /* '' */
 .icon-next:before { content: '\e802'; } /* '' */
 .icon-prev:before { content: '\e803'; } /* '' */
+.icon-heart-empty:before { content: '\e814'; } /* '' */
 .icon-heart:before { content: '\e804'; } /* '' */
 .icon-gear:before { content: '\e80a'; } /* '' */
 .icon-check:before { content: '\e80d'; } /* '' */
 .icon-cancel:before { content: '\e805'; } /* '' */
+.icon-cancel-circled-outline:before { content: '\e815'; } /* '' */
 .icon-play:before { content: '\e800'; } /* '' */
 .icon-pause:before { content: '\e801'; } /* '' */
 .icon-music:before { content: '\e806'; } /* '' */
+.icon-article:before { content: '\e813'; } /* '' */
 .icon-logout:before { content: '\e80b'; } /* '' */
 .icon-download:before { content: '\e80e'; } /* '' */
 .icon-list:before { content: '\e80f'; } /* '' */
 .icon-spinner:before { content: '\e810'; } /* '' */
+.icon-YouTube:before { content: '\e812'; } /* '' */
 .icon-refresh:before { content: '\e80c'; } /* '' */
 .icon-volume-off:before { content: '\e809'; } /* '' */
 .icon-volume-low:before { content: '\e808'; } /* '' */

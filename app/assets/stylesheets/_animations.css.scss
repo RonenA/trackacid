@@ -1,3 +1,4 @@
+//Used in the loading spinner for soundcloud songs
 .animate-spin {
   @include animation(spin 2s infinite linear);
   display: inline-block;
@@ -8,5 +9,25 @@
     @include transform(rotate(0deg));
   } to {
     @include transform(rotate(359deg));
+  }
+}
+
+//From http://h5bp.github.io/Effeckt.css/dist/listitems.html
+//Used when deleting items from the song list
+@include keyframes(moveOut) {
+  to {
+    opacity: 0;
+    @include transform(translateX(-300px));
+  }
+}
+
+@include keyframes(closeSpace) {
+  from {
+    max-height: $song-img-size;
+  }
+
+  to {
+    max-height: 0px;
+    border: 0;
   }
 }

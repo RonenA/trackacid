@@ -24,3 +24,7 @@ div{
 .media__body{
   overflow: hidden;
 }
+
+.cf{
+  @include clearfix;
+}

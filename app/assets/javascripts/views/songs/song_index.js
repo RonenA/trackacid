@@ -8,28 +8,28 @@ App.Views.SongIndex = Backbone.View.extend({
     'click .js-pause':              'pause',
     'click .js-navigate-playlist':  'navigatePlaylist',
     'click .js-switch-song':        'switchSong',
+    'click .js-delete-song':        'deleteSong'
   },
 
   initialize: function() {
     var that = this;
 
     this.listenTo(this.collection, "add", this.render);
-    this.listenTo(this.collection, "remove", function(){
-      that.songView.remove();
-      that.render();
-      that.play();
-    })
 
     this.currentIdx = 0;
   },
 
   render: function() {
     var songs = this.collection.toJSON();
-    songs[this.currentIdx].playing = true;
+    songs[this.currentIdx].selected = true;
     var result = this.template({songs: songs});
     this.$el.html(result);
     this.renderCurrentSong();
     return this;
+  },
+
+  currentSong: function() {
+    return this.collection.at(this.currentIdx);
   },
 
   renderCurrentSong: function() {
@@ -46,7 +46,7 @@ App.Views.SongIndex = Backbone.View.extend({
 
   makeSongView: function() {
     return new App.Views.CurrentSong({
-      model: this.collection.at(this.currentIdx),
+      model: this.currentSong(),
       doneCallback: this.continuePlaylist.bind(this)
     });
   },
@@ -97,10 +97,40 @@ App.Views.SongIndex = Backbone.View.extend({
   switchSong: function(e) {
     e.preventDefault();
     var target = $(e.currentTarget);
-    this.currentIdx = target.data('index');
+    var model = this._modelFromTarget(target);
+    this.currentIdx = this.collection.indexOf(model);
     this.songView.remove();
-    this.render();
+    this.renderCurrentSong();
+    this._updateSelectionHighlight();
     this.play();
+  },
+
+  _updateSelectionHighlight: function(){
+    $('.is-selected').removeClass('is-selected');
+    var currentSongId = this.currentSong().id;
+    $('.song-list').find('[data-id='+currentSongId+']').addClass('is-selected');
+  },
+
+  _modelFromTarget: function(target) {
+    var id = target.closest('.song-list > li').data('id');
+    return this.collection.get(id);
+  },
+
+  deleteSong: function(e) {
+    var target = $(e.currentTarget);
+    var currentSong = this.currentSong();
+    var model = this._modelFromTarget(target);
+    var songViewWasPlaying = this.songView.playing();
+    model.destroy();
+
+    target.closest('.song-list > li').addClass('is-removing');
+
+    if(model === currentSong) {
+      this.songView.remove();
+      this.renderCurrentSong();
+      this._updateSelectionHighlight();
+      if (songViewWasPlaying) this.play();
+    }
   }
 
 });

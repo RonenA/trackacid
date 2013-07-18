@@ -6,11 +6,16 @@
     @include clearfix;
     border-bottom: 1px solid #eee;
     position: relative;
+
+    &.is-removing {
+      max-height: $song-img-size;
+      opacity: 1;
+      @include animation(moveOut 0.3s 0.2s ease forwards, closeSpace 0.2s ease forwards 0.3s)
+    }
   }
 }
 
 .song__img-wrapper{
-  $song-img-size: golden-ratio($gr-base, 3);
   width: $song-img-size;
   height: $song-img-size;
   overflow: hidden;
@@ -26,7 +31,7 @@
 
   &:hover{background-color: #F4F4F4}
 
-  &.is-playing{background-color: $pale-blue}
+  .is-selected & {background-color: $pale-blue}
 }
 
 .song__title{
@@ -37,4 +42,24 @@
 .song__title, .song__blogs{
   @extend .l-ellip;
   line-height: 1.2em;
+}
+
+.song__controls{
+  display: none;
+  .song-list > li:hover & {display: block}
+
+  margin-left: 20px;
+  float: right;
+
+  button, a{
+    @extend %reset-button;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    line-height: $song-img-size;
+    margin-right: 10px;
+
+    opacity:0.5;
+    &:hover{opacity: 1}
+  }
 }

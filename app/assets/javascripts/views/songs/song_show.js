@@ -2,10 +2,6 @@ App.Views.CurrentSong = Backbone.View.extend({
 
   template: HandlebarsTemplates['songs/current_song'],
 
-  events: {
-    'click .js-delete-song': 'deleteSong'
-  },
-
   initialize: function(options) {
     this.doneCallback = options.doneCallback;
     this.sound = new $.Deferred();
@@ -71,8 +67,12 @@ App.Views.CurrentSong = Backbone.View.extend({
     });
   },
 
-  deleteSong: function() {
-    this.model.destroy();
+  playing: function() {
+    var bool;
+    this.sound.done(function(sound) {
+      bool = sound.playing();
+    });
+    return bool;
   },
 
   //TODO: Its kind of weird that songShow touches

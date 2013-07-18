@@ -23,7 +23,7 @@ class UserSong < ActiveRecord::Base
     song_json = JSON.parse(song.to_json(:except => [:created_at, :updated_at]))
     json.merge!(song_json)
 
-    json[:entries] = entries_json
+    json[:entries] = entries_json.sort_by{ |e| e[:published_at] }
     json
   end
 

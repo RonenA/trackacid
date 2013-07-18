@@ -5,7 +5,7 @@ window.App = {
   Routers: {},
   initialize: function() {
     SC.initialize({
-      client_id: '33e780b8fadb971a1cd5793866664a05'
+      client_id: API_KEYS.SoundCloud
     });
 
     App.currentUser = JSON.parse($('#user-json').html());
