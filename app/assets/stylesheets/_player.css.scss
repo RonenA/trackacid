@@ -4,6 +4,8 @@
   height: $player-height;
   background-color: white;
   border-bottom: 1px solid #eee;
+
+  @include clearfix;
 }
 
 .player__controls{

@@ -1,4 +1,7 @@
 .song-list{
+  @include position(fixed, $player-height 0px 0px $sidebar-width);
+  overflow: scroll;
+
   li{
     @include clearfix;
     border-bottom: 1px solid #eee;

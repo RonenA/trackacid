@@ -7,7 +7,7 @@ App.Views.SongIndex = Backbone.View.extend({
     'click .js-play':               'play',
     'click .js-pause':              'pause',
     'click .js-navigate-playlist':  'navigatePlaylist',
-    'click .js-switch-song':        'switchSong'
+    'click .js-switch-song':        'switchSong',
   },
 
   initialize: function() {
@@ -19,9 +19,6 @@ App.Views.SongIndex = Backbone.View.extend({
       that.render();
       that.play();
     })
-
-    //TODO: Probably don't want this on the whole window
-    $(window).scroll(this.loadNextPage.bind(this));
 
     this.currentIdx = 0;
   },
@@ -90,8 +87,9 @@ App.Views.SongIndex = Backbone.View.extend({
     this.continuePlaylist( target.data('direction') );
   },
 
-  loadNextPage: function(e) {
-    if (($(window).innerHeight() + $(window).scrollTop()) >= $("body").height()) {
+  infiniteScrollHandler: function(e) {
+    var target = $(e.currentTarget);
+    if (target.scrollTop() + target.innerHeight() >= target[0].scrollHeight) {
       this.collection.loadNextPage();
     }
   },

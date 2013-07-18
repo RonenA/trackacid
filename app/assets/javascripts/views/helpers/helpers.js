@@ -1,7 +1,7 @@
 Handlebars.registerHelper('currentSongVisual', function(provider, artwork_url){
   var result;
   if(provider === "YouTube") {
-    result = "<div id='youtube-video'>Loading</div><img src='" +artwork_url+ "' />"
+    result = "<div id='youtube-video'>Loading</div>"
   } else {
     result = "<img class='player__soundcloud-artwork' src='" +artwork_url+ "' />"
   }
@@ -17,7 +17,8 @@ Handlebars.registerHelper('feedName', function(feedId){
 
 Handlebars.registerHelper('joinFeedNames', function(entries){
   var feedNames = _(entries).map(function(entry){
-    return App.feeds.get(entry.feed_id).get('title');
+    return App.feeds.get(entry.feed_id).get('title') + " "
+            + $.timeago(entry.published_at);
   });
 
   return new Handlebars.SafeString(feedNames.join(', '));
@@ -26,7 +27,8 @@ Handlebars.registerHelper('joinFeedNames', function(entries){
 Handlebars.registerHelper('joinFeedNamesWithLink', function(entries){
   var feedNames = _(entries).map(function(entry){
     var feedName = App.feeds.get(entry.feed_id).get('title');
-    return "<a target='blank' href='"+entry.link+"'>"+feedName+"</a>";
+    return feedName + " <a target='blank' href='"+entry.link+"'>" +
+            $.timeago(entry.published_at) + "</a>";
   });
 
   return new Handlebars.SafeString(feedNames.join(', '));

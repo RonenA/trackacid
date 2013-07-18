@@ -49,38 +49,48 @@ class Song < ActiveRecord::Base
   end
 
   def set_data_from_soundcloud
-    resp = RestClient.get("#{source_url}.json",
-                          :params => {:client_id => API_KEYS[:SoundCloud]})
-    data = JSON.parse(resp)
+    begin
+      resp = RestClient.get("#{source_url}.json",
+                            :params => {:client_id => API_KEYS[:SoundCloud]})
+      data = JSON.parse(resp)
 
-    return false if !data["streamable"]
+      return false if !data["streamable"]
 
-    self.id_from_provider   = data["id"]
-    self.public_link        = data["permalink_url"]
-    self.title              = data["title"]
-    self.user_from_provider = data["user"]["username"]
-    self.description        = data["description"]
-    self.artwork_url        = data["artwork_url"]
-    self.kind               = data["kind"]
-    self.download_url       = data["download_url"] if data["downloadable"]
+      self.id_from_provider   = data["id"]
+      self.public_link        = data["permalink_url"]
+      self.title              = data["title"]
+      self.user_from_provider = data["user"]["username"]
+      self.description        = data["description"]
+      self.artwork_url        = data["artwork_url"]
+      self.kind               = data["kind"]
+      self.download_url       = data["download_url"] if data["downloadable"]
+    rescue => e
+      p e.response
+      return false
+    end
   end
 
   def set_data_from_youtube
-    params = {:part => "snippet, contentDetails, status",
-              :id   => source_url.match(/\/embed\/([^\?\/]*)/)[1],
-              :key  => API_KEYS[:YouTube]}
-    resp = RestClient.get("https://www.googleapis.com/youtube/v3/videos", :params => params)
-    data = JSON.parse(resp)["items"][0]
+    begin
+      params = {:part => "snippet, contentDetails, status",
+                :id   => source_url.match(/\/embed\/([^\?\/]*)/)[1],
+                :key  => API_KEYS[:YouTube]}
+      resp = RestClient.get("https://www.googleapis.com/youtube/v3/videos", :params => params)
+      data = JSON.parse(resp)["items"][0]
 
-    return false if !data["status"]["embeddable"]
+      return false if !data["status"]["embeddable"]
 
-    self.id_from_provider   = data["id"]
-    self.public_link        = "http://www.youtube.com/watch?v=#{data["id"]}"
-    self.title              = data["snippet"]["title"]
-    self.user_from_provider = data["snippet"]["channelTitle"]
-    self.description        = data["snippet"]["description"]
-    self.artwork_url        = data["snippet"]["thumbnails"]["medium"]["url"]
-    self.kind               = data["kind"].match(/youtube#(.*)/)[1]
+      self.id_from_provider   = data["id"]
+      self.public_link        = "http://www.youtube.com/watch?v=#{data["id"]}"
+      self.title              = data["snippet"]["title"]
+      self.user_from_provider = data["snippet"]["channelTitle"]
+      self.description        = data["snippet"]["description"]
+      self.artwork_url        = data["snippet"]["thumbnails"]["medium"]["url"]
+      self.kind               = data["kind"].match(/youtube#(.*)/)[1]
+    rescue => e
+      p e.response
+      return false
+    end
   end
 
 end

@@ -1,10 +1,4 @@
-<ul class="song-list">
-  {{#each songs}}
-    {{> songs/_song }}
-  {{/each}}
-</ul>
-
-<div class="player l-top-full">
+<div class="player">
   <div id="current-song"></div>
 
   <div class="player__controls">
@@ -19,3 +13,9 @@
     </button>
   </div>
 </div>
+
+<ul class="js-song-list-scroll song-list">
+  {{#each songs}}
+    {{> songs/_song }}
+  {{/each}}
+</ul>

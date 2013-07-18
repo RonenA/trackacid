@@ -16,6 +16,11 @@ App.Routers.Main = Backbone.Router.extend({
     this.$rootEl.prepend( sidebar.render().$el );
 
     this.setRootElHeight();
+
+    //TODOL: Augh. You can't use scroll in the backbone events object because
+    //scroll doesn't bubble, and we need the element to be on the page in order
+    //to bind to it so we have to do this here. There must be a better way.
+    $('.js-song-list-scroll').scroll(main.infiniteScrollHandler.bind(main));
   },
 
   setRootElHeight: function(){
