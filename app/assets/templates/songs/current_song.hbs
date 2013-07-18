@@ -1,0 +1,13 @@
+<div class="player__visual media__img">
+  <i class="js-player-spinner player__spinner icon-spinner animate-spin"></i>
+  {{{currentSongVisual provider artwork_url}}}
+</div>
+<div class="media__body">
+  <h2>
+    <a href="{{public_link}}">{{title}}</a>
+  </h2>
+  {{#each entries}}
+    <a href='{{link}}' target="blank"> Blogged by {{feed.title}} </a>
+  {{/each}}
+  <button class="js-delete-song">&times;</button>
+</div>

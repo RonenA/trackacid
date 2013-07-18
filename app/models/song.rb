@@ -3,14 +3,16 @@ require 'addressable/uri'
 class Song < ActiveRecord::Base
   attr_accessible :provider, :source_url
 
+  before_validation :set_first_published_at
+  before_validation :set_data_from_provider
+
   validates_presence_of :provider, :source_url, :first_published_at,
     :id_from_provider, :public_link, :title, :kind
 
+  validates_uniqueness_of :id_from_provider, :scope => [:provider]
+
   has_many :entry_songs
   has_many :entries, :through => :entry_songs
-
-  before_validation :set_first_published_at
-  before_validation :set_data_from_provider
 
   @@PROVIDERS = {
     :SoundCloud => {

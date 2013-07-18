@@ -8,13 +8,20 @@ App.Models.YouTubeSound = function() {
     var options = options || {};
 
     this.object.playVideo();
-    if (options.onfinish) {
-      this.object.addEventListener('onStateChange', function(e) {
-        if (e.data === YT.PlayerState.ENDED) {
-          options.onfinish();
-        }
-      });
-    }
+
+    // This allows you to set event handlers when calling play,
+    // as you can with soundcloud, although this is no longer
+    // used at the moment because the event handlers are set
+    // during the object's creation.
+    this.object.addEventListener('onStateChange', function(e) {
+      if (options.onfinish && e.data === YT.PlayerState.ENDED) {
+        options.onfinish();
+      }
+
+      if (options.onpause && e.data === YT.PlayerState.PAUSED) {
+        options.onpause();
+      }
+    });
   };
 
   YouTubeSound.passToObject({

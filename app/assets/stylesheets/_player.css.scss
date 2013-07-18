@@ -1,0 +1,26 @@
+.player{
+  height: $player-height;
+  background-color: white;
+  border-top: 1px solid #eee;
+}
+
+.player__controls{
+  button{
+    @extend %reset-button;
+    font-size: 50px;
+  }
+}
+.player__spinner{
+  position: absolute;
+
+  text-align: center;
+  line-height: $player-height;
+  width: $player-height;
+  color: white;
+
+  display: none; //shown by the js
+}
+
+.player__soundcloud-artwork{
+  padding: 50px;
+}

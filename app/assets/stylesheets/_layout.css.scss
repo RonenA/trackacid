@@ -1,5 +1,3 @@
-$sidebar-width: 25%;
-
 .l-root{
   position: relative;
 }
@@ -25,4 +23,10 @@ $sidebar-width: 25%;
 .l-bottom{
   position: absolute;
   bottom: 0;
+}
+
+.l-bottom-full{
+  @extend .l-bottom;
+  left: 0;
+  right: 0;
 }

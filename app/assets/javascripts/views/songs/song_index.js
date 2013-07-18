@@ -42,12 +42,13 @@ App.Views.SongIndex = Backbone.View.extend({
       this.$el.find('#current-song').html( content );
       this.songView.startLoadingSound();
     } else {
+      //TODO: This probably wont look very good
       this.$el.find('#current-song').html( "No songs." );
     }
   },
 
   makeSongView: function() {
-    return new App.Views.SongShow({
+    return new App.Views.CurrentSong({
       model: this.collection.at(this.currentIdx),
       doneCallback: this.continuePlaylist.bind(this)
     });
@@ -55,6 +56,7 @@ App.Views.SongIndex = Backbone.View.extend({
 
   play: function() {
     this.songView.play();
+    this.songView.playToPause();
   },
 
   pause: function() {

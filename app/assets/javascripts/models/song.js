@@ -21,7 +21,7 @@ App.Models.Song = Backbone.Model.extend({
     return this._dataFromProvider;
   },
 
-  startLoadingSound: function() {
+  startLoadingSound: function(options) {
     //TODO: Handle errors here
     var that = this;
     var sound = new $.Deferred();
@@ -45,6 +45,18 @@ App.Models.Song = Backbone.Model.extend({
 
       id.done(function(id){
         SC.stream( "/tracks/"+id,
+          {
+            onplay: options.onplay,
+            onpause: options.onpause,
+            onfinish: options.onfinish,
+            onbufferchange: function(){
+              if (this.isBuffering) {
+                options.onstartbuffering();
+              } else {
+                options.onendbuffering();
+              }
+            }
+          },
           function(response){
             sound.resolve(new App.Models.SoundCloudSound(response));
           }
@@ -57,9 +69,27 @@ App.Models.Song = Backbone.Model.extend({
           height: '200',
           width: '200',
           videoId: that.get('id_from_provider'),
+          playerVars: {
+            controls: 0,
+            showinfo: 0
+          },
           events: {
-            'onReady': function(e){
+            'onReady': function(e) {
               sound.resolve(new App.Models.YouTubeSound(e.target));
+            },
+            'onStateChange': function(e) {
+              if (e.data === YT.PlayerState.PLAYING ||
+                  e.data === YT.PlayerState.BUFFERING) {
+                options.onplay();
+              }
+
+              if (e.data === YT.PlayerState.PAUSED) {
+                options.onpause();
+              }
+
+              if (e.data === YT.PlayerState.ENDED) {
+                options.onfinish();
+              }
             }
           }
         });
@@ -81,6 +111,19 @@ App.Models.Song = Backbone.Model.extend({
         }
       });
     }
+  },
+
+  hasOwnSpinner: function() {
+    return App.Models.Song.providerInfo[this.get("provider")].hasOwnSpinner;
   }
 
 });
+
+App.Models.Song.providerInfo = {
+  SoundCloud: {
+    hasOwnSpinner: false
+  },
+  YouTube: {
+    hasOwnSpinner: true
+  }
+};

@@ -1,9 +1,6 @@
-App.Views.SongShow = function(options) {
-  var provider = options.model.get('provider');
-  return new App.Views[provider+"Song"](options);
-}
+App.Views.CurrentSong = Backbone.View.extend({
 
-App.Views.ProviderSong = Backbone.View.extend({
+  template: HandlebarsTemplates['songs/current_song'],
 
   events: {
     'click .js-delete-song': 'deleteSong'
@@ -39,14 +36,31 @@ App.Views.ProviderSong = Backbone.View.extend({
   },
 
   startLoadingSound: function() {
-    this.sound.become(this.model.startLoadingSound());
+    //If the song has its own spinner, like a youtube video,
+    //we don't want to have a handler to turn on the spinner.
+    if (!this.model.hasOwnSpinner()) {
+      var startBuffering = this.showSpinner.bind(this);
+      var endBuffering = this.hideSpinner.bind(this);
+
+      //Start the spinner before the sound even starts loading
+      //because there is time between startLoadingSound() and
+      //the triggering of the buffering event.
+      this.showSpinner();
+    }
+
+    this.sound.become(this.model.startLoadingSound({
+      onplay: this.playToPause.bind(this),
+      onpause: this.pauseToPlay.bind(this),
+      onfinish: this.doneCallback,
+      onstartbuffering: startBuffering,
+      onendbuffering: endBuffering
+    }));
   },
 
   play: function() {
-    var that = this;
     this.sound.done(function(sound) {
       if (!sound.playing()){
-        sound.play({ onfinish: that.doneCallback });
+        sound.play();
       }
     });
   },
@@ -59,18 +73,30 @@ App.Views.ProviderSong = Backbone.View.extend({
 
   deleteSong: function() {
     this.model.destroy();
+  },
+
+  //TODO: Its kind of weird that songShow touches
+  //the play button, which is strictly part of
+  //songIndex.
+  togglePlayPause: function(button) {
+    button.toggleClass('js-play js-pause');
+    button.find('i').toggleClass('icon-play icon-pause');
+  },
+
+  playToPause: function() {
+    this.togglePlayPause( $('.js-play') );
+  },
+
+  pauseToPlay: function() {
+    this.togglePlayPause( $('.js-pause') );
+  },
+
+  showSpinner: function() {
+    $('.js-player-spinner').show();
+  },
+
+  hideSpinner: function() {
+    $('.js-player-spinner').hide();
   }
-
-});
-
-App.Views.SoundCloudSong = App.Views.ProviderSong.extend({
-
-  template: HandlebarsTemplates['songs/soundcloud'],
-
-});
-
-App.Views.YouTubeSong = App.Views.ProviderSong.extend({
-
-  template: HandlebarsTemplates['songs/youtube'],
 
 });
