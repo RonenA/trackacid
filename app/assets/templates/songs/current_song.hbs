@@ -3,11 +3,11 @@
   {{{currentSongVisual provider artwork_url}}}
 </div>
 <div class="media__body">
-  <h2>
-    <a href="{{public_link}}">{{title}}</a>
-  </h2>
-  {{#each entries}}
-    <a href='{{link}}' target="blank"> Blogged by {{feed.title}} </a>
-  {{/each}}
+  <div class="player__title">
+    <a target="blank" href="{{public_link}}">{{title}}</a>
+  </div>
+  <div class="player__blogs">
+    Blogged by {{{joinFeedNamesWithLink entries}}}
+  </div>
   <button class="js-delete-song">&times;</button>
 </div>

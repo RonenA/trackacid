@@ -1,0 +1,37 @@
+.song-list{
+  li{
+    @include clearfix;
+    border-bottom: 1px solid #eee;
+    position: relative;
+  }
+}
+
+.song__img-wrapper{
+  $song-img-size: golden-ratio($gr-base, 3);
+  width: $song-img-size;
+  height: $song-img-size;
+  overflow: hidden;
+  img{
+    height: 100%;
+  }
+}
+
+.song__link{
+  display: block;
+  text-decoration: none;
+  color: black;
+
+  &:hover{background-color: #F4F4F4}
+
+  &.is-playing{background-color: $pale-blue}
+}
+
+.song__title{
+  margin-top: 7px;
+  font-size: golden-ratio($gr-base, 1);
+}
+
+.song__title, .song__blogs{
+  @extend .l-ellip;
+  line-height: 1.2em;
+}

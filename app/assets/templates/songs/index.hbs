@@ -1,17 +1,10 @@
 <ul class="song-list">
   {{#each songs}}
-    <li class="{{#if listened}} listened {{/if}}
-               {{#if playing}}  playing  {{/if}}">
-      <a href="#" class="js-switch-song" data-index="{{@index}}">{{title}}</a> --------
-      Feed ids -
-      {{#each entries}}
-        {{feed_id}}
-      {{/each}}
-    </li>
+    {{> songs/_song }}
   {{/each}}
 </ul>
 
-<div class="player l-bottom-full">
+<div class="player l-top-full">
   <div id="current-song"></div>
 
   <div class="player__controls">

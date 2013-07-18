@@ -1,32 +1,55 @@
+//Layout
 .l-root{
   position: relative;
 }
 
 .l-sidebar, .l-main{
-  position: absolute;
+  position: fixed;
   bottom: 0;
   top: 0;
-
-  border: 1px solid #eee;
-  padding: 10px;
 }
 
 .l-sidebar{
   width: $sidebar-width;
+  padding: 10px;
+  border-right: 1px solid #eee;
 }
 
 .l-main{
   width: 100% - $sidebar-width;
   left: $sidebar-width;
+  margin-top: $player-height;
+  overflow: scroll;
 }
 
+//Positioning
 .l-bottom{
-  position: absolute;
+  position: fixed;
   bottom: 0;
+}
+
+.l-top{
+  position: fixed;
+  top: 0;
 }
 
 .l-bottom-full{
   @extend .l-bottom;
   left: 0;
   right: 0;
+}
+
+.l-top-full{
+  @extend .l-top;
+  right: 0;
+  left: 0;
+}
+
+.l-absolute{position: absolute}
+
+//Text
+.l-ellip{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }

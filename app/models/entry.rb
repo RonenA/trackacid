@@ -47,10 +47,17 @@ class Entry < ActiveRecord::Base
     song_nokos.each do |song_noko|
       src = song_noko.get_attribute(:src)
       source_url = Song.parse_iframe_src(src, provider)
+      source_url = remove_url_params(source_url)
       song = Song.find_or_initialize_by_source_url_and_provider(source_url, provider)
       self.songs << song if song.persisted? || song.save
     end
     song_nokos.any?
+  end
+
+  def remove_url_params(url)
+    u = Addressable::URI.parse(url)
+    u.query_values = nil
+    u.to_s
   end
 
 end

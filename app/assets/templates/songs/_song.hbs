@@ -1,0 +1,13 @@
+<a href="#" data-index="{{@index}}"
+  class="js-switch-song song__link {{#if playing}} is-playing {{/if}}">
+  <li class="{{#if listened}} listened {{/if}}">
+      <div class="song__img-wrapper media__img">
+        <img src="{{artwork_url}}" />
+      </div>
+
+      <div class="media__body">
+        <div class="song__title">{{title}}</div>
+        <div class="song__blogs">Blogged by {{{joinFeedNames entries}}}</div>
+      </div>
+  </li>
+</a>

@@ -1,5 +1,7 @@
 body{
+  font-size: golden-ratio($gr-base, 0);
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 div{

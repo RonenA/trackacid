@@ -1,7 +1,9 @@
 .player{
+  left: $sidebar-width;
+
   height: $player-height;
   background-color: white;
-  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
 }
 
 .player__controls{
@@ -10,6 +12,7 @@
     font-size: 50px;
   }
 }
+
 .player__spinner{
   position: absolute;
 
@@ -23,4 +26,12 @@
 
 .player__soundcloud-artwork{
   padding: 50px;
+}
+
+.player__title{
+  font-size: golden-ratio($gr-base, 2);
+}
+
+.player__blogs{
+  font-size: golden-ratio($gr-base, 1);
 }

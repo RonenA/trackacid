@@ -49,11 +49,7 @@ class Song < ActiveRecord::Base
   end
 
   def set_data_from_soundcloud
-    u = Addressable::URI.parse(source_url)
-    u.query_values = nil
-    url_without_params = u.to_s
-
-    resp = RestClient.get("#{url_without_params}.json",
+    resp = RestClient.get("#{source_url}.json",
                           :params => {:client_id => API_KEYS[:SoundCloud]})
     data = JSON.parse(resp)
 
