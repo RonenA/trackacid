@@ -42,4 +42,12 @@ class User < ActiveRecord::Base
     end
   end
 
+  def song_list(page)
+    user_songs
+      .includes(:song => :entries)
+      .where(:deleted => false)
+      .order("songs.first_published_at DESC")
+      .page(page)
+  end
+
 end

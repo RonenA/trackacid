@@ -4,7 +4,7 @@ class Entry < ActiveRecord::Base
   attr_accessible :guid, :link, :published_at, :title, :feed_id, :content_encoded
 
   belongs_to :feed
-  has_many :entry_songs
+  has_many :entry_songs, :dependent => :destroy
   has_many :songs, :through => :entry_songs
 
   after_create :find_songs

@@ -8,7 +8,7 @@ class UserSong < ActiveRecord::Base
   belongs_to :user
   belongs_to :song
 
-  paginates_per 50
+  paginates_per 20
 
   def set_defaults
     self.deleted = false

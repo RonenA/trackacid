@@ -14,7 +14,13 @@ App.Views.SongIndex = Backbone.View.extend({
   initialize: function() {
     var that = this;
 
-    this.listenTo(this.collection, "add", this.render);
+    this.listenTo(this.collection, "add", function(model, collection, options){
+      that.render();
+      if(options.scrollToPreviousPosition) {
+        var songlist = $('.js-song-list-scroll');
+        songlist.scrollTop(that.previousScrollTop);
+      }
+    });
 
     this.currentIdx = 0;
   },
@@ -25,7 +31,12 @@ App.Views.SongIndex = Backbone.View.extend({
     var result = this.template({songs: songs});
     this.$el.html(result);
     this.renderCurrentSong();
+    this.bindInfiniteScroll();
     return this;
+  },
+
+  bindInfiniteScroll: function() {
+    $('.js-song-list-scroll').scroll(this.infiniteScrollHandler.bind(this));
   },
 
   currentSong: function() {
@@ -91,6 +102,7 @@ App.Views.SongIndex = Backbone.View.extend({
     var target = $(e.currentTarget);
     if (target.scrollTop() + target.innerHeight() >= target[0].scrollHeight) {
       this.collection.loadNextPage();
+      this.previousScrollTop = target.scrollTop();
     }
   },
 

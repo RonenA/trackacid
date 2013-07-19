@@ -25,7 +25,7 @@ App.Collections.Songs = Backbone.Collection.extend({
         data: {page: this.page+1},
         success: function(data) {
           if(data.length > 0) {
-            that.add(data);
+            that.add(data, {scrollToPreviousPosition: true});
             that.loadMore = true;
             that.page++;
           }

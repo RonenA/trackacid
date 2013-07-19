@@ -7,6 +7,9 @@ class EntrySong < ActiveRecord::Base
   after_create :update_first_published
 
   def update_first_published
-    song.first_published_at = [song.first_published_at, entry.published_at].min
+    if entry.published_at < song.first_published_at
+      song.first_published_at = entry.published_at
+      song.save!
+    end
   end
 end
