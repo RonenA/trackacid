@@ -11,7 +11,12 @@ App.Views.CurrentSong = Backbone.View.extend({
     var that = this;
     this.stopListening();
     this.sound.done(function(sound) {
-      sound.destroy();
+      //Before we needed this to avoid errors,
+      //now we dont'. Lots of mystery errors
+      //in the YouTube code.
+      if(that.model.get('provider') !== "YouTube"){
+        sound.destroy();
+      }
       that.$el.remove();
     });
     return this;

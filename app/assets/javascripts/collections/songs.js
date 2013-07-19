@@ -12,6 +12,7 @@ App.Collections.Songs = Backbone.Collection.extend({
     this.url = "/songs";
     this.page = 1;
     this.loadMore = true;
+    this.currentIdx = 0;
   },
 
   loadNextPage: function() {
@@ -25,7 +26,7 @@ App.Collections.Songs = Backbone.Collection.extend({
         data: {page: this.page+1},
         success: function(data) {
           if(data.length > 0) {
-            that.add(data, {scrollToPreviousPosition: true});
+            that.add(data);
             that.loadMore = true;
             that.page++;
           }
@@ -35,6 +36,15 @@ App.Collections.Songs = Backbone.Collection.extend({
         }
       });
     }
+  },
+
+  currentSong: function() {
+    return this.at(this.currentIdx);
+  },
+
+  setIndex: function(newIdx) {
+    this.currentIdx = newIdx;
+    this.trigger("changeIndex");
   }
 
 });
