@@ -9,4 +9,13 @@ class ListensController < ApplicationController
     end
   end
 
+  def destroy
+  	if UserSong.find_by_user_id_and_song_id(current_user.id, params[:song_id])
+  			       .remove_listen
+      render :json => true
+    else
+      render :json => false
+    end
+  end
+
 end

@@ -8,6 +8,6 @@ NewReader::Application.routes.draw do
   end
 
   resources :songs, only: [:index, :destroy] do
-    resource :listen, only: [:create]
+    resource :listen, only: [:create, :destroy]
   end
 end

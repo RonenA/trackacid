@@ -8,7 +8,7 @@ div{
   @include box-sizing(border-box);
 }
 
-%reset-button{
+.reset-button{
   @include appearance(none);
   border: 0;
   margin: 0;
@@ -19,7 +19,11 @@ div{
 
 .media__img{
   float: left;
-  margin-right: 10px;
+  margin-right: 7px;
+}
+.media__img--no-margin{
+  @extend .media__img;
+  margin-right: 0;
 }
 .media__body{
   overflow: hidden;

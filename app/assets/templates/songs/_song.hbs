@@ -1,29 +1,41 @@
 <li class="{{#if selected}} is-selected {{/if}}" data-id="{{id}}">
-  <div class="song__controls">
-    <button title="Favourite"><i class="icon-heart-empty"></i></button>
-    <a href="{{{firstEntryLink entries}}}" target="blank" title="Go to article">
-      <i class="icon-article"></i>
-    </a>
-    <a href="{{public_link}}" target="blank" title="View on {{provider}}">
-      <i class="icon-{{provider}}"></i>
-    </a>
-    {{#if download_url}}
-      <a href="{{{buildDownloadLink download_url provider}}}" target="blank" title="Download">
-        <i class="icon-download"></i>
-      </a>
-    {{/if}}
-    <button class="js-delete-song" title="Delete">&times;</button>
-  </div>
-  <a href="#" class="js-switch-song song__trigger">
-    <div class="cf">
-      <div class="song__img-wrapper media__img">
-        <img src="{{artwork_url}}" />
-      </div>
 
-      <div class="media__body">
-        <div class="song__title">{{title}}</div>
-        <div class="song__blogs">{{{joinFeedNames entries}}}</div>
-      </div>
+  <div class="media__img--no-margin">
+    <button class="js-toggle-song-listened song__listened {{#if listened}} is-listened {{/if}}"
+            title="Mark as listened">
+      <i class="song__listened__icon"></i>
+    </button>
+  </div>
+
+  <div class="media__body song__main">
+    <div class="song__controls">
+      <button title="Favourite"><i class="icon-heart-empty"></i></button>
+      <a href="{{{firstEntryLink entries}}}" target="blank" title="Go to article">
+        <i class="icon-article"></i>
+      </a>
+      <a href="{{public_link}}" target="blank" title="View on {{provider}}">
+        <i class="icon-{{provider}}"></i>
+      </a>
+      {{#if download_url}}
+        <a href="{{{buildDownloadLink download_url provider}}}" target="blank" title="Download">
+          <i class="icon-download"></i>
+        </a>
+      {{/if}}
+      <button class="js-delete-song" title="Delete">&times;</button>
     </div>
-  </a>
+
+    <a href="#" class="js-switch-song song__trigger">
+      <div class="cf">
+        <div class="media__img song__img-wrapper">
+          <img src="{{artwork_url}}" />
+        </div>
+
+        <div class="media__body">
+          <div class="song__title">{{title}}</div>
+          <div class="song__blogs">{{{joinFeedNames entries}}}</div>
+        </div>
+      </div>
+    </a>
+  </div>
+
 </li>

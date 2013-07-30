@@ -5,8 +5,10 @@ App.Views.SongIndex = Backbone.View.extend({
   template: HandlebarsTemplates['songs/index'],
 
   events: {
-    'click .js-delete-song':        'deleteSong',
-    'click .js-switch-song':        'switchSong',
+    'click .js-delete-song':            'deleteSong',
+    'click .js-switch-song':            'switchSong',
+    'click .js-toggle-song-listened':   'toggleSongListened',
+    'dblclick .js-toggle-song-listened': function(){return false}
   },
 
   initialize: function() {
@@ -53,12 +55,24 @@ App.Views.SongIndex = Backbone.View.extend({
   deleteSong: function(e) {
     var target = $(e.currentTarget);
     var model = this._modelFromTarget(target);
-    //var songViewWasPlaying = this.songView.playing();
     target.closest('.song-list > li').addClass('is-removing');
     //Wait for the animation, its so pretty
     window.setTimeout(function(){
       model.destroy();
     }, 500);
+  },
+
+  toggleSongListened: function(e) {
+    var target = $(e.currentTarget);
+    var model = this._modelFromTarget(target);
+
+    if (target.hasClass('is-listened')) {
+      target.removeClass('is-listened');
+      model.removeListen();
+    } else {
+      target.addClass('is-listened');
+      model.recordListen();
+    }
   }
 
 });

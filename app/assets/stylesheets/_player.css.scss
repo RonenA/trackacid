@@ -10,7 +10,7 @@
 
 .player__controls{
   button{
-    @extend %reset-button;
+    @extend .reset-button;
     font-size: 50px;
   }
 }

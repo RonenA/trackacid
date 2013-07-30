@@ -55,7 +55,7 @@ class Song < ActiveRecord::Base
                             :params => {:client_id => API_KEYS[:SoundCloud]})
       data = JSON.parse(resp)
 
-      return false if !data["streamable"]
+      return false if data.nil? || !data["streamable"]
 
       self.id_from_provider   = data["id"]
       self.public_link        = data["permalink_url"]
@@ -66,7 +66,7 @@ class Song < ActiveRecord::Base
       self.kind               = data["kind"]
       self.download_url       = data["download_url"] if data["downloadable"]
     rescue => e
-      p e.response
+      p e.message
       return false
     end
   end
@@ -79,7 +79,7 @@ class Song < ActiveRecord::Base
       resp = RestClient.get("https://www.googleapis.com/youtube/v3/videos", :params => params)
       data = JSON.parse(resp)["items"][0]
 
-      return false if !data["status"]["embeddable"]
+      return false if data.nil? || !data["status"]["embeddable"]
 
       self.id_from_provider   = data["id"]
       self.public_link        = "http://www.youtube.com/watch?v=#{data["id"]}"
@@ -89,7 +89,7 @@ class Song < ActiveRecord::Base
       self.artwork_url        = data["snippet"]["thumbnails"]["medium"]["url"]
       self.kind               = data["kind"].match(/youtube#(.*)/)[1]
     rescue => e
-      p e.response
+      p e.message
       return false
     end
   end

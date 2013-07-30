@@ -45,4 +45,9 @@ class UserSong < ActiveRecord::Base
     self.listened = true
     self.save
   end
+
+  def remove_listen
+    self.listened = false
+    self.save
+  end
 end

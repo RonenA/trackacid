@@ -99,14 +99,28 @@ App.Models.Song = Backbone.Model.extend({
     return sound;
   },
 
-  recordListen: function(){
+  recordListen: function() {
     if(!this.get('listened')){
       this.set('listened', true);
 
       $.ajax({
         type: "POST",
         url: this.url()+"/listen",
-        error: function(){
+        error: function() {
+          //TODO: Handle error
+        }
+      });
+    }
+  },
+
+  removeListen: function() {
+    if(this.get('listened')){
+      this.set('listened', false);
+
+      $.ajax({
+        type: "DELETE",
+        url: this.url()+"/listen",
+        error: function() {
           //TODO: Handle error
         }
       });
