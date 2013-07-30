@@ -73,6 +73,10 @@
   line-height: 1.2em;
 }
 
+.song__time-ago{
+  color: #aaa;
+}
+
 .song__controls{
   display: none;
   .song-list > li:hover & {display: block}

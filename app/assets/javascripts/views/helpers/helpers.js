@@ -26,7 +26,9 @@ Handlebars.registerHelper('feedName', function(feedId) {
 Handlebars.registerHelper('joinFeedNames', function(entries) {
   var feedNames = _(entries).map(function(entry){
     return App.feeds.get(entry.feed_id).get('title') + " "
-            + $.timeago(entry.published_at);
+            + "<span class='song__time-ago'>"
+            + $.timeago(entry.published_at)
+            + "</span>";
   });
 
   return new Handlebars.SafeString(feedNames.join(', '));

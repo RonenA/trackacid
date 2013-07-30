@@ -1,6 +1,5 @@
 .player{
-  left: $sidebar-width;
-
+  position: relative;
   height: $player-height;
   background-color: white;
   border-bottom: 1px solid #eee;
@@ -9,6 +8,10 @@
 }
 
 .player__controls{
+  margin-left: 50%;
+  position: absolute;
+  left: 21px;
+
   button{
     @extend .reset-button;
     font-size: 50px;
@@ -26,14 +29,29 @@
   display: none; //shown by the js
 }
 
+.player__visual{
+  width: $player-height;
+  height: $player-height;
+}
+
 .player__soundcloud-artwork{
-  padding: 50px;
+  //TODO: Not sure if I should stretch the img or pad it.
+  //padding: 50px;
+  width: $player-height;
+  height: $player-height;
+}
+
+.player__heading{
+  padding: 23px 10px 16px 10px;
+  text-align: center;
 }
 
 .player__title{
   font-size: golden-ratio($gr-base, 2);
+  line-height: 1.2em;
 }
 
 .player__blogs{
   font-size: golden-ratio($gr-base, 1);
+  line-height: 1.2em;
 }
