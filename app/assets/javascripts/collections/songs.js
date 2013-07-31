@@ -9,10 +9,13 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   initialize: function(models, options){
+    var options = options || {};
+
     this.url = "/songs";
     this.page = 1;
     this.loadMore = true;
     this.currentIdx = 0;
+    this.feedId = options.feedId || null;
   },
 
   loadNextPage: function() {
@@ -23,7 +26,8 @@ App.Collections.Songs = Backbone.Collection.extend({
       return $.ajax({
         url: this.url,
         type: 'GET',
-        data: {page: this.page+1},
+        data: {page   : this.page+1,
+               feed_id: this.feedId},
         success: function(data) {
           if(data.length > 0) {
             that.add(data);

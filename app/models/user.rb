@@ -41,10 +41,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  def song_list(page)
-    user_songs
-      .includes(:song => :entries)
-      .where(:deleted => false)
+  def song_list(page, feed_id = false)
+    data = user_songs.includes(:song => :entries)
+
+    if feed_id
+      data = data.where("deleted = 'f' AND feed_id = ?", feed_id)
+    else
+      data = data.where(:deleted => false)
+    end
+
+    data
       .order("songs.first_published_at DESC")
       .page(page)
   end

@@ -1,16 +1,34 @@
 App.Routers.Main = Backbone.Router.extend({
 
   routes: {
-    ""         : "root"
+    ""          : "all",
+    "feeds/:id" : "feedShow"
   },
 
   initialize: function(options) {
     this.$rootEl = options.$rootEl;
   },
 
-  root: function() {
-    var main = new App.Views.Main({collection: App.songs});
-    this.$rootEl.html( main.render().$el );
+  all: function() {
+    if (App.mainView) App.mainView.songView.remove();
+    this._initializeWithSongs(App.songs);
+  },
+
+  feedShow: function(id) {
+    if (App.mainView) App.mainView.songView.remove();
+    var feedSongs = App.songs.select(function(song) {
+      return _(song.get('entries')).any(function(entry) {
+        return entry.feed_id === parseInt(id);
+      });
+    });
+
+    var feedSongCollection = new App.Collections.Songs(feedSongs, {feedId: id});
+    this._initializeWithSongs(feedSongCollection);
+  },
+
+  _initializeWithSongs: function(songs) {
+    App.mainView = new App.Views.Main({collection: songs});
+    this.$rootEl.html( App.mainView.render().$el );
 
     var sidebar = new App.Views.Sidebar();
     this.$rootEl.prepend( sidebar.render().$el );
