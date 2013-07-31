@@ -100,31 +100,34 @@ App.Models.Song = Backbone.Model.extend({
   },
 
   recordListen: function() {
-    if(!this.get('listened')){
-      this.set('listened', true);
-
-      $.ajax({
-        type: "POST",
-        url: this.url()+"/listen",
-        error: function() {
-          //TODO: Handle error
-        }
-      });
-    }
+    this._setListened(true);
   },
 
   removeListen: function() {
-    if(this.get('listened')){
-      this.set('listened', false);
+    this._setListened(false);
+  },
+
+  _setListened: function(isListened) {
+    if(this.get('listened') !== isListened) {
+      this.set('listened', isListened);
 
       $.ajax({
-        type: "DELETE",
+        type: (isListened ? "POST" : "DELETE"),
         url: this.url()+"/listen",
         error: function() {
           //TODO: Handle error
         }
       });
+
+      this._updateFeedUnheardCount(isListened);
     }
+  },
+
+  _updateFeedUnheardCount: function(isListened) {
+    var feeds = _(this.get('entries')).each(function(entry) {
+      var feed = App.feeds.get(entry.feed_id);
+      feed.changeUnheardCount(isListened ? -1 : 1);
+    });
   },
 
   hasOwnSpinner: function() {

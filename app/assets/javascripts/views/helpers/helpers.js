@@ -47,3 +47,10 @@ Handlebars.registerHelper('joinFeedNamesWithLink', function(entries) {
 Handlebars.registerHelper('firstEntryLink', function(entries) {
   return new Handlebars.SafeString(entries[0].link);
 });
+
+Handlebars.registerHelper('totalUnheardCount', function(feeds) {
+  var count = feeds.reduce(function(memo, feed) {
+                return memo + feed.unheard_count;
+              }, 0);
+  return new Handlebars.SafeString(count);
+});

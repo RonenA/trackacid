@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
 
   has_many :user_feeds, :dependent => :destroy
   has_many :feeds, :through => :user_feeds
-
   has_many :songs, :through => :feeds
 
   has_many :user_songs, :dependent => :destroy

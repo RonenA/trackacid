@@ -1,9 +1,15 @@
-<h1>Feeds</h1>
+<h1>
+  Feeds
+  <span class="feed__unheard-count">
+    {{{totalUnheardCount feeds}}}
+  </span>
+</h1>
 
 <ul>
   {{#each feeds}}
     <li>
-      <a href="#/feeds/{{id}}"> {{title}}</a>
+      <a href="#/feeds/{{id}}">{{title}}</a>
+      <span class="feed__unheard-count">{{unheard_count}}</span>
     </li>
   {{else}}
     <li>No feeds.</li>

@@ -29,7 +29,7 @@ class Feed < ActiveRecord::Base
       self.title = feed_data.title
       save!
 
-      existing_entry_guids = Entry.pluck(:guid).sort
+      existing_entry_guids = entries.pluck(:guid).sort
       feed_data.entries.each do |entry_data|
         unless existing_entry_guids.include?(entry_data.guid)
           Entry.create_from_json!(entry_data, self)
@@ -40,5 +40,17 @@ class Feed < ActiveRecord::Base
     rescue SimpleRSSError
       return false
     end
+  end
+
+  #TODO: May be duplication by doing this query for each feed
+  def as_json(options = {})
+    json = super(options)
+    json[:unheard_count] = options[:user]
+                            .user_songs
+                            .joins(:song => :entries)
+                            .where("entries.feed_id = ? AND
+                                   user_songs.listened = 'f'", self.id)
+                            .count
+    json
   end
 end
