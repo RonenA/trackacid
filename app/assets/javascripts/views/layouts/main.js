@@ -33,12 +33,19 @@ App.Views.Main = Backbone.View.extend({
   },
 
   renderCurrentSong: function() {
+    var that = this;
     if (this.collection.length > 0){
       if (this.songView) this.songView.remove();
       this.songView = this.makeSongView();
       var content = this.songView.render().$el;
       this.$el.find('#t-current-song').html( content );
-      this.songView.startLoadingSound();
+      console.log($('#youtube-video').length);
+      window.setTimeout(function() {
+        //setTimeout prevents race condition of
+        //youtube trying to load before the router
+        //inserts #youtube-video into the DOM
+        that.songView.startLoadingSound();
+      });
     } else {
       //TODO: This probably wont look very good
       this.$el.find('#t-current-song').html( "No songs." );
