@@ -64,6 +64,7 @@ App.Models.Song = Backbone.Model.extend({
       });
 
     } else if (this.get('provider') === "YouTube") {
+      //console.log($('#youtube-video').length);
       App.YouTubeReady.done(function(){
         new YT.Player('youtube-video', {
           height: '200',

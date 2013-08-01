@@ -9,6 +9,7 @@ Handlebars.registerHelper('buildDownloadLink', function(url ,provider) {
 Handlebars.registerHelper('currentSongVisual', function(provider, artwork_url) {
   var result;
   if(provider === "YouTube") {
+    //TODO: This looks ugly
     result = "<div id='youtube-video'>Loading</div>"
   } else {
     result = "<img class='player__soundcloud-artwork' src='" +artwork_url+ "' />"
