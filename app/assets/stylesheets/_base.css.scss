@@ -1,6 +1,6 @@
 body{
   font-size: golden-ratio($gr-base, 0);
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: $helvetica;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -15,6 +15,18 @@ div{
   padding: 0;
   background-color: transparent;
   cursor: pointer;
+  font-family: $helvetica;
+}
+
+.link-button{
+  @extend .reset-button;
+  font-size: inherit;
+}
+
+.link-button, a{
+  color: blue;
+  text-decoration: none;
+  &:hover{text-decoration: underline}
 }
 
 .media__img{
@@ -44,4 +56,5 @@ div{
   padding: $sidebar-padding;
 
   border-bottom: 3px solid black;
+  background-color: white;
 }

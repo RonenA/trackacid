@@ -8,11 +8,6 @@
     color: black;
     text-decoration: none;
     padding: 5px $sidebar-padding ;
-
-    //To prevent text from being
-    //cut off by the overflow hidden
-    //of .l-ellip
-    line-height: 1.2em;
   }
 
   li{

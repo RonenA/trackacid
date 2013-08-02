@@ -12,6 +12,19 @@
       opacity: 1;
       @include animation(moveOut 0.3s 0.2s ease forwards, closeSpace 0.2s ease forwards 0.3s)
     }
+
+    &.is-selected {
+      .song__trigger{
+        background-color: blue;
+        color: white;
+      }
+      .song__time-ago{color: rgba(white, 0.6)}
+      .song__controls{
+        button, a{
+          color: white;
+        }
+      }
+    }
   }
 }
 
@@ -57,10 +70,8 @@
 
 .song__trigger{
   display: block;
-  text-decoration: none;
+  &:hover{text-decoration: none;}
   color: black;
-
-  .is-selected & {background-color: $pale-blue}
 }
 
 .song__title{
@@ -70,7 +81,6 @@
 
 .song__title, .song__blogs{
   @extend .l-ellip;
-  line-height: 1.2em;
 }
 
 .song__time-ago{
