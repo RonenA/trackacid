@@ -14,6 +14,7 @@ window.App = {
       JSON.parse($('#feed-json').html())
     );
 
+    App.SONGS_PER_PAGE = parseInt($('#songs-per-page').html());
     App.songs = new App.Collections.Songs(
       JSON.parse($('#song-json').html())
     );
@@ -21,6 +22,7 @@ window.App = {
     App.router = new App.Routers.Main({
       $rootEl: $('.l-root')
     });
+
 
     Backbone.history.start();
   }

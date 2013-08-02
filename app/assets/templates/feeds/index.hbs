@@ -1,15 +1,18 @@
-<h1>
-  <a href="#">All</a>
-  <span class="feed__unheard-count">
-    {{{totalUnheardCount feeds}}}
-  </span>
-</h1>
-
-<ul>
+<ul class="feed-list">
+  <li>
+    <a href="#">
+      <span class="feed__unheard-count float-right">
+        {{{totalUnheardCount feeds}}}
+      </span>
+      <span class="feed__title l-ellip">All</span>
+    </a>
+  </li>
   {{#each feeds}}
     <li>
-      <a href="#/feeds/{{id}}">{{title}}</a>
-      <span class="feed__unheard-count">{{unheard_count}}</span>
+      <a href="#/feeds/{{id}}">
+        <span class="feed__unheard-count float-right">{{unheard_count}}</span>
+        <span class="feed__title l-ellip">{{title}}</span>
+      </a>
     </li>
   {{else}}
     <li>No feeds.</li>

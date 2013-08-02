@@ -13,16 +13,13 @@ App.Collections.Songs = Backbone.Collection.extend({
 
     this.url = "/songs";
     this.feedId = options.feedId || null;
-    //Start at page 0 if you're loading a specific feed
-    //so that you don't lose the stuff at the bottom of
-    //page 1.
-    this.page = this.feedId ? 0 : 1;
+    this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
     this.loadMore = true;
     this.currentIdx = 0;
 
     //If you start off with very few items from this feed, and then
     //click the feed page, we'll need to get some more.
-    if (this.feedId && this.models.length < 10) this.loadNextPage();
+    if (this.feedId && this.length < 10) this.loadNextPage();
   },
 
   loadNextPage: function() {

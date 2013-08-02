@@ -32,3 +32,16 @@ div{
 .cf{
   @include clearfix;
 }
+
+.float-right{float: right}
+.float-left{float: left}
+
+
+.sidebar__logo{
+  font-weight: bold;
+  font-size: $logo-height;
+  display: block;
+  padding: $sidebar-padding;
+
+  border-bottom: 3px solid black;
+}

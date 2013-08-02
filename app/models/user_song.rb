@@ -8,7 +8,12 @@ class UserSong < ActiveRecord::Base
   belongs_to :user
   belongs_to :song
 
-  paginates_per 20
+  @@SONGS_PER_PAGE = 20
+  paginates_per @@SONGS_PER_PAGE
+
+  def self.SONGS_PER_PAGE
+    @@SONGS_PER_PAGE
+  end
 
   def set_defaults
     self.deleted = false

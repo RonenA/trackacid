@@ -11,8 +11,10 @@
 
 .l-sidebar{
   width: $sidebar-width;
-  padding: 10px;
   border-right: 1px solid #eee;
+  overflow: scroll;
+
+  .l-top-full, .l-bottom{right: 100% - $sidebar-width}
 }
 
 .l-main{
@@ -51,4 +53,5 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  display: block;
 }

@@ -2,13 +2,17 @@ $gr-base: 15.450849719px;
 
 //Colors
 $pale-blue: #ADD3E6;
+$list-hover-color: #eee;
 
 //Layout
 $sidebar-width: 20%;
+$sidebar-padding: 10px;
+
+//Logo
+$logo-height: golden-ratio($gr-base, 1);
 
 //Player
 $player-height: 200px;
 
 //Songs
 $song-img-size: golden-ratio($gr-base, 3);
-$song-hover-color: #eee;

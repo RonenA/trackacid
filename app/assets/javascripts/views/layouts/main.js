@@ -39,7 +39,6 @@ App.Views.Main = Backbone.View.extend({
       this.songView = this.makeSongView();
       var content = this.songView.render().$el;
       this.$el.find('#t-current-song').html( content );
-      console.log($('#youtube-video').length);
       window.setTimeout(function() {
         //setTimeout prevents race condition of
         //youtube trying to load before the router

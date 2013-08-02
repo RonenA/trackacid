@@ -41,13 +41,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  def song_list(page, feed_id = false)
+  def song_list(page, feed_id = nil)
     data = user_songs.includes(:song => :entries)
 
-    if feed_id
-      data = data.where("deleted = 'f' AND feed_id = ?", feed_id)
-    else
+    if feed_id.blank?
       data = data.where(:deleted => false)
+    else
+      data = data.where("deleted = 'f' AND feed_id = ?", feed_id)
     end
 
     data
