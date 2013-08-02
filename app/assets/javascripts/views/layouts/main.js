@@ -13,6 +13,9 @@ App.Views.Main = Backbone.View.extend({
 
     this.listenTo(this.collection, "changeIndex", this.changeSongHandler);
     this.listenTo(this.collection, "remove", this.removeHandler);
+
+    _.bindAll(this);
+    $(document).bind('keydown', this.keyControlHandler);
   },
 
   render: function() {
@@ -66,7 +69,7 @@ App.Views.Main = Backbone.View.extend({
 
   play: function() {
     this.songView.play();
-    //TODO: investigate this monkeybusiness
+    //TODO: it is weird that this needs to be called here
     this.songView.playToPause();
   },
 
@@ -74,9 +77,34 @@ App.Views.Main = Backbone.View.extend({
     this.songView.pause();
   },
 
+  togglePlay: function() {
+    if (this.songView.playing()) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  },
+
   navigatePlaylist: function(e) {
     var target = $(e.currentTarget);
     this.continuePlaylist( target.data('direction') );
+  },
+
+  keyControlHandler: function(e) {
+    var tag = e.target.tagName.toLowerCase();
+    if (tag != 'input' && tag != 'textarea'){
+      switch(e.which) {
+      case 74:
+        this.continuePlaylist('next');
+        break;
+      case 75:
+        this.continuePlaylist('prev');
+        break;
+      case 32:
+        this.togglePlay();
+        break;
+      }
+    }
   },
 
   continuePlaylist: function(direction) {
