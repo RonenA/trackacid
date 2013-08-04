@@ -62,6 +62,7 @@ class Song < ActiveRecord::Base
       self.title              = data["title"]
       self.user_from_provider = data["user"]["username"]
       self.description        = data["description"]
+      self.duration           = data["duration"]
       self.artwork_url        = data["artwork_url"]
       self.kind               = data["kind"]
       self.download_url       = data["download_url"] if data["downloadable"]
@@ -86,6 +87,7 @@ class Song < ActiveRecord::Base
       self.title              = data["snippet"]["title"]
       self.user_from_provider = data["snippet"]["channelTitle"]
       self.description        = data["snippet"]["description"]
+      self.duration           = ISO8601::Duration.new(data["contentDetails"]["duration"]).to_seconds * 1000
       self.artwork_url        = data["snippet"]["thumbnails"]["medium"]["url"]
       self.kind               = data["kind"].match(/youtube#(.*)/)[1]
     rescue => e

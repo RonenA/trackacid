@@ -64,3 +64,6 @@ gem 'addressable'
 
 #SASS Library
 gem 'bourbon'
+
+#For parsing youtube video duration
+gem 'iso8601'

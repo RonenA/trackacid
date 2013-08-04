@@ -19,6 +19,15 @@
   }
 }
 
+.sidebar__body{
+  position: fixed;
+
+  top: 50px; //Logo
+  bottom: 50px; //Settings/logout panel
+  right: 80%;
+  overflow: scroll;
+}
+
 .l-main{
   width: 100% - $sidebar-width;
   left: $sidebar-width;

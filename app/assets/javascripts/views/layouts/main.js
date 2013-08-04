@@ -22,7 +22,10 @@ App.Views.Main = Backbone.View.extend({
     var content = this.template();
     this.$el.html(content);
     this.renderSongList();
-    this.renderCurrentSong();
+    //When loading the first song, the sound is loaded
+    //in the background before the user presses play,
+    //so we don't want the spinner.
+    this.renderCurrentSong({suppressSpinner: true});
     return this;
   },
 
@@ -35,7 +38,7 @@ App.Views.Main = Backbone.View.extend({
     this.songListView.render();
   },
 
-  renderCurrentSong: function() {
+  renderCurrentSong: function(options) {
     var that = this;
     if (this.collection.length > 0){
       if (this.songView) this.songView.remove();
@@ -46,7 +49,7 @@ App.Views.Main = Backbone.View.extend({
         //setTimeout prevents race condition of
         //youtube trying to load before the router
         //inserts #youtube-video into the DOM
-        that.songView.startLoadingSound();
+        that.songView.startLoadingSound(options);
       });
     } else {
       //TODO: This probably wont look very good

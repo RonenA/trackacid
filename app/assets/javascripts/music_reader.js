@@ -3,6 +3,7 @@ window.App = {
   Collections: {},
   Views: {},
   Routers: {},
+  Helpers: {},
   initialize: function() {
     SC.initialize({
       client_id: API_KEYS.SoundCloud

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130716060655) do
+ActiveRecord::Schema.define(:version => 20130803235914) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20130716060655) do
     t.text     "artwork_url"
     t.string   "kind"
     t.text     "download_url"
+    t.integer  "duration"
   end
 
   create_table "user_feeds", :force => true do |t|

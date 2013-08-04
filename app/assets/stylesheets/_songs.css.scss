@@ -75,12 +75,17 @@
 }
 
 .song__title{
-  margin-top: 7px;
+  margin-top: 6px;
+  margin-bottom: 3px;
   font-size: golden-ratio($gr-base, 1);
 }
 
 .song__title, .song__blogs{
   @extend .l-ellip;
+}
+
+.song__duration{
+  font-weight: bold;
 }
 
 .song__time-ago{

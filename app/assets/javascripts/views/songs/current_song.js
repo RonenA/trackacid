@@ -36,7 +36,9 @@ App.Views.CurrentSong = Backbone.View.extend({
     return this;
   },
 
-  startLoadingSound: function() {
+  startLoadingSound: function(options) {
+    var options = options || {};
+
     //If the song has its own spinner, like a youtube video,
     //we don't want to have a handler to turn on the spinner.
     if (!this.model.hasOwnSpinner()) {
@@ -46,7 +48,9 @@ App.Views.CurrentSong = Backbone.View.extend({
       //Start the spinner before the sound even starts loading
       //because there is time between startLoadingSound() and
       //the triggering of the buffering event.
-      this.showSpinner();
+      if(!options.suppressSpinner){
+        this.showSpinner();
+      }
     }
 
     this.sound.become(this.model.startLoadingSound({
