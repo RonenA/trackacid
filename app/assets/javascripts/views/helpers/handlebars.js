@@ -51,8 +51,11 @@ Handlebars.registerHelper('firstEntryLink', function(entries) {
 
 Handlebars.registerHelper('totalUnheardCount', function(feeds) {
   var count = feeds.reduce(function(memo, feed) {
+                if (feed.unheard_count === "") return memo;
                 return memo + feed.unheard_count;
               }, 0);
+
+  if (count == 0) count = "";
   return new Handlebars.SafeString(count);
 });
 

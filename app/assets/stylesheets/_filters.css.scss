@@ -1,0 +1,5 @@
+.filter-list{
+  & > li > a{
+    @extend .l-ellip;
+  }
+}

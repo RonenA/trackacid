@@ -1,4 +1,5 @@
 class FeedsController < ApplicationController
+
   before_filter :authenticate_user!
 
   def index
@@ -20,4 +21,5 @@ class FeedsController < ApplicationController
     feed.reload
     render :json => feed.to_json(:include => [:songs])
   end
+
 end

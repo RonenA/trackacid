@@ -119,12 +119,12 @@ App.Models.Song = Backbone.Model.extend({
         }
       });
 
-      this._updateFeedUnheardCount(isListened);
+      this.updateFeedUnheardCount(isListened);
     }
   },
 
-  _updateFeedUnheardCount: function(isListened) {
-    var feeds = _(this.get('entries')).each(function(entry) {
+  updateFeedUnheardCount: function(isListened) {
+    _(this.get('entries')).each(function(entry) {
       var feed = App.feeds.get(entry.feed_id);
       feed.changeUnheardCount(isListened ? -1 : 1);
     });

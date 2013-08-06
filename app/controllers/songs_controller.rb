@@ -1,4 +1,5 @@
 class SongsController < ApplicationController
+
   before_filter :authenticate_user!
 
   def index
@@ -12,4 +13,5 @@ class SongsController < ApplicationController
       render :json => false
     end
   end
+
 end

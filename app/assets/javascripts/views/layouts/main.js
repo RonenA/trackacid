@@ -6,10 +6,12 @@ App.Views.Main = Backbone.View.extend({
     'click .js-play':               'play',
     'click .js-pause':              'pause',
     'click .js-navigate-playlist':  'navigatePlaylist',
+    'click .js-mark-all-as-heard':  'markAllAsHeard'
   },
 
-  initialize: function(){
+  initialize: function(options){
     this.songListView = new App.Views.SongIndex({collection: this.collection});
+    this.title = options.title;
 
     this.listenTo(this.collection, "changeIndex", this.changeSongHandler);
     this.listenTo(this.collection, "remove", this.removeHandler);
@@ -19,7 +21,7 @@ App.Views.Main = Backbone.View.extend({
   },
 
   render: function() {
-    var content = this.template();
+    var content = this.template({title: this.title});
     this.$el.html(content);
     this.renderSongList();
     //When loading the first song, the sound is loaded
@@ -143,6 +145,10 @@ App.Views.Main = Backbone.View.extend({
       this.rerenderComponents();
       if (songViewWasPlaying) this.play();
     }
+  },
+
+  markAllAsHeard: function() {
+    this.collection.markAllAsHeard();
   }
 
 });

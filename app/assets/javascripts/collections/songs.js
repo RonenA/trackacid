@@ -12,7 +12,7 @@ App.Collections.Songs = Backbone.Collection.extend({
     var options = options || {};
 
     this.url = "/songs";
-    this.feedId = options.feedId || null;
+    this.feedId = options.feedId || "all";
     this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
     this.loadMore = true;
     this.currentIdx = 0;
@@ -53,6 +53,24 @@ App.Collections.Songs = Backbone.Collection.extend({
   setIndex: function(newIdx) {
     this.currentIdx = newIdx;
     this.trigger("changeIndex");
+  },
+
+  markAllAsHeard: function() {
+    var that = this;
+    $.ajax({
+      url: '/feeds/'+this.feedId+'/listens',
+      type: 'POST',
+      success: function(feedData) {
+        App.feeds.reset(feedData);
+        _(that.where({listened: false})).each(function(song){
+          song.set({listened: true}, {silent: true});
+        });
+        that.trigger('change');
+      },
+      error: function() {
+        //TODO: Handle error
+      }
+    });
   }
 
 });

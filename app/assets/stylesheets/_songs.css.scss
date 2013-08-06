@@ -1,5 +1,4 @@
 .song-list{
-  @include position(fixed, $player-height 0px 0px $sidebar-width);
   overflow: scroll;
 
   li{
@@ -26,6 +25,19 @@
       }
     }
   }
+}
+
+.song-list__header{
+  height: $song-list-header-height;
+  line-height: $song-list-header-height;
+  button{line-height: $song-list-header-height;}
+  padding: 0 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.song-list__title{
+  font-size: golden-ratio($gr-base, 1);
+  font-weight: bold;
 }
 
 .song__listened{

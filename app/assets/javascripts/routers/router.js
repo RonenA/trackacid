@@ -11,7 +11,7 @@ App.Routers.Main = Backbone.Router.extend({
 
   all: function() {
     if (App.mainView) App.mainView.songView.remove();
-    this._initializeWithSongs(App.songs);
+    this._initializeWithSongs(App.songs, "All");
   },
 
   feedShow: function(id) {
@@ -23,11 +23,12 @@ App.Routers.Main = Backbone.Router.extend({
     });
 
     var feedSongCollection = new App.Collections.Songs(feedSongs, {feedId: id});
-    this._initializeWithSongs(feedSongCollection);
+    var feedTitle = App.feeds.get(id).get('title');
+    this._initializeWithSongs(feedSongCollection, feedTitle);
   },
 
-  _initializeWithSongs: function(songs) {
-    App.mainView = new App.Views.Main({collection: songs});
+  _initializeWithSongs: function(songs, title) {
+    App.mainView = new App.Views.Main({collection: songs, title: title});
     this.$rootEl.html( App.mainView.render().$el );
 
     var sidebar = new App.Views.Sidebar();

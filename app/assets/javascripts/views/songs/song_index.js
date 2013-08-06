@@ -1,7 +1,7 @@
 App.Views.SongIndex = Backbone.View.extend({
 
   tagName: 'ul',
-  className: 'song-list',
+  className: 'song-list l-main__list',
   template: HandlebarsTemplates['songs/index'],
 
   events: {
@@ -12,9 +12,7 @@ App.Views.SongIndex = Backbone.View.extend({
   },
 
   initialize: function() {
-    var that = this;
-
-    this.listenTo(this.collection, "add", this.render);
+    this.listenTo(this.collection, "add change", this.render);
   },
 
   render: function() {

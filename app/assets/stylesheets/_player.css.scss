@@ -1,8 +1,7 @@
 .player{
-  position: relative;
   height: $player-height;
   background-color: white;
-  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
 
   @include clearfix;
 }

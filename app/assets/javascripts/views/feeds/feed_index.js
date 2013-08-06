@@ -7,11 +7,17 @@ App.Views.FeedIndex = Backbone.View.extend({
   },
 
   initialize: function(){
-    this.listenTo( this.collection, "change add remove sync", this.render );
+    this.listenTo( this.collection, "change add remove sync reset", this.render );
   },
 
   render: function(){
-    var content = this.template({ feeds: this.collection.toJSON() });
+    var data = this.collection.toJSON();
+    _(data).each(function(feed){
+      if (feed.unheard_count === 0) {
+        feed.unheard_count = "";
+      }
+    });
+    var content = this.template({ feeds: data});
     this.$el.html(content);
     return this;
   },

@@ -1,4 +1,4 @@
-<ul class="feed-list">
+<ul class="sidebar__body sidebar__list feed-list">
   <li>
     <a href="#">
       <span class="feed__unheard-count float-right">
@@ -7,6 +7,7 @@
       <span class="feed__title l-ellip">All</span>
     </a>
   </li>
+  <li><a class="icon-heart l-ellip" href="#">Favourites</a></li>
   {{#each feeds}}
     <li>
       <a href="#/feeds/{{id}}">
@@ -18,8 +19,3 @@
     <li>No feeds.</li>
   {{/each}}
 </ul>
-
-<form class="new-feed-form">
-  <input name="url" placeholder="Feed URL" type="text" />
-  <input type="submit" value="Add a feed" />
-</form>

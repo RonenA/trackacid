@@ -22,9 +22,10 @@
 .sidebar__body{
   position: fixed;
 
-  top: 50px; //Logo
-  bottom: 50px; //Settings/logout panel
+  top: 48px; //Logo
+  bottom: 56px; //Settings/logout panel
   right: 80%;
+  left: 0;
   overflow: scroll;
 }
 
@@ -32,6 +33,10 @@
   width: 100% - $sidebar-width;
   left: $sidebar-width;
   overflow: scroll;
+}
+
+.l-main__list{
+  @include position(fixed, $song-list-header-height 0px $player-height $sidebar-width);
 }
 
 //Positioning
