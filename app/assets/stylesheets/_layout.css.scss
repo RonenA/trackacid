@@ -33,6 +33,10 @@
   width: 100% - $sidebar-width;
   left: $sidebar-width;
   overflow: scroll;
+
+  .l-top, .l-top-full, .l-bottom, .l-bottom-full{
+    left: $sidebar-width;
+  }
 }
 
 .l-main__list{

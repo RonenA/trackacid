@@ -6,7 +6,8 @@ App.Views.Main = Backbone.View.extend({
     'click .js-play':               'play',
     'click .js-pause':              'pause',
     'click .js-navigate-playlist':  'navigatePlaylist',
-    'click .js-mark-all-as-heard':  'markAllAsHeard'
+    'click .js-mark-all-as-heard':  'markAllAsHeard',
+    'click .js-toggle-view-heard':  'toggleViewHeard'
   },
 
   initialize: function(options){
@@ -15,19 +16,26 @@ App.Views.Main = Backbone.View.extend({
 
     this.listenTo(this.collection, "changeIndex", this.changeSongHandler);
     this.listenTo(this.collection, "remove", this.removeHandler);
+    //If the collection is empty, and then you add stuff, we need to reset the
+    //current song. But if there is already shit it it, don't reset current song
+    //cause then you'll lose your position in the song when infinite scrolling.
+    this.listenTo(this.collection, "add", function(model, collection, options){
+      if (options.previousLength === 0) this.renderCurrentSong();
+    });
 
     _.bindAll(this);
     $(document).bind('keydown', this.keyControlHandler);
   },
 
   render: function() {
-    var content = this.template({title: this.title});
+    var content = this.template();
     this.$el.html(content);
     this.renderSongList();
     //When loading the first song, the sound is loaded
     //in the background before the user presses play,
     //so we don't want the spinner.
     this.renderCurrentSong({suppressSpinner: true});
+    this.renderHeader();
     return this;
   },
 
@@ -35,9 +43,10 @@ App.Views.Main = Backbone.View.extend({
   //because renderSongList should only
   //be called once, otherwise events
   //get unbound.
-  rerenderComponents: function(){
+  rerenderComponents: function() {
     this.renderCurrentSong();
     this.songListView.render();
+    this.renderHeader();
   },
 
   renderCurrentSong: function(options) {
@@ -57,6 +66,12 @@ App.Views.Main = Backbone.View.extend({
       //TODO: This probably wont look very good
       this.$el.find('#t-current-song').html( "No songs." );
     }
+  },
+
+  renderHeader: function() {
+    var context = {title: this.title, user: App.currentUser};
+    var content = HandlebarsTemplates['songs/song_list_header'](context);
+    this.$el.find('#t-song-list-header').html( content );
   },
 
   makeSongView: function() {
@@ -149,6 +164,27 @@ App.Views.Main = Backbone.View.extend({
 
   markAllAsHeard: function() {
     this.collection.markAllAsHeard();
+  },
+
+  toggleViewHeard: function() {
+    var that = this;
+    $.ajax({
+      type: 'PUT',
+      url: '/users/settings',
+      data: {
+        settings: {
+          hide_heard_songs: !App.currentUser.hide_heard_songs
+        }
+      },
+      success: function() {
+        App.currentUser.hide_heard_songs = !App.currentUser.hide_heard_songs;
+        that.collection.resetAndSeed();
+        that.renderHeader();
+      },
+      error: function() {
+        //TODO: Handle error
+      }
+    });
   }
 
 });

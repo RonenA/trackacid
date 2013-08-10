@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :remember_me
+  attr_accessible :email, :password, :remember_me, :hide_heard_songs
 
   after_create :set_requested_songs_at
 
@@ -42,12 +42,14 @@ class User < ActiveRecord::Base
   end
 
   def song_list(page, feed_id = "all")
-    data = user_songs.includes(:song => :entries)
+    data = user_songs.includes(:song => :entries).where(:deleted => false)
 
-    if feed_id == "all"
-      data = data.where(:deleted => false)
-    else
-      data = data.where("deleted = 'f' AND feed_id = ?", feed_id)
+    if feed_id != "all"
+      data = data.where("feed_id = ?", feed_id)
+    end
+
+    if hide_heard_songs
+      data = data.where("listened = 'f'")
     end
 
     data
