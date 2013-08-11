@@ -39,6 +39,13 @@ App.Views.Main = Backbone.View.extend({
     return this;
   },
 
+  remove: function() {
+    if (this.songView) this.songView.remove();
+    this.$el.remove();
+    this.stopListening();
+    return this;
+  },
+
   //Call this, not render again
   //because renderSongList should only
   //be called once, otherwise events

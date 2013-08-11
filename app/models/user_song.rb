@@ -18,6 +18,7 @@ class UserSong < ActiveRecord::Base
   def set_defaults
     self.deleted = false
     self.listened = false
+    self.favorited = false
 
     true
   end
@@ -41,18 +42,19 @@ class UserSong < ActiveRecord::Base
     end
   end
 
-  def record_delete
-    self.deleted = true
-    self.save
+  #Defines record_listen, remove_listen etc..
+  {:delete   => :deleted,
+   :listen   => :listened,
+   :favorite => :favorited}.each do |action, column|
+    define_method "record_#{action}" do
+      self.send("#{column}=", true);
+      self.send("save");
+    end
+
+    define_method "remove_#{action}" do
+      self.send("#{column}=", false);
+      self.send("save");
+    end
   end
 
-  def record_listen
-    self.listened = true
-    self.save
-  end
-
-  def remove_listen
-    self.listened = false
-    self.save
-  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130809040919) do
+ActiveRecord::Schema.define(:version => 20130811001820) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(:version => 20130809040919) do
     t.boolean  "deleted"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.boolean  "favorited"
   end
 
   create_table "users", :force => true do |t|

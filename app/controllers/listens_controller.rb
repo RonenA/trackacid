@@ -17,29 +17,22 @@ class ListensController < ApplicationController
          .update_all("listened = 't'")
       end
 
-
       render :json => current_user.feeds.to_json({:user => current_user})
 
     #For marking specific song as listened
     elsif params[:song_id]
 
-      if UserSong.find_by_user_id_and_song_id(current_user.id, params[:song_id])
-                 .record_listen
-        render :json => true
-      else
-        render :json => false
-      end
+      render :json =>
+        UserSong.find_by_user_id_and_song_id(current_user.id, params[:song_id])
+          .record_listen
 
     end
   end
 
   def destroy
-  	if UserSong.find_by_user_id_and_song_id(current_user.id, params[:song_id])
-  			       .remove_listen
-      render :json => true
-    else
-      render :json => false
-    end
+  	render :json =>
+      UserSong.find_by_user_id_and_song_id(current_user.id, params[:song_id])
+  			 .remove_listen
   end
 
 end

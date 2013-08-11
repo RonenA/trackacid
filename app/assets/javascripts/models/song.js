@@ -100,26 +100,34 @@ App.Models.Song = Backbone.Model.extend({
   },
 
   recordListen: function() {
-    this._setListened(true);
+    this.setAndPersist("listened", true);
   },
 
   removeListen: function() {
-    this._setListened(false);
+    this.setAndPersist("listened", false);
   },
 
-  _setListened: function(isListened) {
-    if(this.get('listened') !== isListened) {
-      this.set('listened', isListened);
+  recordFavorite: function() {
+    this.setAndPersist("favorited", true);
+  },
+
+  removeFavorite: function() {
+    this.setAndPersist("favorited", false);
+  },
+
+  setAndPersist: function(attribute, value) {
+    if(this.get(attribute) !== value) {
+      this.set(attribute, value);
 
       $.ajax({
-        type: (isListened ? "POST" : "DELETE"),
-        url: this.url()+"/listen",
+        type: (value ? "POST" : "DELETE"),
+        url: this.url()+"/"+App.Models.Song.attributeToResource[attribute],
         error: function() {
           //TODO: Handle error
         }
       });
 
-      this.updateFeedUnheardCount(isListened);
+      if(attribute === "listened") this.updateFeedUnheardCount(value);
     }
   },
 
@@ -144,3 +152,8 @@ App.Models.Song.providerInfo = {
     hasOwnSpinner: true
   }
 };
+
+App.Models.Song.attributeToResource = {
+  listened: "listen",
+  favorited: "favorite"
+}

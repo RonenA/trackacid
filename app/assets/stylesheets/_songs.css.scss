@@ -5,6 +5,7 @@
     @include clearfix;
     border-bottom: 1px solid #eee;
     position: relative;
+    overflow: hidden;
 
     &.is-removing {
       max-height: $song-img-size;
@@ -61,7 +62,7 @@
     background-color: transparent;
   }
 
-  .is-listened:hover &{
+  .is-listened .song__listened:hover &{
     background-color: rgba(blue, 0.5);
   }
 }
@@ -122,5 +123,14 @@
 
     opacity:0.5;
     &:hover{opacity: 1}
+  }
+}
+
+.song__favorite{
+  .is-favorited &{
+    color: red !important;
+    i:before{
+      @extend .icon-heart:before;
+    }
   }
 }

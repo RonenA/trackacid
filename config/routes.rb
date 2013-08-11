@@ -13,5 +13,6 @@ NewReader::Application.routes.draw do
 
   resources :songs, only: [:index, :destroy] do
     resource :listen, only: [:create, :destroy]
+    resource :favorite, only: [:create, :destroy]
   end
 end

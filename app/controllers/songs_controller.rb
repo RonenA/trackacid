@@ -7,11 +7,9 @@ class SongsController < ApplicationController
   end
 
   def destroy
-    if current_user.user_songs.find_by_song_id(params[:id]).record_delete
-      render :json => true
-    else
-      render :json => false
-    end
+    render :json => current_user.user_songs
+                      .find_by_song_id(params[:id])
+                      .record_delete
   end
 
 end

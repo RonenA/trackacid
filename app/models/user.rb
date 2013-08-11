@@ -44,11 +44,13 @@ class User < ActiveRecord::Base
   def song_list(page, feed_id = "all")
     data = user_songs.includes(:song => :entries).where(:deleted => false)
 
-    if feed_id != "all"
+    if feed_id == "favorites"
+      data = data.where("favorited = 't'")
+    elsif feed_id.is_a? Integer
       data = data.where("feed_id = ?", feed_id)
     end
 
-    if hide_heard_songs
+    if hide_heard_songs && feed_id != "favorites"
       data = data.where("listened = 'f'")
     end
 
