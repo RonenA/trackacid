@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
 
     if feed_id == "favorites"
       data = data.where("favorited = 't'")
-    elsif feed_id.is_a? Integer
+    elsif feed_id != "all"
       data = data.where("feed_id = ?", feed_id)
     end
 

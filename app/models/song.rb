@@ -17,10 +17,15 @@ class Song < ActiveRecord::Base
 
   @@PROVIDERS = {
     :SoundCloud => {
-      :url => "soundcloud.com/player"
+      :queries => [
+        [:iframe, :src, "[src*='soundcloud.com/player']"],
+        [:link, :href, "[href*='soundcloud.com']"]
+      ]
     },
     :YouTube => {
-      :url => "youtube.com/embed"
+      :queries => [
+        [:iframe, :src, "[src*='youtube.com/embed']"]
+      ]
     }
   }
 
@@ -51,21 +56,22 @@ class Song < ActiveRecord::Base
 
   def set_data_from_soundcloud
     begin
-      resp = RestClient.get("#{source_url}.json",
-                            :params => {:client_id => API_KEYS[:SoundCloud]})
-      data = JSON.parse(resp)
+      client = Soundcloud.new(:client_id => API_KEYS[:SoundCloud])
+      track = client.get('/resolve', :url => source_url)
 
-      return false if data.nil? || !data["streamable"]
+      return false if track.nil? ||
+                     !track.streamable ||
+                     !["track", "playlist"].include?(track.kind)
 
-      self.id_from_provider   = data["id"]
-      self.public_link        = data["permalink_url"]
-      self.title              = data["title"]
-      self.user_from_provider = data["user"]["username"]
-      self.description        = data["description"]
-      self.duration           = data["duration"]
-      self.artwork_url        = data["artwork_url"]
-      self.kind               = data["kind"]
-      self.download_url       = data["download_url"] if data["downloadable"]
+      self.kind               = track.kind
+      self.id_from_provider   = track.id
+      self.public_link        = track.permalink_url
+      self.title              = track.title
+      self.user_from_provider = track.user.username
+      self.description        = track.description
+      self.duration           = track.duration
+      self.artwork_url        = track.artwork_url
+      self.download_url       = track.download_url if track.downloadable
     rescue => e
       p e.message
       return false

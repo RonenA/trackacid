@@ -6,13 +6,11 @@ class Feed < ActiveRecord::Base
   has_many :entries, :dependent => :destroy
   has_many :songs, :through => :entries
 
-  def self.find_or_create_by_url(url)
-    feed = Feed.find_by_url(url)
-    return feed if feed
-
+  def self.create_from_hash(hash)
     begin
-      feed_data = SimpleRSS.parse(open(url))
-      feed = Feed.create!(title: feed_data.title, url: url)
+      feed_data = SimpleRSS.parse(open(hash[:url]))
+      hash[:title] = feed_data.title
+      feed = Feed.create!(hash)
       feed_data.entries.each do |entry_data|
         Entry.create_from_json!(entry_data, feed)
       end

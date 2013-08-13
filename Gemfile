@@ -67,3 +67,6 @@ gem 'bourbon'
 
 #For parsing youtube video duration
 gem 'iso8601'
+
+#Soundcloud API
+gem 'soundcloud'
