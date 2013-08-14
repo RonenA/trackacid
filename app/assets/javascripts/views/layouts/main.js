@@ -19,7 +19,7 @@ App.Views.Main = Backbone.View.extend({
     //If the collection is empty, and then you add stuff, we need to reset the
     //current song. But if there is already shit it it, don't reset current song
     //cause then you'll lose your position in the song when infinite scrolling.
-    this.listenTo(this.collection, "add", function(model, collection, options){
+    this.listenTo(this.collection, "add", function(model, collection, options) {
       if (options.previousLength === 0) this.renderCurrentSong();
     });
 

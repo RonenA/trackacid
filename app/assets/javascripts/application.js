@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.timeago
+//= require typeahead
+//= require hogan
 //= require underscore
 //= require backbone
 //= require handlebars.runtime

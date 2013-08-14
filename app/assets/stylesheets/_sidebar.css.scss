@@ -27,3 +27,10 @@
     }
   }
 }
+
+.sidebar__bottom-panel{
+  background-color: white;
+  border-top: 1px solid #eee;
+  margin-right: 1px;
+  .l-sidebar &{padding: $sidebar-padding};
+}

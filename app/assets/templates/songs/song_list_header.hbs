@@ -4,6 +4,16 @@
     <button class="js-toggle-view-heard link-button">
       {{#if user.hide_heard_songs}} Show {{else}} Hide {{/if}} heard songs
     </button>
+    <button class="icon-gear link-button"></button>
+
+    <div style="display:none">
+      <span class="l-ellip">{{user.email}}</span>
+      <form class="float-right" method="post" action="/users/sign_out">
+        <input name="_method" type="hidden" value="delete" />
+        <input class="link-button" value="Sign out" type="submit" />
+      </form>
+    </div>
   </div>
+
   <h2 class="song-list__title l-ellip">{{title}}</h2>
 </div>

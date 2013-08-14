@@ -30,7 +30,7 @@ class Entry < ActiveRecord::Base
       entry_dom = Nokogiri::HTML( open(self.link, &:read) )
 
       #If the site changes its html structure and the selector
-      #no longer finds anything, fallback.
+      #no longer finds anything, fallback to body
       if entry_dom.css(feed.content_selector).empty?
         content_selector = "body"
       else

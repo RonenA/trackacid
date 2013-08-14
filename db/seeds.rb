@@ -1,4 +1,4 @@
-# This file should contain all the record creation needed to seed the database with its default values.
+:# This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
 # Examples:
@@ -10,7 +10,9 @@ feeds = [
   {:url => 'http://feeds.feedburner.com/prettymuchamazing'},
   {:url => 'http://feeds.feedburner.com/2dopeboyz'},
   {:url => 'http://pitchfork.com/rss/reviews/best/tracks/',
-   :content_selector => '#main'}
+   :content_selector => '#main'},
+  {:url => 'http://gorillavsbear.blogspot.com/atom.xml'},
+  {:url => 'http://feeds.feedburner.com/hyptrk'}
 ]
 
 feeds.each do |feed|

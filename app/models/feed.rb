@@ -40,15 +40,31 @@ class Feed < ActiveRecord::Base
     end
   end
 
+  def self.reload_all
+    all.each(&:reload)
+  end
+
+  def self.search(query)
+    if query
+      where("title LIKE ?", "%#{query}%")
+    else
+      all
+    end
+  end
+
   #TODO: May be duplication by doing this query for each feed
   def as_json(options = {})
-    json = super(options)
-    json[:unheard_count] = options[:user]
-                            .user_songs
-                            .joins(:song => :entries)
-                            .where("entries.feed_id = ? AND
-                                   user_songs.listened = 'f'", self.id)
-                            .count
+    json = super(:only => [:title, :id, :url])
+
+    if options[:user]
+      json[:unheard_count] = options[:user]
+                              .user_songs
+                              .joins(:song => :entries)
+                              .where("entries.feed_id = ? AND
+                                     user_songs.listened = 'f'", self.id)
+                              .count('user_songs.id', :distinct => :true)
+    end
+
     json
   end
 end
