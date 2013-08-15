@@ -87,7 +87,7 @@ App.Views.SongIndex = Backbone.View.extend({
     //lets remove it from the list.
 
     var that = this;
-    if (!value) {
+    if (value === false) {
       $(".song-list > li[data-id="+model.id+"]").addClass('is-removing');
       window.setTimeout(function(){
         if (that.collection.indexOf(model) < that.collection.currentIdx) {
