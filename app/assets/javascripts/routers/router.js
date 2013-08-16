@@ -38,7 +38,7 @@ App.Routers.Main = Backbone.Router.extend({
   _initializeWithCollectionAndTitle: function(collection, title) {
     if (App.mainView) App.mainView.remove();
 
-    if (App.songIndexView) {
+    if (App.playerView) {
       App.songIndexView.remove();
       if (collection.feedId === App.playerView.collection.feedId) {
         collection = App.playerView.collection;
