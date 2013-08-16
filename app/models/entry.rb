@@ -55,8 +55,13 @@ class Entry < ActiveRecord::Base
         url = song_noko.get_attribute(attribute)
         url = Song.parse_iframe_src(url, provider) if element == :iframe
         url = remove_url_params(url)
-        song = Song.find_or_initialize_by_source_url_and_provider(url, provider)
-        self.songs << song if song.persisted? || song.save
+
+        song = Song.find_or_initialize_by_source_url(url)
+        unless song.persisted?
+          song.provider = provider
+          song.save
+        end
+        self.songs << song
       end
       song_nokos.any?
     end

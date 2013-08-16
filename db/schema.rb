@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130813070936) do
+ActiveRecord::Schema.define(:version => 20130816014523) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -42,8 +42,6 @@ ActiveRecord::Schema.define(:version => 20130813070936) do
     t.string   "content_selector", :default => "body"
   end
 
-  add_index "feeds", ["url"], :name => "index_feeds_on_url", :unique => true
-
   create_table "songs", :force => true do |t|
     t.string   "provider"
     t.datetime "created_at",         :null => false
@@ -61,12 +59,19 @@ ActiveRecord::Schema.define(:version => 20130813070936) do
     t.integer  "duration"
   end
 
+  add_index "songs", ["created_at"], :name => "index_songs_on_created_at"
+  add_index "songs", ["first_published_at"], :name => "index_songs_on_first_published_at"
+  add_index "songs", ["id_from_provider", "provider"], :name => "index_songs_on_id_from_provider_and_provider", :unique => true
+  add_index "songs", ["source_url"], :name => "index_songs_on_source_url", :unique => true
+
   create_table "user_feeds", :force => true do |t|
     t.integer  "user_id"
     t.integer  "feed_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "user_feeds", ["user_id"], :name => "index_user_feeds_on_user_id"
 
   create_table "user_songs", :force => true do |t|
     t.integer  "user_id"
@@ -77,6 +82,9 @@ ActiveRecord::Schema.define(:version => 20130813070936) do
     t.datetime "updated_at", :null => false
     t.boolean  "favorited"
   end
+
+  add_index "user_songs", ["user_id", "song_id"], :name => "index_user_songs_on_user_id_and_song_id", :unique => true
+  add_index "user_songs", ["user_id"], :name => "index_user_songs_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",    :null => false
