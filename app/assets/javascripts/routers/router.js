@@ -38,15 +38,35 @@ App.Routers.Main = Backbone.Router.extend({
   _initializeWithCollectionAndTitle: function(collection, title) {
     if (App.mainView) App.mainView.remove();
 
-    App.mainView = new App.Views.Main({collection: collection, title: title});
-    this.$rootEl.html( App.mainView.render().$el );
+    if (App.songIndexView) {
+      App.songIndexView.remove();
+      if (collection.feedId === App.playerView.collection.feedId) {
+        collection = App.playerView.collection;
+      }
+      App.songIndexView = new App.Views.SongIndex({collection: collection, title: title});
 
-    var sidebar = new App.Views.Sidebar();
-    this.$rootEl.prepend( sidebar.render().$el );
-    sidebar.initializeTypeahead();
+      //TODO: This line is really bad and makes a lot assumptions
+      //about the DOM and app structure. The songIndexView must
+      //be below the player in the DOM for the css to work. This
+      //code assumes that there is never anything other than the
+      //player and the songIndex inside l-main.
+      $('.l-main').append( App.songIndexView.render().$el );
 
-    this.setRootElHeight();
-    $(window).resize(this.setRootElHeight.bind(this));
+    } else {
+      App.songIndexView = new App.Views.SongIndex({collection: collection, title: title});
+      //TODO: It is concerning that the router is generating HTML.
+      var main = $("<div>").addClass('l-main').html( App.songIndexView.render().$el );
+      this.$rootEl.html( main );
+      App.songIndexView.bindInfiniteScroll();
+
+      var sidebar = new App.Views.Sidebar();
+      this.$rootEl.prepend( sidebar.render().$el );
+      //TODO should not be routers responsibility
+      sidebar.initializeTypeahead();
+
+      this.setRootElHeight();
+      $(window).resize(this.setRootElHeight.bind(this));
+    }
   },
 
   setRootElHeight: function(){

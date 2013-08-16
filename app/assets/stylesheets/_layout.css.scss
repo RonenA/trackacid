@@ -40,7 +40,15 @@
 }
 
 .l-main__list{
-  @include position(fixed, $song-list-header-height 0px $player-height $sidebar-width);
+  @include position(fixed, $song-list-header-height 0px 0px $sidebar-width);
+
+  //When the player is on the page, make room for it.
+  //For this to work, the l-main__list must be inside a
+  //.song-list__outer (with the header) and the .player
+  //must be *above* the .song-list__outer in the DOM.
+  .player + .song-list__outer & {
+    bottom: $player-height;
+  }
 }
 
 //Positioning

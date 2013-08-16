@@ -23,7 +23,7 @@ App.Collections.Songs = Backbone.Collection.extend({
   setDefaults: function() {
     this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
     this.loadMore = true;
-    this.currentIdx = 0;
+    this.currentIdx = null;
   },
 
   loadNextPage: function() {
@@ -56,7 +56,33 @@ App.Collections.Songs = Backbone.Collection.extend({
 
   setIndex: function(newIdx) {
     this.currentIdx = newIdx;
-    this.trigger("changeIndex");
+    this.trigger("changeIndex", newIdx);
+  },
+
+  incrementIndex: function(delta) {
+    var that = this;
+    var newIdx = this.currentIdx + delta;
+    var deferred;
+
+    if (newIdx > this.length) {
+      deferred = this.loadNextPage();
+    } else {
+      deferred = $.Deferred.now();
+    }
+
+    //setIndex calls changeIndex, which
+    //is an event that other views listen to.
+    //We dont want those to try to use the new
+    //index before the next page has actaully
+    //been loaded.
+    deferred.done(function(){
+      //If newIdx is STILL larger than the length
+      //there are no more new songs to load,
+      //and you can't continue in the playlist.
+      that.setIndex( newIdx > that.length ? null : newIdx );
+    });
+
+    return deferred;
   },
 
   markAllAsHeard: function() {
@@ -69,7 +95,7 @@ App.Collections.Songs = Backbone.Collection.extend({
         _(that.where({listened: false})).each(function(song){
           song.set({listened: true}, {silent: true});
         });
-        that.trigger('change');
+        that.trigger('change:listened');
       },
       error: function() {
         //TODO: Handle error

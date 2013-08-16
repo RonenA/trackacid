@@ -2,6 +2,7 @@ App.Models.YouTubeSound = function() {
 
   function YouTubeSound(object){
     this.object = object;
+    this.provider = "YouTube";
   };
 
   YouTubeSound.prototype.play = function(options) {

@@ -2,6 +2,7 @@ App.Models.SoundCloudSound = function() {
 
   function SoundCloudSound(object){
     this.object = object;
+    this.provider = "SoundCloud";
   };
 
   SoundCloudSound.passToObject({

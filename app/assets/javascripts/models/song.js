@@ -30,16 +30,16 @@ App.Models.Song = Backbone.Model.extend({
 
       var id = new $.Deferred();
 
-      if(this.get('kind') === "playlist"){
-        this._dataFromProvider.done(function(data){
+      if(this.get('kind') === "playlist") {
+        this.dataFromProvider().done(function(data){
           //Use the most popular track if it is a playlist
           var bestTrackId = _(data.tracks).sortBy(function(track){
             return track.favoritings_count;
-          })[0].id
+          })[0].id;
 
           id.resolve(bestTrackId);
         });
-      } else if (this.get('kind') === "track"){
+      } else if (this.get('kind') === "track") {
         id.resolve(that.get('id_from_provider'));
       }
 
@@ -65,34 +65,39 @@ App.Models.Song = Backbone.Model.extend({
 
     } else if (this.get('provider') === "YouTube") {
       App.YouTubeReady.done(function(){
-        new YT.Player('youtube-video', {
-          height: '200',
-          width: '200',
-          videoId: that.get('id_from_provider'),
-          playerVars: {
-            controls: 0,
-            showinfo: 0
-          },
-          events: {
-            'onReady': function(e) {
-              sound.resolve(new App.Models.YouTubeSound(e.target));
+        //setTimeout so that this doesn't try to happen
+        //before #youtube-video is rendered.
+        window.setTimeout(function(){
+          new YT.Player('youtube-video', {
+            height: '200',
+            width: '200',
+            videoId: that.get('id_from_provider'),
+            playerVars: {
+              controls: 0,
+              showinfo: 0
             },
-            'onStateChange': function(e) {
-              if (e.data === YT.PlayerState.PLAYING ||
-                  e.data === YT.PlayerState.BUFFERING) {
-                options.onplay();
-              }
+            events: {
+              'onReady': function(e) {
+                sound.resolve(new App.Models.YouTubeSound(e.target));
+              },
+              'onStateChange': function(e) {
+                if (e.data === YT.PlayerState.PLAYING ||
+                    e.data === YT.PlayerState.BUFFERING) {
+                  options.onplay();
+                }
 
-              if (e.data === YT.PlayerState.PAUSED) {
-                options.onpause();
-              }
+                if (e.data === YT.PlayerState.PAUSED) {
+                  options.onpause();
+                }
 
-              if (e.data === YT.PlayerState.ENDED) {
-                options.onfinish();
+                if (e.data === YT.PlayerState.ENDED) {
+                  options.onfinish();
+                }
               }
             }
-          }
+          });
         });
+
       });
     }
 

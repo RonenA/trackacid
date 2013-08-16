@@ -1,20 +1,28 @@
 App.Views.SongIndex = Backbone.View.extend({
 
-  tagName: 'ul',
-  className: 'song-list l-main__list',
+  className: "song-list__outer",
   template: HandlebarsTemplates['songs/index'],
 
   events: {
     'click .js-delete-song':              'deleteSong',
-    'click .js-switch-song':              'switchSong',
+    'click .js-select-song':              'selectSong',
     'click .js-toggle-song-listened':     'toggleSongListened',
     'dblclick .js-toggle-song-listened':   function(){return false},
     'click .js-toggle-song-favorited':    'toggleSongFavorited',
     'dblclick .js-toggle-song-favorited':  function(){return false},
+    'click .js-mark-all-as-heard':        'markAllAsHeard',
+    'click .js-toggle-view-heard':        'toggleViewHeard'
   },
 
-  initialize: function() {
-    this.listenTo(this.collection, "add change:listened remove", this.render);
+  initialize: function(options) {
+    this.title = options.title;
+
+    this.$listEl = $("<ul>").addClass("song-list l-main__list");
+    this.$headerEl = $("<div>").addClass("song-list__header");
+    this.$el.prepend( this.$listEl );
+    this.$el.prepend( this.$headerEl );
+
+    this.listenTo(this.collection, "add change:listened remove changeIndex", this.render);
 
     if(this.collection.feedId === "favorites"){
       this.listenTo(this.collection, "change:favorited", this.changeFavoritedHandler);
@@ -22,18 +30,31 @@ App.Views.SongIndex = Backbone.View.extend({
   },
 
   render: function() {
-    var songs = this.collection.toJSON();
-    if (songs.length) songs[this.collection.currentIdx].selected = true;
-    var result = this.template({songs: songs});
-
-    var oldScrollPosition = this.$el.scrollTop();
-    this.$el.html(result);
-    this.$el.scrollTop(oldScrollPosition);
+    this.renderHeader();
+    this.renderList();
     return this;
   },
 
+  renderList: function() {
+    var songs = this.collection.toJSON();
+    if (!!this.collection.currentIdx) {
+      songs[this.collection.currentIdx].selected = true;
+    }
+    var result = this.template({songs: songs});
+
+    var oldScrollPosition = this.$listEl.scrollTop();
+    this.$listEl.html(result);
+    this.$listEl.scrollTop(oldScrollPosition);
+  },
+
+  renderHeader: function() {
+    var context = {title: this.title, user: App.currentUser};
+    var result = HandlebarsTemplates['songs/song_list_header'](context);
+    this.$headerEl.html( result );
+  },
+
   bindInfiniteScroll: function() {
-    this.$el.scroll(this.infiniteScrollHandler.bind(this));
+    this.$listEl.scroll(this.infiniteScrollHandler.bind(this));
   },
 
   infiniteScrollHandler: function(e) {
@@ -48,12 +69,19 @@ App.Views.SongIndex = Backbone.View.extend({
     return this.collection.get(id);
   },
 
-  switchSong: function(e) {
+  selectSong: function(e) {
     e.preventDefault();
     var target = $(e.currentTarget);
     var model = this._modelFromTarget(target);
     var newIdx = this.collection.indexOf(model);
     this.collection.setIndex(newIdx);
+
+    if (!App.playerView) {
+      App.playerView = new App.Views.Player({collection: this.collection});
+      this.$el.before( App.playerView.render().$el );
+    } else {
+      App.playerView.changeCollection( this.collection );
+    }
   },
 
   deleteSong: function(e) {
@@ -78,7 +106,6 @@ App.Views.SongIndex = Backbone.View.extend({
 
   toggleSongFavorited: function(e) {
     var target = $(e.currentTarget);
-
     this.toggleSongAttribute("favorited", target);
   },
 
@@ -104,6 +131,31 @@ App.Views.SongIndex = Backbone.View.extend({
 
     listItem.toggleClass('is-'+attribute);
     model.setAndPersist(attribute, !model.get(attribute));
+  },
+
+  markAllAsHeard: function() {
+    this.collection.markAllAsHeard();
+  },
+
+  toggleViewHeard: function() {
+    var that = this;
+    $.ajax({
+      type: 'PUT',
+      url: '/users/settings',
+      data: {
+        settings: {
+          hide_heard_songs: !App.currentUser.hide_heard_songs
+        }
+      },
+      success: function() {
+        App.currentUser.hide_heard_songs = !App.currentUser.hide_heard_songs;
+        that.collection.resetAndSeed();
+        that.renderHeader();
+      },
+      error: function() {
+        //TODO: Handle error
+      }
+    });
   }
 
 });
