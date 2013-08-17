@@ -59,7 +59,7 @@ Handlebars.registerHelper('totalUnheardCount', function(feeds) {
   return new Handlebars.SafeString(count);
 });
 
-Handlebars.registerHelper('msToTimestamp', function(ms){
+Handlebars.registerHelper('msToTimestamp', function(ms) {
   var rawSeconds = ms/1000;
   var result = "";
 
@@ -77,4 +77,10 @@ Handlebars.registerHelper('msToTimestamp', function(ms){
   var result = result + minutes + ":" + seconds;
 
   return new Handlebars.SafeString(result);
+});
+
+Handlebars.registerHelper('titleIconClass', function(kind) {
+  if (kind === "playlist") {
+    return new Handlebars.SafeString('icon-list');
+  }
 });

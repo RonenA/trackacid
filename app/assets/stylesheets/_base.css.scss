@@ -1,10 +1,10 @@
-body{
-  font-size: golden-ratio($gr-base, 0);
+body, input, button{
+  font-size: $base-font-size;
   font-family: $helvetica;
   -webkit-font-smoothing: antialiased;
 }
 
-div{
+div, input, textarea{
   @include box-sizing(border-box);
 }
 
@@ -15,7 +15,13 @@ div{
   padding: 0;
   background-color: transparent;
   cursor: pointer;
-  font-family: $helvetica;
+}
+
+.reset-input{
+  @include appearance(none);
+  box-shadow: none;
+  border: none;
+  outline: none;
 }
 
 .link-button{

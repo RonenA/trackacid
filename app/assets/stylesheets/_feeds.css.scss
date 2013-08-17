@@ -2,8 +2,16 @@
 }
 
 .feed__unheard-count{
-  color: #aaa;
+  background-color: black;
+  color: #FFF;
+
   margin-left: 10px;
   line-height: 1.2em;
+
+  min-width: 20px;
+  text-align: center;
+  font-size: 11px;
+  border-radius: 3px;
+  line-height: $base-font-size * 1.2;
 }
 

@@ -51,6 +51,7 @@ App.Routers.Main = Backbone.Router.extend({
       //code assumes that there is never anything other than the
       //player and the songIndex inside l-main.
       $('.l-main').append( App.songIndexView.render().$el );
+      App.songIndexView.bindInfiniteScroll();
 
     } else {
       App.songIndexView = new App.Views.SongIndex({collection: collection, title: title});

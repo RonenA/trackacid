@@ -28,8 +28,9 @@ App.Views.Sidebar = Backbone.View.extend({
         url: "/feeds?all=true",
         filter: this._parseForTypeahead
       },
-      template: '<p>{{title}}</p>',
-      engine: Hogan
+      template: '{{title}}',
+      engine: Hogan,
+      header: "<h3 class='tt-suggestion-heading'>Search Results</h3>"
     });
   },
 

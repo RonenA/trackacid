@@ -11,7 +11,7 @@ App.Views.SongIndex = Backbone.View.extend({
     'click .js-toggle-song-favorited':    'toggleSongFavorited',
     'dblclick .js-toggle-song-favorited':  function(){return false},
     'click .js-mark-all-as-heard':        'markAllAsHeard',
-    'click .js-toggle-view-heard':        'toggleViewHeard'
+    'click .js-toggle-view-heard':        'toggleViewHeard',
   },
 
   initialize: function(options) {
@@ -59,7 +59,7 @@ App.Views.SongIndex = Backbone.View.extend({
 
   infiniteScrollHandler: function(e) {
     var target = $(e.currentTarget);
-    if (target.scrollTop() + target.innerHeight() >= target[0].scrollHeight) {
+    if (target.scrollTop() + target.innerHeight() >= target[0].scrollHeight - 1) {
       this.collection.loadNextPage();
     }
   },

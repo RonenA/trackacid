@@ -5,7 +5,7 @@
   display: block;
   padding: $sidebar-padding;
 
-  border-bottom: 3px solid black;
+  //border-bottom: 3px solid black;
   background-color: white;
 
   &:hover{
@@ -16,21 +16,63 @@
 
 .sidebar__list{
   & > li{
-    border-bottom: 1px solid #eee;
-
     & > a{
       display: block;
-      &:hover{background-color: $list-hover-color}
-      color: black;
       text-decoration: none;
-      padding: 5px $sidebar-padding;
+      padding: 7px $sidebar-padding;
+
+      color: white;
+      &:hover{
+        background-color: lighten($grey, 15%);
+      }
+
     }
   }
 }
 
 .sidebar__bottom-panel{
-  background-color: white;
-  border-top: 1px solid #eee;
-  margin-right: 1px;
-  .l-sidebar &{padding: $sidebar-padding};
+  .twitter-typeahead{
+    width: 100%;
+  }
+
+  input{
+    width: 100%;
+    @extend .reset-input;
+    padding: $sidebar-padding;
+  }
+
+  .tt-dropdown-menu{
+    bottom: 100%;
+    top: auto !important;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+
+  .tt-hint{
+    @extend .l-ellip;
+
+    //Hint is hidden to make form feel
+    //more like a search than a field.
+    display: none;
+  }
+
+  .tt-suggestion{
+    @extend .l-ellip;
+    padding: 7px $sidebar-padding;
+    color: #666;
+  }
+
+  .tt-is-under-cursor{
+    background-color: blue;
+    color: white;
+  }
+
+  .tt-suggestion-heading{
+    font-weight: bold;
+    padding: 5px 17px;
+  }
 }

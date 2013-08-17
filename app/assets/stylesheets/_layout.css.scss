@@ -11,7 +11,7 @@
 
 .l-sidebar{
   width: $sidebar-width;
-  border-right: 1px solid #eee;
+  //border-right: 1px solid #eee;
   overflow: scroll;
 
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
@@ -22,11 +22,15 @@
 .sidebar__body{
   position: fixed;
 
-  top: 48px; //Logo
-  bottom: 56px; //Settings/logout panel
+  top: 57px; //Logo
+  bottom: 54px; //Add feed panel
   right: 80%;
   left: 0;
   overflow: scroll;
+
+  padding-top: 10px;
+
+  background-color: $grey;
 }
 
 .l-main{

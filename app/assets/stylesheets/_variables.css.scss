@@ -1,12 +1,14 @@
-$gr-base: 15.450849719px;
+$gr-base: 14px;
+$base-font-size: $gr-base;
 
 //Colors
 $pale-blue: #ADD3E6;
 $list-hover-color: #eee;
+$grey: #3C3C3C;
 
 //Layout
 $sidebar-width: 20%;
-$sidebar-padding: 10px;
+$sidebar-padding: 17px;
 $song-list-header-height: golden-ratio($gr-base, 2);
 
 //Logo
