@@ -11,7 +11,7 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   all: function() {
-    this._initializeWithCollectionAndTitle(App.songs, "All");
+    this._initializeWithCollection(App.songs);
   },
 
   favorites: function() {
@@ -20,7 +20,7 @@ App.Routers.Main = Backbone.Router.extend({
     });
 
     var favoriteCollection = new App.Collections.Songs(favoriteSongs, {feedId: "favorites"});
-    this._initializeWithCollectionAndTitle(favoriteCollection, "Favorites");
+    this._initializeWithCollection(favoriteCollection);
   },
 
   feedShow: function(id) {
@@ -31,19 +31,16 @@ App.Routers.Main = Backbone.Router.extend({
     });
 
     var feedSongCollection = new App.Collections.Songs(feedSongs, {feedId: id});
-    var feedTitle = App.feeds.get(id).get('title');
-    this._initializeWithCollectionAndTitle(feedSongCollection, feedTitle);
+    this._initializeWithCollection(feedSongCollection);
   },
 
-  _initializeWithCollectionAndTitle: function(collection, title) {
-    if (App.mainView) App.mainView.remove();
-
+  _initializeWithCollection: function(collection) {
     if (App.playerView) {
       App.songIndexView.remove();
       if (collection.feedId === App.playerView.collection.feedId) {
         collection = App.playerView.collection;
       }
-      App.songIndexView = new App.Views.SongIndex({collection: collection, title: title});
+      App.songIndexView = new App.Views.SongIndex({collection: collection});
 
       //TODO: This line is really bad and makes a lot assumptions
       //about the DOM and app structure. The songIndexView must
@@ -54,7 +51,7 @@ App.Routers.Main = Backbone.Router.extend({
       App.songIndexView.bindInfiniteScroll();
 
     } else {
-      App.songIndexView = new App.Views.SongIndex({collection: collection, title: title});
+      App.songIndexView = new App.Views.SongIndex({collection: collection});
       //TODO: It is concerning that the router is generating HTML.
       var main = $("<div>").addClass('l-main').html( App.songIndexView.render().$el );
       this.$rootEl.html( main );

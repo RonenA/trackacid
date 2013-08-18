@@ -31,11 +31,10 @@ App.Views.Player = Backbone.View.extend({
   },
 
   remove: function() {
-    var that = this;
     this.stopListening();
     $(document).off('keydown.keyboardShortcuts');
     this.removeSound();
-    that.$el.remove();
+    this.$el.remove();
     return this;
   },
 

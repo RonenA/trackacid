@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130816014523) do
+ActiveRecord::Schema.define(:version => 20130817213637) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20130816014523) do
     t.datetime "created_at",                           :null => false
     t.datetime "updated_at",                           :null => false
     t.string   "content_selector", :default => "body"
+    t.string   "site_url"
+    t.text     "description"
   end
 
   create_table "songs", :force => true do |t|

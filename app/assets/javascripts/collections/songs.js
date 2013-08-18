@@ -26,6 +26,20 @@ App.Collections.Songs = Backbone.Collection.extend({
     this.currentIdx = null;
   },
 
+  feed: function() {
+    return App.feeds.get(this.feedId);
+  },
+
+  feedData: function() {
+    if (!isNaN(this.feedId)){
+      return this.feed().toJSON();
+    } else {
+      return {
+        title: this.feedId.capitalize()
+      }
+    }
+  },
+
   loadNextPage: function() {
     if (this.loadMore) {
       var that = this;

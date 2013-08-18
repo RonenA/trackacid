@@ -18,11 +18,10 @@
 //= require underscore
 //= require backbone
 //= require handlebars.runtime
-//= require function
-//= require deferred
 //
 //= require music_reader
 //= require youtube.js
+//= require_tree ./utilities
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections

@@ -14,4 +14,11 @@
   </div>
 </div>
 
-<h2 class="song-list__title l-ellip">{{title}}</h2>
+<h2 class="song-list__title l-ellip">
+  {{#if feed.site_url}}
+    <a href="{{feed.site_url}}" target="blank">{{feed.title}}</a>
+    <button class="js-unsubscribe-feed link-button">Unsubscribe</button>
+  {{else}}
+    {{feed.title}}
+  {{/if}}
+</h2>

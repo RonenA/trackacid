@@ -1,18 +1,27 @@
 <ul class="sidebar__body sidebar__list feed-list">
   <li>
     <a href="#">
-      <span class="feed__unheard-count float-right">
+      <i class="icon-music feed-icon"></i>
+      <span class="feed__unheard-count">
         {{{totalUnheardCount feeds}}}
       </span>
-      <span class="feed__title l-ellip">All</span>
+      <span class="feed__title">All</span>
     </a>
   </li>
-  <li><a class="icon-heart l-ellip" href="/#/favorites">Favorites</a></li>
+  <li>
+    <a class="l-ellip" href="/#/favorites">
+      <i class="icon-heart feed-icon"></i>
+      <span class="feed__title">Favorites</span>
+    </a>
+  </li>
   {{#each feeds}}
     <li>
       <a href="#/feeds/{{id}}">
-        <span class="feed__unheard-count float-right">{{unheard_count}}</span>
-        <span class="feed__title l-ellip">{{title}}</span>
+        <i class="feed-icon">
+          <img src="http://g.etfv.co/{{{site_url}}}">
+        </i>
+        <span class="feed__unheard-count">{{unheard_count}}</span>
+        <span class="feed__title">{{title}}</span>
       </a>
     </li>
   {{else}}

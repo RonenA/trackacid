@@ -1,4 +1,12 @@
+.feed-icon{
+  width: 25px;
+  float: left;
+
+  img{background-color: white;}
+}
+
 .feed__title{
+  @extend .l-ellip;
 }
 
 .feed__unheard-count{
@@ -13,5 +21,7 @@
   font-size: 11px;
   border-radius: 3px;
   line-height: $base-font-size * 1.2;
+
+  float: right;
 }
 

@@ -33,6 +33,10 @@
   button{line-height: $song-list-header-height;}
   padding: 0 10px;
   border-bottom: 1px solid #eee;
+
+  a{
+    color: black;
+  }
 }
 
 .song-list__title{

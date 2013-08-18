@@ -12,11 +12,10 @@ App.Views.SongIndex = Backbone.View.extend({
     'dblclick .js-toggle-song-favorited':  function(){return false},
     'click .js-mark-all-as-heard':        'markAllAsHeard',
     'click .js-toggle-view-heard':        'toggleViewHeard',
+    'click .js-unsubscribe-feed':         'unsubscribeFeed'
   },
 
-  initialize: function(options) {
-    this.title = options.title;
-
+  initialize: function() {
     this.$listEl = $("<ul>").addClass("song-list l-main__list");
     this.$headerEl = $("<div>").addClass("song-list__header");
     this.$el.prepend( this.$listEl );
@@ -48,7 +47,7 @@ App.Views.SongIndex = Backbone.View.extend({
   },
 
   renderHeader: function() {
-    var context = {title: this.title, user: App.currentUser};
+    var context = {feed: this.collection.feedData(), user: App.currentUser};
     var result = HandlebarsTemplates['songs/song_list_header'](context);
     this.$headerEl.html( result );
   },
@@ -156,6 +155,14 @@ App.Views.SongIndex = Backbone.View.extend({
         //TODO: Handle error
       }
     });
+  },
+
+  unsubscribeFeed: function() {
+    this.collection.feed().destroy();
+    App.router.navigate("", {trigger: true});
+    if(App.playerView && App.playerView.collection === this.collection) {
+      App.playerView.remove();
+    }
   }
 
 });

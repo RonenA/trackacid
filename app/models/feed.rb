@@ -1,16 +1,18 @@
 class Feed < ActiveRecord::Base
-  attr_accessible :title, :url
+  attr_accessible :title, :url, :site_url, :description
 
   validates_presence_of :title, :url
 
   has_many :entries, :dependent => :destroy
   has_many :songs, :through => :entries
 
-  def self.create_from_hash(hash)
+  def self.create_from_hash(attributes)
     begin
-      feed_data = SimpleRSS.parse(open(hash[:url]))
-      hash[:title] = feed_data.title
-      feed = Feed.create!(hash)
+      feed_data = SimpleRSS.parse(open(attributes[:url]))
+      attributes[:title] = feed_data.title
+      attributes[:site_url] = feed_data.link
+      attributes[:description] = feed_data.description
+      feed = Feed.create!(attributes)
       feed_data.entries.each do |entry_data|
         Entry.create_from_json!(entry_data, feed)
       end
@@ -25,6 +27,8 @@ class Feed < ActiveRecord::Base
     begin
       feed_data = SimpleRSS.parse(open(url))
       self.title = feed_data.title
+      self.site_url = feed_data.link
+      self.description = feed_data.description
       save!
 
       existing_entry_guids = entries.pluck(:guid).sort
@@ -54,7 +58,7 @@ class Feed < ActiveRecord::Base
 
   #TODO: May be duplication by doing this query for each feed
   def as_json(options = {})
-    json = super(:only => [:title, :id, :url])
+    json = super(:except => [:created_at, :updated_at, :content_selector])
 
     if options[:user]
       json[:unheard_count] = options[:user]

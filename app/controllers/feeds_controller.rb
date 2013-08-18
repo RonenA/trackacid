@@ -20,4 +20,11 @@ class FeedsController < ApplicationController
     end
   end
 
+  def destroy
+    render :json =>
+      UserFeed
+        .find_by_user_id_and_feed_id(current_user.id, params[:id])
+          .destroy
+  end
+
 end

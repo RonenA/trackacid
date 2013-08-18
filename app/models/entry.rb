@@ -61,7 +61,8 @@ class Entry < ActiveRecord::Base
           song.provider = provider
           song.save
         end
-        self.songs << song
+        #Check again in case the song didn't save properly
+        self.songs << song if song.persisted?
       end
       song_nokos.any?
     end
