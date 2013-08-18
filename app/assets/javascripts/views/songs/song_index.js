@@ -21,7 +21,7 @@ App.Views.SongIndex = Backbone.View.extend({
     this.$el.prepend( this.$listEl );
     this.$el.prepend( this.$headerEl );
 
-    this.listenTo(this.collection, "add change:listened remove changeIndex", this.render);
+    this.listenTo(this.collection, "add change:listened remove reset changeIndex", this.render);
 
     if(this.collection.feedId === "favorites"){
       this.listenTo(this.collection, "change:favorited", this.changeFavoritedHandler);
