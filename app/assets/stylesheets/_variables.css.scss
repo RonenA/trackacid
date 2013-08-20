@@ -4,7 +4,8 @@ $base-font-size: $gr-base;
 //Colors
 $pale-blue: #ADD3E6;
 $list-hover-color: #eee;
-$grey: #3C3C3C;
+$medium-grey: #3C3C3C;
+$light-grey: #777;
 
 //Layout
 $sidebar-width: 20%;
@@ -18,4 +19,5 @@ $logo-height: golden-ratio($gr-base, 1);
 $player-height: 200px;
 
 //Songs
-$song-img-size: golden-ratio($gr-base, 3);
+$song-img-size: 75px;
+//Used to be golden-ratio($gr-base, 3);

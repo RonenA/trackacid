@@ -2,42 +2,46 @@
            {{#if listened}} is-listened {{/if}}
            {{#if favorited}} is-favorited {{/if}}" data-id="{{id}}">
 
-  <div class="media__img--no-margin">
-    <button class="js-toggle-song-listened song__listened"
-            title="Mark as listened">
-      <i class="song__listened__icon"></i>
-    </button>
-  </div>
-
-  <div class="media__body song__main">
+  <div class="media__body">
     <div class="song__controls">
       {{#if listened}}
-        <button class="js-toggle-song-listened" title="Mark as heard">
+        <button class="js-toggle-song-listened" title="Mark as unheard">
+          <i class="icon-circle-empty"></i>
+        </button>
       {{else}}
-
+        <button class="js-toggle-song-listened" title="Mark as heard">
+          <i class="icon-check"></i>
+        </button>
       {{/if}}
+
       <button class="js-toggle-song-favorited song__favorite" title="Favourite">
-        <i class="icon-heart-empty"></i>
+        <i class="icon-heart"></i>
       </button>
+
       {{#if download_url}}
         <a href="{{{buildDownloadLink download_url provider}}}" target="blank" title="Download">
           <i class="icon-download"></i>
         </a>
       {{/if}}
-      <button class="js-delete-song" title="Delete">&times;</button>
+
+      <button class="js-delete-song" title="Delete">
+        <i class="icon-cancel"></i>
+      </button>
     </div>
 
     <a href="#" class="js-select-song song__trigger">
       <div class="cf">
-        <div class="media__img song__img-wrapper">
+        <div class="media__img--no-margin song__img-wrapper">
           <img src="{{artwork_url}}" />
         </div>
 
-        <div class="media__body">
-          <div class="song__title {{{titleIconClass kind}}}">{{title}}</div>
+        <div class="media__body song__body">
+          <span class="song__duration float-right">{{{msToTimestamp duration}}}</span>
+          <div class="song__title {{{titleIconClass kind}}}">
+            {{title}}
+          </div>
           <div class="song__blogs">
-            <span class="song__duration">{{{msToTimestamp duration}}}</span> -
-            {{{joinFeedNames entries}}}
+            {{{firstEntryTimeAgo entries}}} &bull; {{{joinFeedNames entries}}}
           </div>
         </div>
       </div>

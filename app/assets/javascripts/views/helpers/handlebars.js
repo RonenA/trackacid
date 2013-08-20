@@ -26,10 +26,7 @@ Handlebars.registerHelper('feedName', function(feedId) {
 
 Handlebars.registerHelper('joinFeedNames', function(entries) {
   var feedNames = _(entries).map(function(entry){
-    return App.feeds.get(entry.feed_id).get('title') + " "
-            + "<span class='song__time-ago'>"
-            + $.timeago(entry.published_at)
-            + "</span>";
+    return App.feeds.get(entry.feed_id).get('title');
   });
 
   return new Handlebars.SafeString(feedNames.join(', '));
@@ -48,6 +45,10 @@ Handlebars.registerHelper('joinFeedNamesWithLink', function(entries) {
 //TODO: No longer in use
 Handlebars.registerHelper('firstEntryLink', function(entries) {
   return new Handlebars.SafeString(entries[0].link);
+});
+
+Handlebars.registerHelper('firstEntryTimeAgo', function(entries) {
+  return new Handlebars.SafeString( $.timeago(entries[0].published_at) );
 });
 
 Handlebars.registerHelper('totalUnheardCount', function(feeds) {

@@ -3,11 +3,22 @@
 
   li{
     @include clearfix;
-    border-bottom: 1px solid #eee;
+    //border-bottom: 1px solid #eee;
     position: relative;
     overflow: hidden;
 
+    &:hover{background-color: $list-hover-color}
+
+    //The 1.1em font size on the checkmark
+    //causes the height to jitter very slightly
+    //without this rule.
+    max-height: $song-img-size;
+
     &.is-removing {
+      //This rule is duplicated atm, but
+      //it is nessesary for the removing
+      //animation sepcifically, so I'm
+      //gonna keep it here.
       max-height: $song-img-size;
       opacity: 1;
       @include animation(moveOut 0.3s 0.2s ease forwards, closeSpace 0.2s ease forwards 0.3s)
@@ -41,38 +52,8 @@
 
 .song-list__title{
   font-size: golden-ratio($gr-base, 1);
-  font-weight: bold;
+  font-weight: 500;
   line-height: $song-list-header-height;
-}
-
-.song__listened{
-  @extend .reset-button;
-  vertical-align: top;
-}
-
-.song__listened__icon{
-  $indicator-size: 10px;
-
-  display: block;
-  width: $indicator-size;
-  height: $indicator-size;
-  margin: ($song-img-size - $indicator-size)/2 10px;
-  margin-right: 13px;
-
-  background-color: blue;
-  border-radius: 50%;
-
-  .is-listened &{
-    background-color: transparent;
-  }
-
-  .is-listened .song__listened:hover &{
-    background-color: rgba(blue, 0.5);
-  }
-}
-
-.song__main{
-  &:hover{background-color: $list-hover-color}
 }
 
 .song__img-wrapper{
@@ -85,6 +66,10 @@
   }
 }
 
+.song__body{
+  padding: 0 20px;
+}
+
 .song__trigger{
   display: block;
   &:hover{text-decoration: none;}
@@ -92,23 +77,31 @@
 }
 
 .song__title{
-  margin-top: 6px;
-  margin-bottom: 3px;
-  //font-weight: bold;
-  font-size: 1.3em;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  font-size: golden-ratio($gr-base, 1);
+  font-weight: 500;
+
+  .is-listened &{
+    font-weight: normal;
+  }
 }
 
 .song__title, .song__blogs{
   @extend .l-ellip;
 }
 
-.song__duration{
-  font-weight: bold;
+.song__blogs{
+  color: $light-grey;
 }
 
-.song__time-ago{
-  color: #aaa;
-  margin-left: 2px;
+.song__duration{
+  //It becomes "covered" by the controls
+  .song-list > li:hover & {display: none}
+
+  line-height:  $song-img-size;
+  color: $light-grey;
+  margin-left: 10px;
 }
 
 .song__controls{
@@ -121,21 +114,17 @@
   button, a{
     @extend .reset-button;
     text-decoration: none;
-    color: black;
+    color: $light-grey;
     font-size: 20px;
     line-height: $song-img-size;
     margin-right: 10px;
-
-    opacity:0.5;
-    &:hover{opacity: 1}
+    &:hover{color: black}
   }
 }
 
 .song__favorite{
   .is-favorited &{
     color: red !important;
-    i:before{
-      @extend .icon-heart:before;
-    }
+    &:hover{color: darken(red, 5%) !important}
   }
 }
