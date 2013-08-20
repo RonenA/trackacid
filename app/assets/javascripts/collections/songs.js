@@ -21,7 +21,6 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   setDefaults: function() {
-    this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
     this.loadMore = true;
     this.currentIdx = null;
   },
@@ -41,6 +40,8 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   loadNextPage: function() {
+    this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
+
     if (this.loadMore) {
       var that = this;
       this.loadMore = false;
@@ -118,8 +119,8 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   resetAndSeed: function() {
-    this.reset();
     this.setDefaults();
+    this.reset();
     this.loadNextPage();
   }
 

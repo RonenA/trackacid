@@ -45,6 +45,7 @@ Handlebars.registerHelper('joinFeedNamesWithLink', function(entries) {
   return new Handlebars.SafeString(feedNames.join(', '));
 });
 
+//TODO: No longer in use
 Handlebars.registerHelper('firstEntryLink', function(entries) {
   return new Handlebars.SafeString(entries[0].link);
 });
@@ -82,5 +83,12 @@ Handlebars.registerHelper('msToTimestamp', function(ms) {
 Handlebars.registerHelper('titleIconClass', function(kind) {
   if (kind === "playlist") {
     return new Handlebars.SafeString('icon-list');
+  }
+});
+
+Handlebars.registerHelper('spinner', function(provider) {
+  if (!App.Models.Song.providerInfo[provider].hasOwnSpinner) {
+    var spinner = '<i class="js-player-spinner player__spinner icon-spinner animate-spin"></i>';
+    return new Handlebars.SafeString(spinner);
   }
 });

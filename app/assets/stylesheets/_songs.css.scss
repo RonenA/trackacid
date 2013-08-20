@@ -94,7 +94,8 @@
 .song__title{
   margin-top: 6px;
   margin-bottom: 3px;
-  font-size: golden-ratio($gr-base, 1);
+  //font-weight: bold;
+  font-size: 1.3em;
 }
 
 .song__title, .song__blogs{
@@ -107,7 +108,7 @@
 
 .song__time-ago{
   color: #aaa;
-  margin-left: 3px;
+  margin-left: 2px;
 }
 
 .song__controls{
