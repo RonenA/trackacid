@@ -1,9 +1,10 @@
 .player{
   height: $player-height;
   background-color: white;
-  border-top: 1px solid #eee;
 
   @include clearfix;
+
+  z-index: $player-z;
 }
 
 .player__controls{
@@ -24,27 +25,39 @@
   line-height: $player-height;
   width: $player-height;
   color: white;
+  font-size: 50px;
+
+  display: none;
+  .is-loading &{display: block}
 }
 
 .player__visual{
   width: $player-height;
   height: $player-height;
+  background-color: black;
+
+  .is-loading & img {
+    opacity: 0.3;
+  }
 }
 
-.player__soundcloud-artwork{
-  //TODO: Not sure if I should stretch the img or pad it.
-  //padding: 50px;
+.player__img{
   width: $player-height;
   height: $player-height;
 }
 
-.player__heading{
-  padding: 23px 10px 16px 10px;
-  text-align: center;
+.player__body{
+  padding: 25px;
 }
 
 .player__title{
+  font-weight: 500;
   font-size: golden-ratio($gr-base, 2);
+}
+
+.player__duration{
+  font-size: golden-ratio($gr-base, 2);
+  color: $light-grey;
 }
 
 .player__blogs{

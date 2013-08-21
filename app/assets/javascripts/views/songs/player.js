@@ -61,6 +61,7 @@ App.Views.Player = Backbone.View.extend({
     var content = this.template(song);
     this.$el.html(content);
 
+    if (!this.currentSong.hasOwnSpinner()) this.showSpinner();
     this.startLoadingSound();
     this.play();
 
@@ -160,11 +161,11 @@ App.Views.Player = Backbone.View.extend({
   },
 
   showSpinner: function() {
-    $('.js-player-spinner').show();
+    this.$el.addClass('is-loading');
   },
 
   hideSpinner: function() {
-    $('.js-player-spinner').hide();
+    this.$el.removeClass('is-loading');
   },
 
   keyControlHandler: function(e) {

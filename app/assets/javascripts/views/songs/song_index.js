@@ -1,6 +1,6 @@
 App.Views.SongIndex = Backbone.View.extend({
 
-  className: "song-list__outer",
+  className: "l-main",
   template: HandlebarsTemplates['songs/index'],
 
   events: {
@@ -36,7 +36,7 @@ App.Views.SongIndex = Backbone.View.extend({
 
   renderList: function() {
     var songs = this.collection.toJSON();
-    if (!!this.collection.currentIdx) {
+    if (this.collection.currentIdx !== null) {
       songs[this.collection.currentIdx].selected = true;
     }
     var result = this.template({songs: songs});
@@ -76,11 +76,15 @@ App.Views.SongIndex = Backbone.View.extend({
     this.collection.setIndex(newIdx);
 
     if (!App.playerView) {
-      App.playerView = new App.Views.Player({collection: this.collection});
-      this.$el.before( App.playerView.render().$el );
+      this.createPlayer();
     } else {
       App.playerView.changeCollection( this.collection );
     }
+  },
+
+  createPlayer: function(e) {
+    App.playerView = new App.Views.Player({collection: this.collection});
+    App.$rootEl.prepend( App.playerView.render().$el );
   },
 
   deleteSong: function(e) {

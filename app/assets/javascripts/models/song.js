@@ -1,5 +1,14 @@
 App.Models.Song = Backbone.Model.extend({
 
+  toJSON: function(options) {
+    var json = _.clone(this.attributes);
+    //Make sure the entriese are in order of date
+    json.entries = _(json.entries).sortBy(function(entry) {
+      return new Date(entry.published_at);
+    });
+    return json;
+  },
+
   dataFromProvider: function() {
     // TODO: handle errors
     // Currently, this is only used when a soundcloud song
@@ -35,7 +44,9 @@ App.Models.Song = Backbone.Model.extend({
           //Use the most popular track if it is a playlist
           var bestTrackId = _(data.tracks).sortBy(function(track){
             return track.favoritings_count;
-          })[0].id;
+          }).reverse()[0].id;
+
+          debugger;
 
           id.resolve(bestTrackId);
         });

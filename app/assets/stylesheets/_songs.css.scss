@@ -29,10 +29,11 @@
         background-color: blue;
         color: white;
       }
-      .song__time-ago{color: rgba(white, 0.6)}
+      .song__blogs, .song__duration{color: rgba(white, 0.7)}
       .song__controls{
         button, a{
-          color: white;
+          color: rgba(white, 0.7);
+          &:hover{color: white}
         }
       }
     }

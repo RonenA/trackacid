@@ -1,6 +1,7 @@
 //Used in the loading spinner for soundcloud songs
 .animate-spin {
-  @include animation(spin 2s infinite linear);
+  @include animation(spin 0.7s infinite linear);
+  //@include animation-timing-function(ease-in-out);
   display: inline-block;
 }
 

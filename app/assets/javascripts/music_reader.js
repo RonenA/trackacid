@@ -20,9 +20,8 @@ window.App = {
       JSON.parse($('#song-json').html())
     );
 
-    App.router = new App.Routers.Main({
-      $rootEl: $('.l-root')
-    });
+    App.$rootEl = $('.l-root');
+    App.router = new App.Routers.Main();
 
 
     Backbone.history.start();

@@ -53,12 +53,6 @@
       "src": "fontawesome"
     },
     {
-      "uid": "cda0cdcfd38f5f1d9255e722dad42012",
-      "css": "spinner",
-      "code": 59408,
-      "src": "fontawesome"
-    },
-    {
       "uid": "47a1f80457068fbeab69fdb83d7d0817",
       "css": "YouTube",
       "code": 59410,
@@ -111,6 +105,12 @@
       "css": "article",
       "code": 59411,
       "src": "modernpics"
+    },
+    {
+      "uid": "fccd3ea0efb711b849045bee686b1ceb",
+      "css": "spinner",
+      "code": 59406,
+      "src": "mfglabs"
     },
     {
       "uid": "1e123339045e48ddd01031936b9fc2d9",

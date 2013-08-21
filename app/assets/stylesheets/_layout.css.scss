@@ -7,28 +7,26 @@
   position: fixed;
   bottom: 0;
   top: 0;
+
+  .player ~ & {
+    bottom: $player-height;
+  }
 }
 
 .l-sidebar{
   width: $sidebar-width;
-  //border-right: 1px solid #eee;
-  overflow: scroll;
 
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
     right: 100% - $sidebar-width;
+    &.l-absolute{right: 0}
   }
 }
 
-.sidebar__body{
-  position: fixed;
-
-  top: 57px; //Logo
-  bottom: 54px; //Add feed panel
-  right: 80%;
-  left: 0;
+.l-sidebar__body{
+  @include position(absolute, 57px 0px 54px 0px);
   overflow: scroll;
 
-  padding-top: 10px;
+  padding: 10px 0;
 
   background-color: $medium-grey;
 }
@@ -36,23 +34,15 @@
 .l-main{
   width: 100% - $sidebar-width;
   left: $sidebar-width;
-  overflow: scroll;
 
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
     left: $sidebar-width;
+    &.l-absolute{left: 0}
   }
 }
 
 .l-main__list{
-  @include position(fixed, $song-list-header-height 0px 0px $sidebar-width);
-
-  //When the player is on the page, make room for it.
-  //For this to work, the l-main__list must be inside a
-  //.song-list__outer (with the header) and the .player
-  //must be *above* the .song-list__outer in the DOM.
-  .player + .song-list__outer & {
-    bottom: $player-height;
-  }
+  @include position(absolute, $song-list-header-height 0px 0px 0px);
 }
 
 //Positioning

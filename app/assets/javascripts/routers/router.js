@@ -6,8 +6,7 @@ App.Routers.Main = Backbone.Router.extend({
     "feeds/:id" : "feedShow"
   },
 
-  initialize: function(options) {
-    this.$rootEl = options.$rootEl;
+  initialize: function() {
   },
 
   all: function() {
@@ -35,42 +34,36 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   _initializeWithCollection: function(collection) {
-    if (App.playerView) {
-      App.songIndexView.remove();
-      if (collection.feedId === App.playerView.collection.feedId) {
-        collection = App.playerView.collection;
-      }
-      App.songIndexView = new App.Views.SongIndex({collection: collection});
+    //Use the collection inside the player if there is a player,
+    //because it has the correctly selected current song
+    if (App.playerView && collection.feedId === App.playerView.collection.feedId) {
+      collection = App.playerView.collection;
+    }
 
-      //TODO: This line is really bad and makes a lot assumptions
-      //about the DOM and app structure. The songIndexView must
-      //be below the player in the DOM for the css to work. This
-      //code assumes that there is never anything other than the
-      //player and the songIndex inside l-main.
-      $('.l-main').append( App.songIndexView.render().$el );
-      App.songIndexView.bindInfiniteScroll();
-
+    if(App.songIndexView) App.songIndexView.remove();
+    App.songIndexView = new App.Views.SongIndex({collection: collection});
+    if ($('.l-main').length) {
+      $('.l-main').replaceWith( App.songIndexView.render().$el );
     } else {
-      App.songIndexView = new App.Views.SongIndex({collection: collection});
-      //TODO: It is concerning that the router is generating HTML.
-      var main = $("<div>").addClass('l-main').html( App.songIndexView.render().$el );
-      this.$rootEl.html( main );
-      App.songIndexView.bindInfiniteScroll();
+      App.$rootEl.append( App.songIndexView.render().$el );
+    }
+    App.songIndexView.bindInfiniteScroll();
 
+    if (!$('.l-sidebar').length) {
       var sidebar = new App.Views.Sidebar();
-      this.$rootEl.prepend( sidebar.render().$el );
+      App.$rootEl.append( sidebar.render().$el );
       //TODO should not be routers responsibility
       sidebar.initializeTypeahead();
-
-      this.setRootElHeight();
-      $(window).resize(this.setRootElHeight.bind(this));
     }
+
+    this.setRootElHeight();
+    $(window).resize(this.setRootElHeight.bind(this));
   },
 
   setRootElHeight: function(){
     var windowHeight = $(window).height();
     var outOfRootHeight = $('.l-out-of-root').outerHeight();
-    this.$rootEl.height(windowHeight - outOfRootHeight);
+    App.$rootEl.height(windowHeight - outOfRootHeight);
   },
 
 });

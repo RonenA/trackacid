@@ -2,13 +2,13 @@
   {{{spinner provider}}}
   {{{currentSongVisual provider artwork_url}}}
 </div>
-<div class="media__body player__heading">
+<div class="media__body player__body">
+  <span class="player__duration float-right">{{{msToTimestamp duration}}}</span>
   <div class="player__title l-ellip">
     <a target="blank" href="{{public_link}}">{{title}}</a>
   </div>
   <div class="player__blogs l-ellip">
-    {{{msToTimestamp duration}}} -
-    {{{joinFeedNamesWithLink entries}}}
+    {{{feedNamesForPlayer entries}}}
   </div>
 </div>
 

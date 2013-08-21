@@ -9,10 +9,9 @@ Handlebars.registerHelper('buildDownloadLink', function(url ,provider) {
 Handlebars.registerHelper('currentSongVisual', function(provider, artwork_url) {
   var result;
   if(provider === "YouTube") {
-    //TODO: This looks ugly
-    result = "<div id='youtube-video'>Loading</div>"
+    result = "<img id='youtube-video' class='player__img' src='" +artwork_url+ "' />"
   } else {
-    result = "<img class='player__soundcloud-artwork' src='" +artwork_url+ "' />"
+    result = "<img class='player__img' src='" +artwork_url+ "' />"
   }
 
   return new Handlebars.SafeString(result);
@@ -32,14 +31,21 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
   return new Handlebars.SafeString(feedNames.join(', '));
 });
 
-Handlebars.registerHelper('joinFeedNamesWithLink', function(entries) {
-  var feedNames = _(entries).map(function(entry){
-    var feedName = App.feeds.get(entry.feed_id).get('title');
-    return feedName + " <a target='blank' href='"+entry.link+"'>" +
-            $.timeago(entry.published_at) + "</a>";
-  });
+Handlebars.registerHelper('feedNamesForPlayer', function(entries) {
+  var firstEntry = entries[0];
+  var firstFeedName = App.feeds.get(firstEntry.feed_id).get('title');
+  var result = "Blogged by " +
+               "<a href='#/feeds/" + firstEntry.feed_id + "'>" +
+               firstFeedName + "</a> <a target='blank' href='"+firstEntry.link+"'>" +
+                  $.timeago(firstEntry.published_at) + "</a>";
 
-  return new Handlebars.SafeString(feedNames.join(', '));
+  //Todo: add a tooltip to see the others on hover;
+  if (entries.length > 1) {
+    result = result + ", and " + (entries.length - 1) + " other";
+    if (entries.length > 2) result = result + "s";
+  }
+
+  return new Handlebars.SafeString(result);
 });
 
 //TODO: No longer in use
@@ -89,7 +95,7 @@ Handlebars.registerHelper('titleIconClass', function(kind) {
 
 Handlebars.registerHelper('spinner', function(provider) {
   if (!App.Models.Song.providerInfo[provider].hasOwnSpinner) {
-    var spinner = '<i class="js-player-spinner player__spinner icon-spinner animate-spin"></i>';
+    var spinner = '<i class="player__spinner icon-spinner animate-spin"></i>';
     return new Handlebars.SafeString(spinner);
   }
 });

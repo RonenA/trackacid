@@ -31,6 +31,7 @@
 }
 
 .sidebar__bottom-panel{
+  background-color: lighten($medium-grey, 15%);
   .twitter-typeahead{
     width: 100%;
   }
@@ -39,6 +40,7 @@
     width: 100%;
     @extend .reset-input;
     padding: $sidebar-padding;
+    color: white;
   }
 
   .tt-dropdown-menu{
