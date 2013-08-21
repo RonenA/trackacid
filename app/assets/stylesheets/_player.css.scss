@@ -49,8 +49,7 @@
 img.player__img#youtube-video{
   width: $player-height;
   height: auto;
-  //TODO: Magic number for vertical centering
-  margin-top: 44px;
+  margin-top: ($player-height - ($youtube-thumbnail-ar * $player-height)) / 2;
 }
 
 .player__body{

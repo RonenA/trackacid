@@ -15,6 +15,12 @@ App.Collections.Songs = Backbone.Collection.extend({
     this.feedId = options.feedId || "all";
     this.setDefaults();
 
+    this.listenTo(this, "remove", this.removeHandler);
+
+    if(this.feedId === "favorites"){
+      this.listenTo(this, "change:favorited", this.changeFavoritedHandler);
+    }
+
     //If you start off with very few items from this feed, and then
     //click the feed page, we'll need to get some more.
     if (this.feedId && this.length < 10) this.loadNextPage();
@@ -36,6 +42,21 @@ App.Collections.Songs = Backbone.Collection.extend({
       return {
         title: this.feedId.capitalize()
       }
+    }
+  },
+
+  removeHandler: function(model, collection, options) {
+    if (options.index < this.currentIdx) {
+      this.currentIdx--;
+    }
+  },
+
+  changeFavoritedHandler: function(model, value, options) {
+    //If you are toggling from inside the favorites,
+    //lets remove it from the list.
+
+    if (value === false) {
+      this.remove(model);
     }
   },
 

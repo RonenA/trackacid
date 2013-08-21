@@ -21,11 +21,8 @@ App.Views.SongIndex = Backbone.View.extend({
     this.$el.prepend( this.$listEl );
     this.$el.prepend( this.$headerEl );
 
-    this.listenTo(this.collection, "add change:listened change:favorited remove reset changeIndex", this.render);
-
-    if(this.collection.feedId === "favorites"){
-      this.listenTo(this.collection, "change:favorited", this.changeFavoritedHandler);
-    }
+    this.listenTo(this.collection, "add change:listened change:favorited reset changeIndex", this.render);
+    this.listenTo(this.collection, "remove", this.removeHandler);
   },
 
   render: function() {
@@ -87,19 +84,16 @@ App.Views.SongIndex = Backbone.View.extend({
     App.$rootEl.prepend( App.playerView.render().$el );
   },
 
+  removeHandler: function(model, collection, options) {
+    $(".song-list > li[data-id="+model.id+"]").addClass('is-removing');
+    //Wait for the animation, its so pretty
+    window.setTimeout(this.renderList.bind(this), 500);
+  },
+
   deleteSong: function(e) {
-    var that = this;
     var target = $(e.currentTarget);
     var model = this._modelFromTarget(target);
-    target.closest('.song-list > li').addClass('is-removing');
-    //Wait for the animation, its so pretty
-    window.setTimeout(function(){
-      //TODO: duplication with below
-      if (that.collection.indexOf(model) < that.collection.currentIdx) {
-        that.collection.currentIdx--;
-      }
-      model.destroy();
-    }, 500);
+    model.destroy();
   },
 
   toggleSongListened: function(e) {
@@ -118,22 +112,6 @@ App.Views.SongIndex = Backbone.View.extend({
 
     listItem.toggleClass('is-'+attribute);
     model.setAndPersist(attribute, !model.get(attribute));
-  },
-
-  changeFavoritedHandler: function(model, value, options) {
-    //If you are toggling from inside the favorites,
-    //lets remove it from the list.
-
-    var that = this;
-    if (value === false) {
-      $(".song-list > li[data-id="+model.id+"]").addClass('is-removing');
-      window.setTimeout(function(){
-        if (that.collection.indexOf(model) < that.collection.currentIdx) {
-          that.collection.currentIdx--;
-        }
-        that.collection.remove(model);
-      }, 500);
-    }
   },
 
   markAllAsHeard: function() {

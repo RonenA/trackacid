@@ -64,6 +64,14 @@
   display: inline-block;
   img{
     height: 100%;
+
+    //Center the thumbnail for youtube vids.
+    //They are not square.
+    [data-provider="YouTube"] &{
+      position: relative;
+      left: 50%;
+      margin-left: -((1/$youtube-thumbnail-ar) * $song-img-size) / 2;
+    }
   }
 }
 
