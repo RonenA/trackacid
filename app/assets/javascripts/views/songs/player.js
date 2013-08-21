@@ -1,7 +1,6 @@
 App.Views.Player = Backbone.View.extend({
 
   className: "player l-bottom-full",
-  template: HandlebarsTemplates['songs/player'],
 
   events: {
     'click .js-play':                     'play',
@@ -21,6 +20,11 @@ App.Views.Player = Backbone.View.extend({
     });
 
     this.listenTo(this.collection, "remove", this.removeHandler);
+
+    this.$visualEl = $('<div>');
+    this.$infoEl = $('<div>');
+    this.$el.append( this.$visualEl );
+    this.$el.append( this.$infoEl );
 
     //TODO: This shouldn't be in the player view
     //because then you can't use the controls until
@@ -59,11 +63,17 @@ App.Views.Player = Backbone.View.extend({
   setCurrentSong: function() {
     if (this.currentSong) this.stopListening(this.currentSong);
     this.currentSong = this.collection.currentSong();
-    this.listenTo(this.currentSong, "change", this.renderWithoutLoading);
+    this.listenTo(this.currentSong, "change", function(){
+      this.renderInfo( this.renderingContext() );
+    });
   },
 
   render: function() {
-    this.renderWithoutLoading();
+    this.setCurrentSong();
+
+    var song = this.renderingContext();
+    this.renderVisual(song);
+    this.renderInfo(song);
 
     if (!this.currentSong.hasOwnSpinner()) this.showSpinner();
     this.startLoadingSound();
@@ -72,18 +82,23 @@ App.Views.Player = Backbone.View.extend({
     return this;
   },
 
-  renderWithoutLoading: function() {
-    this.setCurrentSong();
-
+  renderingContext: function() {
     var song = this.currentSong.toJSON();
     _(song.entries).each(function(entry) {
       entry.feed = App.feeds.get(entry.feed_id).toJSON();
     });
 
-    var content = this.template(song);
-    this.$el.html(content);
+    return song;
+  },
 
-    return this;
+  renderVisual: function(context) {
+    var result = HandlebarsTemplates['player/visual'](context);
+    this.$visualEl.html(result);
+  },
+
+  renderInfo: function(context) {
+    var result = HandlebarsTemplates['player/info'](context);
+    this.$infoEl.html(result);
   },
 
   startLoadingSound: function(options) {
