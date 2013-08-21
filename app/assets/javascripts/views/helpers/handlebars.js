@@ -34,9 +34,8 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
 Handlebars.registerHelper('feedNamesForPlayer', function(entries) {
   var firstEntry = entries[0];
   var firstFeedName = App.feeds.get(firstEntry.feed_id).get('title');
-  var result = "Blogged by " +
-               "<a href='#/feeds/" + firstEntry.feed_id + "'>" +
-               firstFeedName + "</a> <a target='blank' href='"+firstEntry.link+"'>" +
+  var result = "Blogged by <a target='blank' href='" + firstEntry.link+"'>" +
+                  firstFeedName + " " +
                   $.timeago(firstEntry.published_at) + "</a>";
 
   //Todo: add a tooltip to see the others on hover;

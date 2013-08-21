@@ -21,7 +21,7 @@ App.Views.SongIndex = Backbone.View.extend({
     this.$el.prepend( this.$listEl );
     this.$el.prepend( this.$headerEl );
 
-    this.listenTo(this.collection, "add change:listened remove reset changeIndex", this.render);
+    this.listenTo(this.collection, "add change:listened change:favorited remove reset changeIndex", this.render);
 
     if(this.collection.feedId === "favorites"){
       this.listenTo(this.collection, "change:favorited", this.changeFavoritedHandler);
@@ -112,6 +112,14 @@ App.Views.SongIndex = Backbone.View.extend({
     this.toggleSongAttribute("favorited", target);
   },
 
+  toggleSongAttribute: function(attribute, target) {
+    var listItem = target.closest('.song-list > li');
+    var model = this._modelFromTarget(target);
+
+    listItem.toggleClass('is-'+attribute);
+    model.setAndPersist(attribute, !model.get(attribute));
+  },
+
   changeFavoritedHandler: function(model, value, options) {
     //If you are toggling from inside the favorites,
     //lets remove it from the list.
@@ -126,14 +134,6 @@ App.Views.SongIndex = Backbone.View.extend({
         that.collection.remove(model);
       }, 500);
     }
-  },
-
-  toggleSongAttribute: function(attribute, target) {
-    var listItem = target.closest('.song-list > li');
-    var model = this._modelFromTarget(target);
-
-    listItem.toggleClass('is-'+attribute);
-    model.setAndPersist(attribute, !model.get(attribute));
   },
 
   markAllAsHeard: function() {

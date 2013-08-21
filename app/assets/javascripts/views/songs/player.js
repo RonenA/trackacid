@@ -4,9 +4,15 @@ App.Views.Player = Backbone.View.extend({
   template: HandlebarsTemplates['songs/player'],
 
   events: {
-    'click .js-play':               'play',
-    'click .js-pause':              'pause',
-    'click .js-navigate-playlist':  'navigatePlaylist',
+    'click .js-play':                     'play',
+    'click .js-pause':                    'pause',
+    'click .js-navigate-playlist':        'navigatePlaylist',
+    'click .js-delete-song':              'deleteSong',
+    'click .js-toggle-song-listened':     'toggleSongListened',
+    'dblclick .js-toggle-song-listened':   function(){return false},
+    'click .js-toggle-song-favorited':    'toggleSongFavorited',
+    'dblclick .js-toggle-song-favorited':  function(){return false},
+
   },
 
   initialize: function(options) {
@@ -50,8 +56,24 @@ App.Views.Player = Backbone.View.extend({
     });
   },
 
-  render: function() {
+  setCurrentSong: function() {
+    if (this.currentSong) this.stopListening(this.currentSong);
     this.currentSong = this.collection.currentSong();
+    this.listenTo(this.currentSong, "change", this.renderWithoutLoading);
+  },
+
+  render: function() {
+    this.renderWithoutLoading();
+
+    if (!this.currentSong.hasOwnSpinner()) this.showSpinner();
+    this.startLoadingSound();
+    this.play();
+
+    return this;
+  },
+
+  renderWithoutLoading: function() {
+    this.setCurrentSong();
 
     var song = this.currentSong.toJSON();
     _(song.entries).each(function(entry) {
@@ -60,10 +82,6 @@ App.Views.Player = Backbone.View.extend({
 
     var content = this.template(song);
     this.$el.html(content);
-
-    if (!this.currentSong.hasOwnSpinner()) this.showSpinner();
-    this.startLoadingSound();
-    this.play();
 
     return this;
   },
@@ -191,6 +209,20 @@ App.Views.Player = Backbone.View.extend({
       this.render();
       if (songViewWasPlaying) this.play();
     }
+  },
+
+  deleteSong: function() {
+    this.currentSong.destroy();
+  },
+
+  toggleSongListened: function() {
+    this.currentSong.setAndPersist("listened", !this.currentSong.get("listened"));
+  },
+
+  toggleSongFavorited: function() {
+    this.currentSong.setAndPersist("favorited", !this.currentSong.get("favorited"));
   }
+
+
 
 });

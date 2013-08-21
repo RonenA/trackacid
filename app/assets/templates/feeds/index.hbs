@@ -1,30 +1,28 @@
-<ul class="l-sidebar__body sidebar__list feed-list">
+<li>
+  <a href="#">
+    <i class="icon-music feed-icon"></i>
+    <span class="feed__unheard-count">
+      {{{totalUnheardCount feeds}}}
+    </span>
+    <span class="feed__title">All</span>
+  </a>
+</li>
+<li>
+  <a class="l-ellip" href="/#/favorites">
+    <i class="icon-heart feed-icon"></i>
+    <span class="feed__title">Favorites</span>
+  </a>
+</li>
+{{#each feeds}}
   <li>
-    <a href="#">
-      <i class="icon-music feed-icon"></i>
-      <span class="feed__unheard-count">
-        {{{totalUnheardCount feeds}}}
-      </span>
-      <span class="feed__title">All</span>
+    <a href="#/feeds/{{id}}">
+      <i class="feed-icon">
+        <img src="http://g.etfv.co/{{{site_url}}}">
+      </i>
+      <span class="feed__unheard-count">{{unheard_count}}</span>
+      <span class="feed__title">{{title}}</span>
     </a>
   </li>
-  <li>
-    <a class="l-ellip" href="/#/favorites">
-      <i class="icon-heart feed-icon"></i>
-      <span class="feed__title">Favorites</span>
-    </a>
-  </li>
-  {{#each feeds}}
-    <li>
-      <a href="#/feeds/{{id}}">
-        <i class="feed-icon">
-          <img src="http://g.etfv.co/{{{site_url}}}">
-        </i>
-        <span class="feed__unheard-count">{{unheard_count}}</span>
-        <span class="feed__title">{{title}}</span>
-      </a>
-    </li>
-  {{else}}
-    <li>No feeds.</li>
-  {{/each}}
-</ul>
+{{else}}
+  <li>No feeds.</li>
+{{/each}}

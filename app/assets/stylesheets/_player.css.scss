@@ -8,13 +8,11 @@
 }
 
 .player__controls{
-  margin-left: 50%;
-  position: absolute;
-  left: 21px;
-
   button{
     @extend .reset-button;
     font-size: 50px;
+    color: $medium-grey;
+    &:hover {color: black}
   }
 }
 
@@ -53,6 +51,7 @@
 .player__title{
   font-weight: 500;
   font-size: golden-ratio($gr-base, 2);
+  margin-bottom: 5px;
 }
 
 .player__duration{
@@ -60,6 +59,13 @@
   color: $light-grey;
 }
 
-.player__blogs{
+.player__secondary{
+  color: $light-grey;
   font-size: golden-ratio($gr-base, 1);
+  margin-bottom: 8px;
+}
+
+.player__tertiary{
+  font-size: golden-ratio($gr-base, 0);
+  color: $light-grey;
 }

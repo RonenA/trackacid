@@ -8,6 +8,12 @@ div, input, textarea{
   @include box-sizing(border-box);
 }
 
+a{
+  color: $light-grey;
+
+  &:hover:before{text-decoration: none}
+}
+
 .reset-button{
   @include appearance(none);
   border: 0;
@@ -30,7 +36,7 @@ div, input, textarea{
 }
 
 .link-button, a{
-  color: blue;
+  color: $light-grey;
   text-decoration: none;
   &:hover{text-decoration: underline}
 }

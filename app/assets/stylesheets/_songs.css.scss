@@ -105,12 +105,15 @@
   margin-left: 10px;
 }
 
+//Also used in the player
 .song__controls{
-  display: none;
-  .song-list > li:hover & {display: block}
+  .song-list &{
+    display: none;
+    margin-left: 20px;
+    float: right;
+  }
 
-  margin-left: 20px;
-  float: right;
+  .song-list > li:hover & {display: block}
 
   button, a{
     @extend .reset-button;

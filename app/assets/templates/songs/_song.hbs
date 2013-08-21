@@ -4,29 +4,7 @@
 
   <div class="media__body">
     <div class="song__controls">
-      {{#if listened}}
-        <button class="js-toggle-song-listened" title="Mark as unheard">
-          <i class="icon-circle-empty"></i>
-        </button>
-      {{else}}
-        <button class="js-toggle-song-listened" title="Mark as heard">
-          <i class="icon-check"></i>
-        </button>
-      {{/if}}
-
-      <button class="js-toggle-song-favorited song__favorite" title="Favourite">
-        <i class="icon-heart"></i>
-      </button>
-
-      {{#if download_url}}
-        <a href="{{{buildDownloadLink download_url provider}}}" target="blank" title="Download">
-          <i class="icon-download"></i>
-        </a>
-      {{/if}}
-
-      <button class="js-delete-song" title="Delete">
-        <i class="icon-cancel"></i>
-      </button>
+      {{> songs/_song_controls this }}
     </div>
 
     <a href="#" class="js-select-song song__trigger">

@@ -1,5 +1,7 @@
 App.Views.FeedIndex = Backbone.View.extend({
 
+  tagName: 'ul',
+  className: 'l-sidebar__body sidebar__list feed-list',
   template: HandlebarsTemplates['feeds/index'],
 
   events: {
