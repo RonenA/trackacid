@@ -1,7 +1,7 @@
 .song-list{
   overflow: scroll;
 
-  li{
+  & > li{
     @include clearfix;
     //border-bottom: 1px solid #eee;
     position: relative;
@@ -9,16 +9,13 @@
 
     &:hover{background-color: $list-hover-color}
 
-    //The 1.1em font size on the checkmark
-    //causes the height to jitter very slightly
-    //without this rule.
+    //The 1.1em font size on the checkmark causes
+    //the height to jitter very slightly without this rule.
     max-height: $song-img-size;
 
     &.is-removing {
-      //This rule is duplicated atm, but
-      //it is nessesary for the removing
-      //animation sepcifically, so I'm
-      //gonna keep it here.
+      //This rule is duplicated atm, but it is nessesary for the removing
+      //animation sepcifically, so I'm gonna keep it here.
       max-height: $song-img-size;
       opacity: 1;
       @include animation(moveOut 0.3s 0.2s ease forwards, closeSpace 0.2s ease forwards 0.3s)
@@ -29,10 +26,15 @@
         background-color: blue;
         color: white;
       }
-      .song__blogs, .song__duration{color: rgba(white, 0.7)}
+      .badge{
+        background-color: transparent;
+        color: white;
+        border: 1px solid white;
+      }
+      .song__blogs, .song__duration{color: white}
       .song__controls{
         button, a{
-          color: rgba(white, 0.7);
+          color: rgba(white, 0.8);
           &:hover{color: white}
         }
       }
@@ -104,7 +106,7 @@
   color: $light-grey;
 }
 
-.song__duration{
+.song__aside{
   //It becomes "covered" by the controls
   .song-list > li:hover & {display: none}
 

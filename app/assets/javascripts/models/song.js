@@ -2,7 +2,7 @@ App.Models.Song = Backbone.Model.extend({
 
   toJSON: function(options) {
     var json = _.clone(this.attributes);
-    //Make sure the entriese are in order of date
+    //Make sure the entries are in order of date
     json.entries = _(json.entries).sortBy(function(entry) {
       return new Date(entry.published_at);
     });
@@ -45,8 +45,6 @@ App.Models.Song = Backbone.Model.extend({
           var bestTrackId = _(data.tracks).sortBy(function(track){
             return track.favoritings_count;
           }).reverse()[0].id;
-
-          debugger;
 
           id.resolve(bestTrackId);
         });

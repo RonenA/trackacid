@@ -70,13 +70,13 @@ App.Views.Player = Backbone.View.extend({
 
   render: function() {
     this.setCurrentSong();
+    this.startLoadingSound();
 
     var song = this.renderingContext();
     this.renderVisual(song);
     this.renderInfo(song);
 
     if (!this.currentSong.hasOwnSpinner()) this.showSpinner();
-    this.startLoadingSound();
     this.play();
 
     return this;

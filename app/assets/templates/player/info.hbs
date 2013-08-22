@@ -2,23 +2,34 @@
   <span class="player__duration float-right"> {{{msToTimestamp duration}}}     </span>
   <h2 class="player__title l-ellip">          {{title}}                          </h2>
   <span class="player__secondary l-ellip">    {{{feedNamesForPlayer entries}}} </span>
-  <span class="player__tertiary l-ellip">
-    <a class="icon-{{provider}}" target="blank" href="{{public_link}}">View on {{provider}}</a>
+  <span class="player__tertiary"> {{!Put back l-ellip here if you're gonna make
+                                    this longer. It was remvoed cause the overflow: hidden
+                                    was cutting off the badge.}}
+    <ul class="inline-list">
+      <li>{{{songKindBadge kind}}}</li>
+      <li>
+        <a class="icon-{{provider}}" target="blank" href="{{public_link}}">
+          {{{playerPublicLinkText kind}}} {{provider}}
+        </a>
+      </li>
+    </ul>
   </span>
 
-  <div class="song__controls float-left {{#if favorited}} is-favorited {{/if}}">
-    {{> songs/_song_controls this }}
-  </div>
+  <div class="l-bottom-full l-absolute">
+    <div class="song__controls float-left {{#if favorited}} is-favorited {{/if}}">
+      {{> songs/_song_controls this }}
+    </div>
 
-  <div class="player__controls float-right">
-    <button class="js-navigate-playlist" data-direction="prev">
-      <i class="icon-prev"></i>
-    </button>
-    <button class="js-pause">
-      <i class="icon-pause"></i>
-    </button>
-    <button class="js-navigate-playlist" data-direction="next">
-      <i class="icon-next"></i>
-    </button>
+    <div class="player__controls float-right">
+      <button class="js-navigate-playlist" data-direction="prev">
+        <i class="icon-prev"></i>
+      </button>
+      <button class="js-pause">
+        <i class="icon-pause"></i>
+      </button>
+      <button class="js-navigate-playlist" data-direction="next">
+        <i class="icon-next"></i>
+      </button>
+    </div>
   </div>
 </div>

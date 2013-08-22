@@ -53,7 +53,14 @@ img.player__img#youtube-video{
 }
 
 .player__body{
-  padding: 25px;
+  padding: $player-body-padding;
+  position: relative;
+  height: $player-height;
+
+  .l-bottom-full{
+    left: $player-body-padding;
+    right: $player-body-padding;
+  }
 }
 
 .player__title{
@@ -76,4 +83,7 @@ img.player__img#youtube-video{
 .player__tertiary{
   font-size: golden-ratio($gr-base, 0);
   color: $light-grey;
+
+  //So that they dont get too close to the player__secondary
+  .badge{display: inline-block}
 }

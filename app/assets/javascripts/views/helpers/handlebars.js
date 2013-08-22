@@ -1,3 +1,5 @@
+//TODO: Organize by view
+
 Handlebars.registerHelper('buildDownloadLink', function(url ,provider) {
   if (provider === "SoundCloud"){
     return new Handlebars.SafeString(
@@ -86,15 +88,27 @@ Handlebars.registerHelper('msToTimestamp', function(ms) {
   return new Handlebars.SafeString(result);
 });
 
-Handlebars.registerHelper('titleIconClass', function(kind) {
-  if (kind === "playlist") {
-    return new Handlebars.SafeString('icon-list');
-  }
-});
 
 Handlebars.registerHelper('spinner', function(provider) {
   if (!App.Models.Song.providerInfo[provider].hasOwnSpinner) {
     var spinner = '<i class="player__spinner icon-spinner animate-spin"></i>';
     return new Handlebars.SafeString(spinner);
+  }
+});
+
+Handlebars.registerHelper('playerPublicLinkText', function(kind) {
+  if (kind === "playlist") {
+    return new Handlebars.SafeString("Hear the rest on");
+  } else {
+    return new Handlebars.SafeString("View on");
+  }
+});
+
+//used by both songlist and player
+Handlebars.registerHelper('songKindBadge', function(kind) {
+  if (kind === "playlist") {
+    return new Handlebars.SafeString(
+      "<span class='icon-list badge'>Playlist</span>"
+    );
   }
 });

@@ -14,8 +14,13 @@
         </div>
 
         <div class="media__body song__body">
-          <span class="song__duration float-right">{{{msToTimestamp duration}}}</span>
-          <div class="song__title {{{titleIconClass kind}}}">
+          <span class="song__aside float-right">
+            <ul class="inline-list">
+              <li>{{{songKindBadge kind}}}</li>
+              <li>{{{msToTimestamp duration}}}</li>
+            </ul>
+          </span>
+          <div class="song__title">
             {{title}}
           </div>
           <div class="song__blogs">
