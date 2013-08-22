@@ -34,10 +34,8 @@ App.Views.Player = Backbone.View.extend({
   },
 
   changeCollection: function(newCollection) {
-    if (this.collection !== newCollection) {
-      this.collection = newCollection;
-      this.render();
-    }
+    this.collection = newCollection;
+    this.render();
   },
 
   remove: function() {
@@ -185,11 +183,6 @@ App.Views.Player = Backbone.View.extend({
   continuePlaylist: function(direction) {
     var that = this;
     var delta = (direction === "prev") ? -1 : 1;
-
-    if (delta === 1) {
-      that.currentSong.recordListen();
-    }
-
     that.collection.incrementIndex(delta);
   },
 

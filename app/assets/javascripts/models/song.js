@@ -110,6 +110,8 @@ App.Models.Song = Backbone.Model.extend({
       });
     }
 
+    sound.done(this.recordListen.bind(this));
+
     return sound;
   },
 

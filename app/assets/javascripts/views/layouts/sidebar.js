@@ -4,7 +4,7 @@ App.Views.Sidebar = Backbone.View.extend({
   template: HandlebarsTemplates['layouts/sidebar'],
 
   events: {
-    'typeahead:selected .js-add-feed': 'addFeed'
+    'typeahead:selected .js-add-feed': 'addFeed',
   },
 
   render: function(){
