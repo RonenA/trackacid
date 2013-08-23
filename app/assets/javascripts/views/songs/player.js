@@ -41,7 +41,7 @@ App.Views.Player = Backbone.View.extend({
   remove: function() {
     this.stopListening();
     $(document).off('keydown.keyboardShortcuts');
-    this.removeSound();
+    this.destroySound();
     this.$el.remove();
     return this;
   },
@@ -61,9 +61,14 @@ App.Views.Player = Backbone.View.extend({
   setCurrentSong: function() {
     if (this.currentSong) this.stopListening(this.currentSong);
     this.currentSong = this.collection.currentSong();
-    this.listenTo(this.currentSong, "change", function(){
-      this.renderInfo( this.renderingContext() );
-    });
+
+    if (this.currentSong) {
+      this.listenTo(this.currentSong, "change", function(){
+        this.renderInfo( this.renderingContext() );
+      });
+    } else {
+      this.remove();
+    }
   },
 
   render: function() {

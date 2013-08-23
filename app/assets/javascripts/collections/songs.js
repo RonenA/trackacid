@@ -91,7 +91,7 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   setIndex: function(newIdx) {
-    this.currentIdx = newIdx;
+    this.currentIdx = (newIdx >= this.length ? null : newIdx);
     this.trigger("changeIndex", newIdx);
   },
 
@@ -100,22 +100,17 @@ App.Collections.Songs = Backbone.Collection.extend({
     var newIdx = this.currentIdx + delta;
     var deferred;
 
-    if (newIdx > this.length) {
+    //Load the next page if the index is set to
+    //the last item. Loading them kind of early
+    //to prevent delay.
+    if (newIdx >= this.length - 1) {
       deferred = this.loadNextPage();
     } else {
       deferred = $.Deferred.now();
     }
 
-    //setIndex calls changeIndex, which
-    //is an event that other views listen to.
-    //We dont want those to try to use the new
-    //index before the next page has actaully
-    //been loaded.
     deferred.done(function(){
-      //If newIdx is STILL larger than the length
-      //there are no more new songs to load,
-      //and you can't continue in the playlist.
-      that.setIndex( newIdx > that.length ? null : newIdx );
+      that.setIndex(newIdx);
     });
 
     return deferred;
