@@ -83,6 +83,8 @@ App.Collections.Songs = Backbone.Collection.extend({
           //TODO: Handle error
         }
       });
+    } else {
+      return $.Deferred.now();
     }
   },
 
@@ -91,29 +93,31 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   setIndex: function(newIdx) {
-    this.currentIdx = (newIdx >= this.length ? null : newIdx);
-    this.trigger("changeIndex", newIdx);
-  },
-
-  incrementIndex: function(delta) {
     var that = this;
-    var newIdx = this.currentIdx + delta;
-    var deferred;
 
-    //Load the next page if the index is set to
-    //the last item. Loading them kind of early
-    //to prevent delay.
-    if (newIdx >= this.length - 1) {
+    //If the new index is above the current index,
+    //load the next page before triggering changeIndex.
+    if (newIdx >= this.length) {
       deferred = this.loadNextPage();
     } else {
       deferred = $.Deferred.now();
+
+      //If it is on the last item, preload the next
+      //page, but no need to wait for it.
+      if (newIdx === this.length - 1) this.loadNextPage();
     }
 
     deferred.done(function(){
-      that.setIndex(newIdx);
+      //If its still greater than the length after loading
+      //the next page, set the index to null.
+      that.currentIdx = (newIdx >= this.length ? null : newIdx);
+      that.trigger("changeIndex", newIdx);
     });
+  },
 
-    return deferred;
+  incrementIndex: function(delta) {
+    var newIdx = this.currentIdx + delta;
+    this.setIndex(newIdx);
   },
 
   markAllAsHeard: function() {
