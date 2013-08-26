@@ -16,6 +16,7 @@ App.Collections.Songs = Backbone.Collection.extend({
     this.setDefaults();
 
     this.listenTo(this, "remove", this.removeHandler);
+    this.listenTo(this, "reset", this.setDefaults);
 
     if(this.feedId === "favorites"){
       this.listenTo(this, "change:favorited", this.changeFavoritedHandler);
@@ -29,6 +30,7 @@ App.Collections.Songs = Backbone.Collection.extend({
   setDefaults: function() {
     this.loadMore = true;
     this.currentIdx = null;
+    this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
   },
 
   feed: function() {
@@ -61,11 +63,13 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   loadNextPage: function() {
-    this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
-
     if (this.loadMore) {
       var that = this;
       this.loadMore = false;
+
+      console.log('doing this');
+
+      this.trigger('startLoading');
 
       return $.ajax({
         url: this.url,
@@ -81,6 +85,9 @@ App.Collections.Songs = Backbone.Collection.extend({
         },
         error: function() {
           //TODO: Handle error
+        },
+        complete: function() {
+          that.trigger('endLoading');
         }
       });
     } else {
@@ -139,7 +146,6 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   resetAndSeed: function() {
-    this.setDefaults();
     this.reset();
     this.loadNextPage();
   }

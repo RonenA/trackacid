@@ -1,3 +1,11 @@
 {{#each songs}}
   {{> songs/_song }}
+{{else}}
+  <h2 class="l-center-text song-list__empty icon-music">
+    No {{#if user.hide_heard_songs}} New {{/if}} Songs
+  </h2>
 {{/each}}
+
+<div class="song-list__loading">
+  <i class="icon-spinner animate-spin"></i> Loading
+</div>

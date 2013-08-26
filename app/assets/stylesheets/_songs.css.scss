@@ -42,14 +42,49 @@
   }
 }
 
+.song-list__empty{
+  color: $light-grey;
+  font-size: golden-ratio($gr-base, 1);
+
+  .is-loading &{display: none}
+}
+
+.song-list__loading{
+  text-align: center;
+  line-height: $song-img-size;
+  font-size: golden-ratio($gr-base, 1);
+  color: $light-grey;
+
+  display: none;
+  .is-loading &{display: block}
+}
+
 .song-list__header{
   height: $song-list-header-height;
-  button{line-height: $song-list-header-height;}
-  padding: 0 10px;
+  padding-left: 10px;
   border-bottom: 1px solid #eee;
 
   a{
     color: black;
+  }
+}
+
+.song-list__header-controls{
+  margin-left: 10px;
+
+  button{
+    @extend .reset-button;
+    float: left; //Fixes weird spacing issue
+    color: $light-grey;
+    &:hover{background-color: $list-hover-color}
+
+    height: $song-list-header-height;
+    font-size: 12px;
+    padding: 0 13px;
+    border-left: 1px solid #eee;
+    &:last-of-type{border-right: 1px solid #eee;}
+
+    i{font-size: 20px}
   }
 }
 

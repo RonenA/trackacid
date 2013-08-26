@@ -1,9 +1,14 @@
-<div class="float-right">
-  <button class="js-mark-all-as-heard link-button">Mark all as heard</button>
-  <button class="js-toggle-view-heard link-button">
+<div class="song-list__header-controls float-right">
+  {{#if feed.site_url}}
+    <button class="js-unsubscribe-feed">Unsubscribe</button>
+  {{/if}}
+  <button class="js-mark-all-as-heard">Mark all as heard</button>
+  <button class="js-toggle-view-heard">
     {{#if user.hide_heard_songs}} Show {{else}} Hide {{/if}} heard songs
   </button>
-  <button class="icon-gear link-button"></button>
+  <button>
+    <i class="icon-gear"></i>
+  </button>
 
   <div style="display:none">
     <span class="l-ellip">{{user.email}}</span>
@@ -17,7 +22,6 @@
 <h2 class="song-list__title l-ellip">
   {{#if feed.site_url}}
     <a href="{{feed.site_url}}" target="blank">{{feed.title}}</a>
-    <button class="js-unsubscribe-feed link-button">Unsubscribe</button>
   {{else}}
     {{feed.title}}
   {{/if}}

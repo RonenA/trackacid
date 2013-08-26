@@ -4,7 +4,7 @@ body, input, button{
   -webkit-font-smoothing: antialiased;
 }
 
-div, input, textarea{
+div, input, textarea, button{
   @include box-sizing(border-box);
 }
 

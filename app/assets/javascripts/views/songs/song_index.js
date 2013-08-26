@@ -23,6 +23,8 @@ App.Views.SongIndex = Backbone.View.extend({
 
     this.listenTo(this.collection, "add change:listened change:favorited reset changeIndex", this.render);
     this.listenTo(this.collection, "remove", this.removeHandler);
+    this.listenTo(this.collection, "startLoading", this.showSpinner);
+    this.listenTo(this.collection, "endLoading", this.hideSpinner);
   },
 
   render: function() {
@@ -36,7 +38,7 @@ App.Views.SongIndex = Backbone.View.extend({
     if (this.collection.currentIdx !== null) {
       songs[this.collection.currentIdx].selected = true;
     }
-    var result = this.template({songs: songs});
+    var result = this.template({songs: songs, user: App.currentUser});
 
     var oldScrollPosition = this.$listEl.scrollTop();
     this.$listEl.html(result);
@@ -145,6 +147,15 @@ App.Views.SongIndex = Backbone.View.extend({
     if(App.playerView && App.playerView.collection === this.collection) {
       App.playerView.remove();
     }
+  },
+
+  showSpinner: function() {
+    this.$listEl.addClass('is-loading');
+    this.$listEl[0].scrollTop = this.$listEl[0].scrollHeight;
+  },
+
+  hideSpinner: function() {
+    this.$listEl.removeClass('is-loading');
   }
 
 });
