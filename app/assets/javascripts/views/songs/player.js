@@ -94,6 +94,13 @@ App.Views.Player = Backbone.View.extend({
       entry.feed = App.feeds.get(entry.feed_id).toJSON();
     });
 
+    song.playing = this.playing();
+
+    //This is pretty hacky. The song_control partial needs
+    //to know if its being rendered for the song list or
+    //for the player. This is how that's achieved.
+    song.forPlayer = true;
+
     return song;
   },
 
@@ -103,8 +110,26 @@ App.Views.Player = Backbone.View.extend({
   },
 
   renderInfo: function(context) {
+    this.removeTooltips();
     var result = HandlebarsTemplates['player/info'](context);
     this.$infoEl.html(result);
+    this.bindTooltips();
+  },
+
+  bindTooltips: function() {
+    this.$infoEl.find('.song__controls > button, .song__controls > a').tooltip({
+      placement: 'top',
+      container: 'body',
+      offsetTop: 25
+    });
+  },
+
+  removeTooltips: function() {
+    var tooltipped = this.$infoEl.find('.song__controls > button, .song__controls > a');
+
+    if (tooltipped.data() && tooltipped.data()['bs.tooltip']) {
+      tooltipped.tooltip('destroy');
+    }
   },
 
   startLoadingSound: function(options) {
@@ -156,9 +181,17 @@ App.Views.Player = Backbone.View.extend({
 
   playing: function() {
     var bool;
-    this.sound.done(function(sound) {
-      bool = sound.playing();
-    });
+
+    if (this.sound.state() === 'resolved') {
+      this.sound.done(function(sound) {
+        bool = sound.playing();
+      });
+    } else {
+      //Treat a not yet loaded sound as playing
+      //because being loaded is the same as buffering,
+      //and buffering is treated the same as playing.
+      bool = true;
+    }
     return bool;
   },
 

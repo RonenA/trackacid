@@ -3,7 +3,7 @@
   <h2 class="player__title l-ellip">          {{title}}                          </h2>
   <span class="player__secondary l-ellip">    {{{feedNamesForPlayer entries}}} </span>
   <span class="player__tertiary"> {{!Put back l-ellip here if you're gonna make
-                                    this longer. It was remvoed cause the overflow: hidden
+                                    this longer. It was removed cause the overflow: hidden
                                     was cutting off the badge.}}
     <ul class="inline-list">
       <li>{{{songKindBadge kind}}}</li>
@@ -24,9 +24,15 @@
       <button class="js-navigate-playlist" data-direction="prev">
         <i class="icon-prev"></i>
       </button>
-      <button class="js-pause">
-        <i class="icon-pause"></i>
-      </button>
+      {{#if playing}}
+        <button class="js-pause">
+          <i class="icon-pause"></i>
+        </button>
+      {{else}}
+        <button class="js-play">
+          <i class="icon-play"></i>
+        </button>
+      {{/if}}
       <button class="js-navigate-playlist" data-direction="next">
         <i class="icon-next"></i>
       </button>

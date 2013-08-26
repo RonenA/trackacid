@@ -79,7 +79,7 @@ App.Views.SongIndex = Backbone.View.extend({
     var tooltipped = this.$listEl.find('.song__controls > button, .song__controls > a');
 
     if (tooltipped.data() && tooltipped.data()['bs.tooltip']) {
-      this.$listEl.find('.song__controls > button, .song__controls > a').tooltip('destroy');
+      tooltipped.tooltip('destroy');
     }
   },
 
