@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require jquery.timeago
 //= require typeahead
+//= require bootstrap
 //= require hogan
 //= require underscore
 //= require backbone

@@ -8,7 +8,8 @@
   </button>
 {{/if}}
 
-<button class="js-toggle-song-favorited song__favorite" title="Favourite">
+<button class="js-toggle-song-favorited song__favorite"
+        title="{{#if favorited}} Unfavourite {{else}} Favorite {{/if}}">
   <i class="icon-heart"></i>
 </button>
 
@@ -18,6 +19,6 @@
   </a>
 {{/if}}
 
-<button class="js-delete-song" title="Delete">
+<button class="js-delete-song" title="Delete" data-offsetLeft="-10" data-klass="top-right">
   <i class="icon-cancel"></i>
 </button>

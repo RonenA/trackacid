@@ -9,6 +9,10 @@ App.Models.Song = Backbone.Model.extend({
     return json;
   },
 
+  url: function() {
+    return '/songs/'+this.id;
+  },
+
   dataFromProvider: function() {
     // TODO: handle errors
     // Currently, this is only used when a soundcloud song

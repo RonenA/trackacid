@@ -67,8 +67,6 @@ App.Collections.Songs = Backbone.Collection.extend({
       var that = this;
       this.loadMore = false;
 
-      console.log('doing this');
-
       this.trigger('startLoading');
 
       return $.ajax({

@@ -162,12 +162,17 @@
 
   button, a{
     @extend .reset-button;
+    display: inline-block;
     text-decoration: none;
     color: $light-grey;
     font-size: 20px;
     line-height: $song-img-size;
     margin-right: 10px;
     &:hover{color: black}
+  }
+
+  .tooltip{
+    top: -5px !important;
   }
 }
 

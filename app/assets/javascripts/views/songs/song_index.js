@@ -30,10 +30,13 @@ App.Views.SongIndex = Backbone.View.extend({
   render: function() {
     this.renderHeader();
     this.renderList();
+
     return this;
   },
 
   renderList: function() {
+    this.removeTooltips();
+
     var songs = this.collection.toJSON();
     if (this.collection.currentIdx !== null) {
       songs[this.collection.currentIdx].selected = true;
@@ -43,6 +46,8 @@ App.Views.SongIndex = Backbone.View.extend({
     var oldScrollPosition = this.$listEl.scrollTop();
     this.$listEl.html(result);
     this.$listEl.scrollTop(oldScrollPosition);
+
+    this.bindTooltips();
   },
 
   renderHeader: function() {
@@ -59,6 +64,22 @@ App.Views.SongIndex = Backbone.View.extend({
     var target = $(e.currentTarget);
     if (target.scrollTop() + target.innerHeight() >= target[0].scrollHeight - 1) {
       this.collection.loadNextPage();
+    }
+  },
+
+  bindTooltips: function() {
+    this.$listEl.find('.song__controls > button, .song__controls > a').tooltip({
+      placement: 'top',
+      container: '.l-main',
+      offsetTop: 25
+    });
+  },
+
+  removeTooltips: function() {
+    var tooltipped = this.$listEl.find('.song__controls > button, .song__controls > a');
+
+    if (tooltipped.data() && tooltipped.data()['bs.tooltip']) {
+      this.$listEl.find('.song__controls > button, .song__controls > a').tooltip('destroy');
     }
   },
 
