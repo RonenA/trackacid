@@ -174,6 +174,16 @@ App.Views.Player = Backbone.View.extend({
   },
 
   pause: function() {
+
+    //Pausing during loading causes all sorts of terrible
+    //double playing issues that I cant figure out how to
+    //deal with, so for now you can't do that.
+    //The reason I'm using the DOM instead of the sound
+    //object to determine if it is loading is because the
+    //dom object handles both buffering and loading, and
+    //I found the object state to be less reliable.
+    if (this.$el.hasClass('is-loading')) return;
+
     this.sound.done(function(sound) {
       sound.pause();
     });
@@ -187,9 +197,9 @@ App.Views.Player = Backbone.View.extend({
         bool = sound.playing();
       });
     } else {
-      //Treat a not yet loaded sound as playing
-      //because being loaded is the same as buffering,
-      //and buffering is treated the same as playing.
+      // Treat a not yet loaded sound as playing
+      // because being loaded is the same as buffering,
+      // and buffering is treated the same as playing.
       bool = true;
     }
     return bool;
@@ -271,7 +281,5 @@ App.Views.Player = Backbone.View.extend({
   toggleSongFavorited: function() {
     this.currentSong.setAndPersist("favorited", !this.currentSong.get("favorited"));
   }
-
-
 
 });
