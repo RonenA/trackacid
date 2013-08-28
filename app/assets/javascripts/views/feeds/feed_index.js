@@ -8,7 +8,8 @@ App.Views.FeedIndex = Backbone.View.extend({
     'submit .new-feed-form' : 'addFeed'
   },
 
-  initialize: function(){
+  initialize: function(options){
+    this.mainCollection = options.mainCollection;
     this.listenTo( this.collection, "change add remove sync reset", this.render );
   },
 
@@ -19,11 +20,16 @@ App.Views.FeedIndex = Backbone.View.extend({
         feed.unheard_count = "";
       }
     });
-    var content = this.template({ feeds: data});
+
+    var content = this.template({
+          feeds:          data,
+          selectedFeedId: this.mainCollection.feedId
+        });
     this.$el.html(content);
     return this;
   },
 
+  //TODO: Dont think this is used anymore
   addFeed: function(e){
     e.preventDefault();
     var target = $(e.currentTarget);

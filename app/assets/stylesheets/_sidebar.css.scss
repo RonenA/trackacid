@@ -16,6 +16,10 @@
 
 .sidebar__list{
   & > li{
+    &.selected > a{
+      background-color: lighten($medium-grey, 10%);
+    }
+
     & > a{
       display: block;
       text-decoration: none;
@@ -25,7 +29,6 @@
       &:hover{
         background-color: lighten($medium-grey, 15%);
       }
-
     }
   }
 }

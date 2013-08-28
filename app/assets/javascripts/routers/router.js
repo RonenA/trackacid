@@ -50,7 +50,7 @@ App.Routers.Main = Backbone.Router.extend({
     //TODO should not be routers responsibility
     App.songIndexView.bindInfiniteScroll();
 
-    var sidebar = new App.Views.Sidebar();
+    var sidebar = new App.Views.Sidebar({mainCollection: collection});
     this.$sidebarEl.html( sidebar.render().$el );
     //TODO should not be routers responsibility
     sidebar.initializeTypeahead();

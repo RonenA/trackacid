@@ -1,5 +1,12 @@
 //TODO: Organize by view
 
+//Used in feed index
+Handlebars.registerHelper('selectedFeedClass', function(selectedFeedId, id) {
+  if (selectedFeedId == id) {
+    return new Handlebars.SafeString('selected');
+  }
+});
+
 Handlebars.registerHelper('buildDownloadLink', function(url ,provider) {
   if (provider === "SoundCloud"){
     return new Handlebars.SafeString(
