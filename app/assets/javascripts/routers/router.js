@@ -7,6 +7,10 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   initialize: function() {
+    this.$sidebarEl = $("<div>").addClass("l-sidebar");
+    this.$mainEl = $("<div>").addClass("l-main");
+    App.$rootEl.prepend( this.$sidebarEl );
+    App.$rootEl.prepend( this.$mainEl );
   },
 
   all: function() {
@@ -36,25 +40,20 @@ App.Routers.Main = Backbone.Router.extend({
   _initializeWithCollection: function(collection) {
     //Use the collection inside the player if there is a player,
     //because it has the correctly selected current song
-    if (App.playerView && collection.feedId === App.playerView.collection.feedId) {
+    if (App.playerView && App.playerView.collection.feedId === collection.feedId) {
       collection = App.playerView.collection;
     }
 
     if(App.songIndexView) App.songIndexView.remove();
     App.songIndexView = new App.Views.SongIndex({collection: collection});
-    if ($('.l-main').length) {
-      $('.l-main').replaceWith( App.songIndexView.render().$el );
-    } else {
-      App.$rootEl.append( App.songIndexView.render().$el );
-    }
+    this.$mainEl.html( App.songIndexView.render().$el );
+    //TODO should not be routers responsibility
     App.songIndexView.bindInfiniteScroll();
 
-    if (!$('.l-sidebar').length) {
-      var sidebar = new App.Views.Sidebar();
-      App.$rootEl.append( sidebar.render().$el );
-      //TODO should not be routers responsibility
-      sidebar.initializeTypeahead();
-    }
+    var sidebar = new App.Views.Sidebar();
+    this.$sidebarEl.html( sidebar.render().$el );
+    //TODO should not be routers responsibility
+    sidebar.initializeTypeahead();
 
     this.setRootElHeight();
     $(window).resize(this.setRootElHeight.bind(this));
