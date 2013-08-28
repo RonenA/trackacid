@@ -45,15 +45,13 @@
   float: left;
   min-width: 160px;
   padding: 5px 0;
-  margin: 2px 0 0;
   list-style: none;
   font-size: 14px;
   background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  border: 1px solid #eee;
+  border-top: none;
+  -webkit-box-shadow: 0 3px 8px -3px rgba(0, 0, 0, 0.375);
+  box-shadow: 0 3px 8px -3px rgba(0, 0, 0, 0.375);
   background-clip: padding-box;
 }
 .dropdown-menu.pull-right {
@@ -66,7 +64,8 @@
   overflow: hidden;
   background-color: #e5e5e5;
 }
-.dropdown-menu > li > a {
+.dropdown-menu > li > a,
+.dropdown-menu > li > form button {
   display: block;
   padding: 3px 20px;
   clear: both;
@@ -74,9 +73,14 @@
   line-height: 1.428571429;
   color: #333333;
   white-space: nowrap;
+
+  width: 100%;
+  text-align: left;
 }
 .dropdown-menu > li > a:hover,
-.dropdown-menu > li > a:focus {
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > form button:hover,
+.dropdown-menu > li > form button:focus {
   text-decoration: none;
   color: #ffffff;
   background-color: #428bca;

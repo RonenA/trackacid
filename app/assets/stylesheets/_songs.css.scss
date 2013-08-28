@@ -72,19 +72,35 @@
 .song-list__header-controls{
   margin-left: 10px;
 
-  button{
-    @extend .reset-button;
+  & > li {
     float: left; //Fixes weird spacing issue
+    border-left: 1px solid #eee;
+  }
+
+  //Applies to all links and buttons
+  & > li > button,
+  .dropdown-menu > li > a,
+  .dropdown-menu > li > form button {
     color: $light-grey;
-    &:hover{background-color: $list-hover-color}
+  }
+
+  //Applies only to the immediately visible menu
+  & > li > button{
+    @extend .reset-button;
+    font-size: 12px;
+    &:hover, &:focus{background-color: $list-hover-color}
+    &:focus{outline: none}
 
     height: $song-list-header-height;
-    font-size: 12px;
     padding: 0 13px;
-    border-left: 1px solid #eee;
-    &:last-of-type{border-right: 1px solid #eee;}
 
     i{font-size: 20px}
+  }
+
+  //Applies only to the dropdown
+  .dropdown-menu > li > a,
+  .dropdown-menu > li > form button {
+    &:hover{color: white}
   }
 }
 
