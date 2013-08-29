@@ -25,12 +25,6 @@ App.Views.Player = Backbone.View.extend({
     this.$infoEl = $('<div>');
     this.$el.append( this.$visualEl );
     this.$el.append( this.$infoEl );
-
-    //TODO: This shouldn't be in the player view
-    //because then you can't use the controls until
-    //you open the player.
-    _.bindAll(this);
-    $(document).on('keydown.keyboardShortcuts', this.keyControlHandler);
   },
 
   changeCollection: function(newCollection) {
@@ -245,23 +239,6 @@ App.Views.Player = Backbone.View.extend({
     this.$el.removeClass('is-loading');
   },
 
-  keyControlHandler: function(e) {
-    var tag = e.target.tagName.toLowerCase();
-    if (tag != 'input' && tag != 'textarea'){
-      switch(e.which) {
-      case 74:
-        this.continuePlaylist('next');
-        break;
-      case 75:
-        this.continuePlaylist('prev');
-        break;
-      case 32:
-        this.togglePlay();
-        break;
-      }
-    }
-  },
-
   removeHandler: function(model) {
     var songViewWasPlaying = this.playing();
     if(model === this.currentSong) {
@@ -283,3 +260,8 @@ App.Views.Player = Backbone.View.extend({
   }
 
 });
+
+App.Views.Player.create = function(collection) {
+  App.playerView = new App.Views.Player({collection: collection});
+  App.$rootEl.prepend( App.playerView.render().$el );
+}

@@ -1,6 +1,5 @@
 App.Views.SongIndex = Backbone.View.extend({
 
-  className: "l-main",
   template: HandlebarsTemplates['songs/index'],
 
   events: {
@@ -16,6 +15,8 @@ App.Views.SongIndex = Backbone.View.extend({
   },
 
   initialize: function() {
+    this.kind = "SongIndex";
+
     this.$listEl = $("<ul>").addClass("song-list l-main__list");
     this.$headerEl = $("<div>").addClass("song-list__header");
     this.$el.prepend( this.$listEl );
@@ -96,15 +97,10 @@ App.Views.SongIndex = Backbone.View.extend({
     this.collection.setIndex(newIdx);
 
     if (!App.playerView) {
-      this.createPlayer();
+      App.Views.Player.create( this.collection );
     } else {
       App.playerView.changeCollection( this.collection );
     }
-  },
-
-  createPlayer: function(e) {
-    App.playerView = new App.Views.Player({collection: this.collection});
-    App.$rootEl.prepend( App.playerView.render().$el );
   },
 
   removeHandler: function(model, collection, options) {

@@ -11,6 +11,33 @@ App.Routers.Main = Backbone.Router.extend({
     this.$mainEl = $("<div>").addClass("l-main");
     App.$rootEl.prepend( this.$sidebarEl );
     App.$rootEl.prepend( this.$mainEl );
+
+    $(document).on('keydown.keyboardShortcuts', this.keyControlHandler.bind(this));
+  },
+
+  keyControlHandler: function(e) {
+
+    var tag = e.target.tagName.toLowerCase();
+    if (tag != 'input' && tag != 'textarea') {
+      if (App.playerView) {
+        switch(e.which) {
+          case 74:
+              App.playerView.continuePlaylist('next');
+            break;
+          case 75:
+              App.playerView.continuePlaylist('prev');
+            break;
+          case 32:
+              App.playerView.togglePlay();
+            break;
+        }
+
+      } else if (this.mainView.kind === "SongIndex") {
+        this.mainView.collection.setIndex(0);
+        App.Views.Player.create( this.mainView.collection );
+      }
+    }
+
   },
 
   all: function() {
@@ -44,16 +71,16 @@ App.Routers.Main = Backbone.Router.extend({
       collection = App.playerView.collection;
     }
 
-    if(App.songIndexView) App.songIndexView.remove();
-    App.songIndexView = new App.Views.SongIndex({collection: collection});
-    this.$mainEl.html( App.songIndexView.render().$el );
+    if(this.mainView) this.mainView.remove();
+    this.mainView = new App.Views.SongIndex({collection: collection});
+    this.$mainEl.html( this.mainView.render().$el );
     //TODO should not be routers responsibility
-    App.songIndexView.bindInfiniteScroll();
+    this.mainView.bindInfiniteScroll();
 
-    var sidebar = new App.Views.Sidebar({mainCollection: collection});
-    this.$sidebarEl.html( sidebar.render().$el );
+    this.sidebarView = new App.Views.Sidebar({mainCollection: collection});
+    this.$sidebarEl.html( this.sidebarView.render().$el );
     //TODO should not be routers responsibility
-    sidebar.initializeTypeahead();
+    this.sidebarView.initializeTypeahead();
 
     this.setRootElHeight();
     $(window).resize(this.setRootElHeight.bind(this));

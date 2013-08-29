@@ -115,7 +115,7 @@ App.Collections.Songs = Backbone.Collection.extend({
     deferred.done(function(){
       //If its still greater than the length after loading
       //the next page, set the index to null.
-      that.currentIdx = (newIdx >= this.length ? null : newIdx);
+      that.currentIdx = ( (newIdx >= this.length || newIdx < 0) ? null : newIdx);
       that.trigger("changeIndex", newIdx);
     });
   },

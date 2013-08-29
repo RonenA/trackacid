@@ -1,6 +1,5 @@
 App.Views.Sidebar = Backbone.View.extend({
 
-  className: 'l-sidebar',
   template: HandlebarsTemplates['layouts/sidebar'],
 
   events: {
