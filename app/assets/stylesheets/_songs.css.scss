@@ -111,6 +111,8 @@
 }
 
 .song__img-wrapper{
+  background-color: $pale-blue;
+
   width: $song-img-size;
   height: $song-img-size;
   overflow: hidden;
@@ -125,6 +127,14 @@
       left: 50%;
       margin-left: -((1/$youtube-thumbnail-ar) * $song-img-size) / 2;
     }
+  }
+
+  i{
+    display: block;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    line-height: $song-img-size;
   }
 }
 

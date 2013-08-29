@@ -38,6 +38,8 @@ App.Views.Player = Backbone.View.extend({
     this.destroySound();
     this.$el.remove();
 
+    this.collection.setIndex(null);
+
     App.playerView = undefined;
     return this;
   },

@@ -10,7 +10,11 @@
     <a href="#" class="js-select-song song__trigger">
       <div class="cf">
         <div class="media__img--no-margin song__img-wrapper">
-          <img src="{{artwork_url}}" />
+          {{#if artwork_url}}
+            <img src="{{artwork_url}}" />
+          {{else}}
+            <i class="icon-music"></i>
+          {{/if}}
         </div>
 
         <div class="media__body song__body">

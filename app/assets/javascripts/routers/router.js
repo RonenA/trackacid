@@ -16,23 +16,25 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   keyControlHandler: function(e) {
-
     var tag = e.target.tagName.toLowerCase();
     if (tag != 'input' && tag != 'textarea') {
       if (App.playerView) {
         switch(e.which) {
-          case 74:
+          case 74:  //J
               App.playerView.continuePlaylist('next');
             break;
-          case 75:
+          case 75: //K
               App.playerView.continuePlaylist('prev');
             break;
-          case 32:
+          case 32: //space
               App.playerView.togglePlay();
+            break;
+          case 27: //esc
+              App.playerView.remove();
             break;
         }
 
-      } else if (this.mainView.kind === "SongIndex") {
+      } else if (this.mainView.kind === "SongIndex" && _([74, 75, 32]).include(e.which)) {
         this.mainView.collection.setIndex(0);
         App.Views.Player.create( this.mainView.collection );
       }
