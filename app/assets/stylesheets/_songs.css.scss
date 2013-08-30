@@ -31,7 +31,7 @@
         color: white;
         border: 1px solid white;
       }
-      .song__blogs, .song__aside{color: white}
+      .song__secondary, .song__aside{color: white}
       .song__controls{
         button, a{
           color: rgba(white, 0.8);
@@ -59,59 +59,8 @@
   .is-loading &{display: block}
 }
 
-.song-list__header{
-  height: $song-list-header-height;
-  padding-left: 10px;
-  border-bottom: 1px solid #eee;
-
-  a{
-    color: black;
-  }
-}
-
-.song-list__header-controls{
-  margin-left: 10px;
-
-  & > li {
-    float: left; //Fixes weird spacing issue
-    border-left: 1px solid #eee;
-  }
-
-  //Applies to all links and buttons
-  & > li > button,
-  .dropdown-menu > li > a,
-  .dropdown-menu > li > form button {
-    color: $light-grey;
-  }
-
-  //Applies only to the immediately visible menu
-  & > li > button{
-    @extend .reset-button;
-    font-size: 12px;
-    &:hover, &:focus{background-color: $list-hover-color}
-    &:focus{outline: none}
-
-    height: $song-list-header-height;
-    padding: 0 13px;
-
-    i{font-size: 20px}
-  }
-
-  //Applies only to the dropdown
-  .dropdown-menu > li > a,
-  .dropdown-menu > li > form button {
-    &:hover{color: white}
-  }
-}
-
-.song-list__title{
-  font-size: golden-ratio($gr-base, 1);
-  font-weight: 500;
-  line-height: $song-list-header-height;
-}
-
 .song__img-wrapper{
-  background-color: $pale-blue;
+  background-color: $blue;
 
   width: $song-img-size;
   height: $song-img-size;
@@ -139,7 +88,7 @@
 }
 
 .song__body{
-  padding: 0 20px;
+  padding: 0 $main-list-padding;
 }
 
 .song__trigger{
@@ -159,12 +108,12 @@
   }
 }
 
-.song__title, .song__blogs{
+.song__title, .song__secondary{
   @extend .l-ellip;
 }
 
-.song__blogs{
-  color: $light-grey;
+.song__secondary{
+  color: $list-secondary-color;
 }
 
 .song__aside{

@@ -1,8 +1,8 @@
-<ul class="song-list__header-controls float-right">
+<ul class="header__controls float-right">
 
   {{#if feed.site_url}}
   <li>
-    <button class="js-unsubscribe-feed">Unsubscribe</button>
+    <button class="js-unsubscribe-feed">Unfollow</button>
   </li>
   {{/if}}
 
@@ -16,27 +16,14 @@
     </button>
   </li>
 
-  <li class="dropdown">
-    <button data-toggle="dropdown">
-      <i class="icon-gear"></i>
-    </button>
+  {{> layouts/_settings_dropdown }}
 
-    <ul class="dropdown-menu dropdown-menu--right" role="menu">
-      <li><a href="/settings" class="icon-gear">Account Settings</a></li>
-      <li>
-        <form method="post" action="/users/sign_out">
-          <input name="_method" type="hidden" value="delete" />
-          <button class="link-button icon-logout" type="submit">Sign Out</button>
-        </form>
-      </li>
-    </ul>
-  </li>
 </ul>
 
-<h2 class="song-list__title l-ellip">
+<h1 class="header__title l-ellip">
   {{#if feed.site_url}}
     <a href="{{feed.site_url}}" target="blank">{{feed.title}}</a>
   {{else}}
     {{feed.title}}
   {{/if}}
-</h2>
+</h1>

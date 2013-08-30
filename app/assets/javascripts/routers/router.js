@@ -3,7 +3,8 @@ App.Routers.Main = Backbone.Router.extend({
   routes: {
     ""          : "all",
     "favorites" : "favorites",
-    "feeds/:id" : "feedShow"
+    "feeds/:id" : "feedShow",
+    "browse"    : "browseFeeds"
   },
 
   initialize: function() {
@@ -34,7 +35,9 @@ App.Routers.Main = Backbone.Router.extend({
             break;
         }
 
-      } else if (this.mainView.kind === "SongIndex" && _([74, 75, 32]).include(e.which)) {
+      } else if (this.mainView &&
+                 this.mainView.kind === "SongIndex" &&
+                 _([74, 75, 32]).include(e.which)) {
         this.mainView.collection.setIndex(0);
         App.Views.Player.create( this.mainView.collection );
       }
@@ -79,13 +82,46 @@ App.Routers.Main = Backbone.Router.extend({
     //TODO should not be routers responsibility
     this.mainView.bindInfiniteScroll();
 
-    this.sidebarView = new App.Views.Sidebar({mainCollection: collection});
-    this.$sidebarEl.html( this.sidebarView.render().$el );
-    //TODO should not be routers responsibility
-    this.sidebarView.initializeTypeahead();
+    this.initializeSidebar(collection);
 
+    this.bindWindowResize();
+  },
+
+  browseFeeds: function() {
+    var that = this;
+    if(this.mainView) this.mainView.remove();
+    this.loading();
+
+    $.ajax({
+      url: "/feeds?all=true",
+      success: function(feeds) {
+        that.mainView = new App.Views.BrowseFeeds({collection: feeds});
+        that.$mainEl.html( that.mainView.render().$el );
+
+        that.initializeSidebar();
+
+        that.bindWindowResize();
+      }
+    });
+  },
+
+  initializeSidebar: function(mainCollection) {
+    if (this.sidebarView) this.sidebarView.remove();
+    this.sidebarView = new App.Views.Sidebar({mainCollection: mainCollection});
+    this.$sidebarEl.html( this.sidebarView.render().$el );
+  },
+
+  loading: function() {
+    this.$mainEl.html( HandlebarsTemplates['layouts/loading']() );
+  },
+
+  bindWindowResize: function() {
     this.setRootElHeight();
-    $(window).resize(this.setRootElHeight.bind(this));
+
+    if (!this.windowResizeBound) {
+      $(window).resize(this.setRootElHeight.bind(this));
+      this.windowResizeBound = true;
+    }
   },
 
   setRootElHeight: function(){

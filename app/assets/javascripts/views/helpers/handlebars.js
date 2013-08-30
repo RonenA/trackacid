@@ -7,6 +7,20 @@ Handlebars.registerHelper('selectedFeedClass', function(selectedFeedId, id) {
   }
 });
 
+//Used in browse feeds
+Handlebars.registerHelper('feedToggleSubscriptionButton', function(id) {
+  var userHasFeed = !!App.feeds.get(id);
+  var klass = userHasFeed ? 'js-unsubscribe-feed btn--hollow' : 'js-subscribe-feed';
+  var buttonText = userHasFeed ?
+    '<span class="icon-check standard-text">Following</span><span class="hover-text">Unfollow</span>' :
+    'Follow';
+
+  return new Handlebars.SafeString(
+    "<button class='btn float-right "+klass+"'>"+buttonText+"</button>"
+  );
+
+});
+
 Handlebars.registerHelper('buildDownloadLink', function(url ,provider) {
   if (provider === "SoundCloud"){
     return new Handlebars.SafeString(

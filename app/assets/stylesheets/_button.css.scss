@@ -1,0 +1,36 @@
+.btn{
+  @extend .reset-button;
+  border-radius: 3px;
+  background-color: $blue;
+  padding: 0.8em 1.1em;
+  color: white;
+  font-weight: 500;
+  text-align: center;
+
+  &:hover{
+    background-color: darken($blue, 5%);
+  }
+}
+
+//So you can swap the text on a button
+//on hover.
+.btn{
+  .hover-text{display: none}
+
+  &:hover{
+    .standard-text{display: none}
+    .hover-text{display: inline}
+  }
+}
+
+.btn--hollow{
+  color: $light-grey;
+  background-color: transparent;
+  border: 1px solid #ddd;
+
+  &:hover{
+    background-color: $blue;
+    color: white;
+    border: 1px solid $blue;
+  }
+}

@@ -6,15 +6,13 @@ App.Views.Sidebar = Backbone.View.extend({
     'typeahead:selected .js-add-feed': 'addFeed',
   },
 
-  initialize: function(options) {
-    this.mainCollection = options.mainCollection;
-  },
-
   render: function(){
     var content = this.template();
     this.$el.html(content);
-    var feedView = new App.Views.FeedIndex({collection: App.feeds,
-                                            mainCollection: this.mainCollection});
+    var feedView = new App.Views.FeedIndex({
+      collection:     App.feeds,
+      mainCollection: this.options.mainCollection
+    });
     this.$el.find('#t--feeds').replaceWith( feedView.render().$el );
 
     return this;

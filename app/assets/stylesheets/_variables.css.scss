@@ -5,12 +5,16 @@ $base-font-size: $gr-base;
 $list-hover-color: #eee;
 $medium-grey: #3C3C3C;
 $light-grey: #777;
-$pale-blue: #CBE0EC;
+$blue: #428bca;
+$list-secondary-color: $light-grey;
 
 //Layout
 $sidebar-width: 20%;
 $sidebar-padding: 17px;
 $song-list-header-height: 57px;
+
+//Lists
+$main-list-padding: 20px;
 
 //Logo
 $logo-height: golden-ratio($gr-base, 1);

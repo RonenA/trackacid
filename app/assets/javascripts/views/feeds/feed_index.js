@@ -8,8 +8,7 @@ App.Views.FeedIndex = Backbone.View.extend({
     'submit .new-feed-form' : 'addFeed'
   },
 
-  initialize: function(options){
-    this.mainCollection = options.mainCollection;
+  initialize: function(){
     this.listenTo( this.collection, "change add remove sync reset", this.render );
   },
 
@@ -21,10 +20,12 @@ App.Views.FeedIndex = Backbone.View.extend({
       }
     });
 
+    var selectedFeedId = this.options.mainCollection ? this.options.mainCollection.feedId : null;
+
     var content = this.template({
-          feeds:          data,
-          selectedFeedId: this.mainCollection.feedId
-        });
+      feeds:          data,
+      selectedFeedId: selectedFeedId
+    });
     this.$el.html(content);
     return this;
   },

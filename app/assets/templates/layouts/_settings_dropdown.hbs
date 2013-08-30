@@ -1,0 +1,15 @@
+<li class="dropdown">
+  <button data-toggle="dropdown">
+    <i class="icon-gear"></i>
+  </button>
+
+  <ul class="dropdown-menu dropdown-menu--right" role="menu">
+    <li><a href="/settings" class="icon-gear">Account Settings</a></li>
+    <li>
+      <form method="post" action="/users/sign_out">
+        <input name="_method" type="hidden" value="delete" />
+        <button class="link-button icon-logout" type="submit">Sign Out</button>
+      </form>
+    </li>
+  </ul>
+</li>

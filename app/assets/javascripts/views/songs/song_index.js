@@ -18,7 +18,7 @@ App.Views.SongIndex = Backbone.View.extend({
     this.kind = "SongIndex";
 
     this.$listEl = $("<ul>").addClass("song-list l-main__list");
-    this.$headerEl = $("<div>").addClass("song-list__header");
+    this.$headerEl = $("<div>").addClass("header");
     this.$el.prepend( this.$listEl );
     this.$el.prepend( this.$headerEl );
 

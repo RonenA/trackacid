@@ -1,6 +1,6 @@
 <li class="{{{selectedFeedClass selectedFeedId 'all'}}}">
   <a href="#">
-    <i class="icon-music feed-icon"></i>
+    <i class="icon-music feed__icon"></i>
     <span class="feed__unheard-count">
       {{{totalUnheardCount feeds}}}
     </span>
@@ -10,7 +10,7 @@
 
 <li "{{{selectedFeedClass selectedFeedId 'favorites'}}}">
   <a class="l-ellip" href="/#/favorites">
-    <i class="icon-heart feed-icon"></i>
+    <i class="icon-heart feed__icon"></i>
     <span class="feed__title">Favorites</span>
   </a>
 </li>
@@ -18,7 +18,7 @@
 {{#each feeds}}
   <li class="{{{selectedFeedClass ../selectedFeedId id}}}">
     <a href="#/feeds/{{id}}">
-      <i class="feed-icon">
+      <i class="feed__icon">
         <img src="http://g.etfv.co/{{{site_url}}}">
       </i>
       <span class="feed__unheard-count">{{unheard_count}}</span>

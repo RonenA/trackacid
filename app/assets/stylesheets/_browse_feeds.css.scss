@@ -1,0 +1,27 @@
+.browse-feeds-list{
+  & > li{
+    padding: 13px $main-list-padding;
+    border-bottom: 1px solid #eee;
+
+    .btn{
+      margin-top: 4px; //vertically center
+      width: 122px;
+    }
+  }
+}
+
+.browse-feeds__icon{
+  @extend .feed__icon;
+  margin-top: 6px; //vertically center
+}
+
+.browse-feeds__title{
+  @extend .song__title;
+  margin-top: 0;
+  color: black;
+}
+
+.browse-feeds__secondary{
+  color: $light-grey;
+  line-height: 1.3em;
+}
