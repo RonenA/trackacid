@@ -1,6 +1,4 @@
 .song-list{
-  overflow: scroll;
-
   & > li{
     @include clearfix;
     //border-bottom: 1px solid #eee;
@@ -127,6 +125,8 @@
 
 //Also used in the player
 .song__controls{
+  $song-control-icon-size: 20px;
+
   .song-list &{
     display: none;
     margin-left: 20px;
@@ -140,7 +140,7 @@
     display: inline-block;
     text-decoration: none;
     color: $light-grey;
-    font-size: 20px;
+    font-size: $song-control-icon-size;
     line-height: $song-img-size;
     margin-right: 10px;
     &:hover{color: black}
@@ -149,6 +149,9 @@
   .tooltip{
     top: -5px !important;
   }
+
+  //Its smaller than the others
+  .icon-check{font-size: $song-control-icon-size + 2px}
 }
 
 .song__favorite{

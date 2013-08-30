@@ -29,17 +29,7 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
   margin-right: 0;
 }
 
-//Its a bit smaller than the others
-.icon-check{
-  font-size: 1.1em;
-}
-
-//Not an actual icon, just a +
-.icon-plus{
-  font-size: 1.3em;
-  font-weight: bold;
-}
-
+.icon-plus:before { content: '\e815'; } /* '' */
 .icon-SoundCloud:before { content: '\e811'; } /* '' */
 .icon-next:before { content: '\e802'; } /* '' */
 .icon-prev:before { content: '\e803'; } /* '' */

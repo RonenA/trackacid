@@ -23,7 +23,7 @@
 }
 
 .l-sidebar__body{
-  @include position(absolute, 57px 0px 54px 0px);
+  @include position(absolute, 57px 0px 51px 0px);
   overflow: scroll;
 
   padding: 10px 0;
@@ -43,6 +43,7 @@
 
 .l-main__list{
   @include position(absolute, $song-list-header-height 0px 0px 0px);
+  overflow: scroll;
 }
 
 //Positioning

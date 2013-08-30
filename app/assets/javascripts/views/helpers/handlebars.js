@@ -12,8 +12,9 @@ Handlebars.registerHelper('feedToggleSubscriptionButton', function(id) {
   var userHasFeed = !!App.feeds.get(id);
   var klass = userHasFeed ? 'js-unsubscribe-feed btn--hollow' : 'js-subscribe-feed';
   var buttonText = userHasFeed ?
-    '<span class="icon-check standard-text">Following</span><span class="hover-text">Unfollow</span>' :
-    'Follow';
+    "<span class='standard-text'><i class='icon-check'></i> Following</span>\
+     <span class='hover-text'><i class='icon-cancel'></i> Unfollow</span>" :
+    "<span><i class='icon-plus'></i> Follow</span>";
 
   return new Handlebars.SafeString(
     "<button class='btn float-right "+klass+"'>"+buttonText+"</button>"

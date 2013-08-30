@@ -2,6 +2,7 @@
   @extend .reset-button;
   border-radius: 3px;
   background-color: $blue;
+  border: 1px solid $blue; //so that btn--hollow isnt slightly bigger
   padding: 0.8em 1.1em;
   color: white;
   font-weight: 500;
@@ -9,6 +10,11 @@
 
   &:hover{
     background-color: darken($blue, 5%);
+  }
+
+  i{
+    font-size: 1.2em;
+    margin-right: 3px;
   }
 }
 
