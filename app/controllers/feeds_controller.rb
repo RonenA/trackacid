@@ -4,7 +4,7 @@ class FeedsController < ApplicationController
 
   def index
     if params[:all]
-      render :json => Feed.all.to_json
+      render :json => Feed.order(:title).to_json
     else
       render :json => current_user.feeds
     end

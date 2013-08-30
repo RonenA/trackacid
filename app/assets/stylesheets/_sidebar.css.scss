@@ -1,5 +1,5 @@
 .sidebar__logo{
-  font-weight: bold;
+  font-weight: 500;
   color: black;
   font-size: $logo-height;
   display: block;
@@ -17,7 +17,7 @@
 .sidebar__list{
   & > li{
     &.selected > a{
-      background-color: lighten($medium-grey, 10%);
+      background-color: lighten($sidebar-color, 10%);
     }
 
     & > a{
@@ -27,7 +27,7 @@
 
       color: white;
       &:hover{
-        background-color: lighten($medium-grey, 15%);
+        background-color: lighten($sidebar-color, 15%);
       }
     }
   }
@@ -37,16 +37,21 @@
   padding: $sidebar-padding;
   text-align: center;
 
-  background-color: $medium-grey;
-  border-top: 1px solid lighten($medium-grey, 5%);
+  background-color: lighten($sidebar-color, 2%);
+  border-top: 1px solid lighten($sidebar-color, 5%);
   color: white;
   font-weight: 500;
   font-size: 16px;
 
   &:hover{
     text-decoration: none;
-    border-top: 1px solid lighten($medium-grey, 10%);
-    background-color: lighten($medium-grey, 5%)
+    border-top: 1px solid lighten($sidebar-color, 10%);
+    background-color: lighten($sidebar-color, 5%)
+  }
+
+  &:active{
+    border-top-color: $sidebar-color;
+    box-shadow: $button-active-shadow;
   }
 
   & > span {

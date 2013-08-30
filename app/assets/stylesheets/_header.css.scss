@@ -1,7 +1,9 @@
 .header{
   height: $song-list-header-height;
   padding-left: 10px;
-  border-bottom: 1px solid #eee;
+  position: relative;
+  z-index: $header-z;
+  box-shadow:  0 0 2px rgba(0, 0, 0, 0.4);
 
   a{
     color: black;
@@ -27,8 +29,9 @@
   & > li > button{
     @extend .reset-button;
     font-size: 12px;
-    &:hover, &:focus{background-color: $list-hover-color}
-    &:focus{outline: none}
+    &:hover, &:focus { background-color: lighten($list-hover-color, 2%) }
+    &:focus          { outline: none}
+    &:active         { box-shadow: $button-active-shadow }
 
     height: $song-list-header-height;
     padding: 0 13px;

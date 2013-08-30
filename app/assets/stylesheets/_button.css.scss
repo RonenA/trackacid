@@ -1,21 +1,42 @@
+@mixin button-color($color) {
+  background-color: $color;
+  border: 1px solid $color; //so that btn--hollow isnt slightly bigger
+
+  &:hover{
+    border: 1px solid darken($color, 5%);
+    background-color: darken($color, 5%);
+  }
+}
+
 .btn{
   @extend .reset-button;
   border-radius: 3px;
-  background-color: $blue;
-  border: 1px solid $blue; //so that btn--hollow isnt slightly bigger
   padding: 0.8em 1.1em;
   color: white;
   font-weight: 500;
   text-align: center;
 
+  //Rules here are redundant so that they override
+  //the non-hover rules of btn--hollow
   &:hover{
-    background-color: darken($blue, 5%);
+    color: white;
+  }
+
+  &:active{
+    box-shadow: $button-active-shadow;
   }
 
   i{
     font-size: 1.2em;
     margin-right: 3px;
   }
+
+  //default color
+  @include button-color($blue);
+}
+
+.btn--red{
+  @include button-color($red);
 }
 
 //So you can swap the text on a button
@@ -33,10 +54,4 @@
   color: $light-grey;
   background-color: transparent;
   border: 1px solid #ddd;
-
-  &:hover{
-    background-color: $blue;
-    color: white;
-    border: 1px solid $blue;
-  }
 }

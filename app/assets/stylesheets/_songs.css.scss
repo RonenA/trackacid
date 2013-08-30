@@ -21,7 +21,7 @@
 
     &.is-selected {
       .song__trigger{
-        background-color: blue;
+        background-color: $blue;
         color: white;
       }
       .badge{

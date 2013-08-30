@@ -9,8 +9,9 @@
 feeds = [
   {:url => 'http://feeds.feedburner.com/prettymuchamazing'},
   {:url => 'http://feeds.feedburner.com/2dopeboyz'},
-  {:url => 'http://pitchfork.com/rss/reviews/best/tracks/',
-   :content_selector => '#main'},
+  {:url => 'http://pitchfork.com/rss/reviews/best/tracks/', :content_selector => '#main'},
+  {:url => 'http://pitchfork.com/rss/reviews/best/albums/', :content_selector => '#main'},
+  {:url => 'http://pitchfork.com/rss/news/',                :content_selector => '#main'},
   {:url => 'http://gorillavsbear.blogspot.com/atom.xml'},
   {:url => 'http://feeds.feedburner.com/hyptrk'}
 ]

@@ -10,7 +10,7 @@ Handlebars.registerHelper('selectedFeedClass', function(selectedFeedId, id) {
 //Used in browse feeds
 Handlebars.registerHelper('feedToggleSubscriptionButton', function(id) {
   var userHasFeed = !!App.feeds.get(id);
-  var klass = userHasFeed ? 'js-unsubscribe-feed btn--hollow' : 'js-subscribe-feed';
+  var klass = userHasFeed ? 'js-unsubscribe-feed btn--hollow btn--red' : 'js-subscribe-feed';
   var buttonText = userHasFeed ?
     "<span class='standard-text'><i class='icon-check'></i> Following</span>\
      <span class='hover-text'><i class='icon-cancel'></i> Unfollow</span>" :

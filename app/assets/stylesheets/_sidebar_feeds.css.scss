@@ -2,7 +2,10 @@
   width: 25px;
   float: left;
 
-  img{background-color: white;}
+  img{
+    background-color: white;
+    border-radius: 2px;
+  }
 }
 
 .feed__title{

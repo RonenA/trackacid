@@ -1,5 +1,5 @@
 class Feed < ActiveRecord::Base
-  attr_accessible :title, :url, :site_url, :description
+  attr_accessible :title, :url, :site_url, :description, :content_selector
 
   validates_presence_of :title, :url
 
