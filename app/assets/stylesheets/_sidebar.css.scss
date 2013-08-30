@@ -1,16 +1,19 @@
 .sidebar__logo{
   font-weight: 500;
-  color: black;
-  font-size: $logo-height;
+  color: white;
+  font-size: golden-ratio($gr-base, 1);
   display: block;
-  padding: $sidebar-padding;
+  line-height: $header-height;
+  box-sizing: border-box;
+  margin: 0 $sidebar-padding;
 
-  //border-bottom: 3px solid black;
-  background-color: white;
+  //padding: 0 $sidebar-padding;
+
+  border-bottom: 1px solid darken($sidebar-color, 1.5%);
 
   &:hover{
     text-decoration: none;
-    color: #666;
+    color: darken(white, 15%);
   }
 }
 

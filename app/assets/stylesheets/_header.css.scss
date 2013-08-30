@@ -1,9 +1,9 @@
 .header{
-  height: $song-list-header-height;
-  padding-left: 10px;
+  height: $header-height;
+  padding-left: 22px;
   position: relative;
   z-index: $header-z;
-  box-shadow:  0 0 2px rgba(0, 0, 0, 0.4);
+  box-shadow: $header-shadow;
 
   a{
     color: black;
@@ -33,7 +33,7 @@
     &:focus          { outline: none}
     &:active         { box-shadow: $button-active-shadow }
 
-    height: $song-list-header-height;
+    height: $header-height;
     padding: 0 13px;
 
     i{font-size: 20px}
@@ -49,5 +49,5 @@
 .header__title{
   font-size: golden-ratio($gr-base, 1);
   font-weight: 500;
-  line-height: $song-list-header-height;
+  line-height: $header-height;
 }

@@ -7,22 +7,20 @@ $medium-grey: #3C3C3C;
 $light-grey: #777;
 $blue: #428bca;
 $red: #CA4242;
-$list-secondary-color: $light-grey;
+$secondary-text-color: $light-grey;
 $sidebar-color: $medium-grey;
 
 //Shadows
-$button-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+$button-active-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.125);
+$header-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
 
 //Layout
 $sidebar-width: 20%;
 $sidebar-padding: 17px;
-$song-list-header-height: 57px;
+$header-height: 57px;
 
 //Lists
 $main-list-padding: 20px;
-
-//Logo
-$logo-height: golden-ratio($gr-base, 1);
 
 //Player
 $player-height: 200px;
@@ -36,3 +34,4 @@ $youtube-thumbnail-ar: (180/320);
 //Z-index
 $player-z: 100;
 $header-z: 50;
+$main-z:   25;

@@ -92,6 +92,7 @@ App.Routers.Main = Backbone.Router.extend({
     if(this.mainView) this.mainView.remove();
     this.loading();
 
+
     $.ajax({
       url: "/feeds?all=true",
       success: function(feeds) {

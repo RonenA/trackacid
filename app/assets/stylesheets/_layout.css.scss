@@ -14,6 +14,7 @@
 }
 
 .l-sidebar{
+  background-color: $sidebar-color;
   width: $sidebar-width;
 
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
@@ -23,7 +24,7 @@
 }
 
 .l-sidebar__body{
-  @include position(absolute, 57px 0px 51px 0px);
+  @include position(absolute, 58px 0px 51px 0px);
   overflow: scroll;
 
   padding: 10px 0;
@@ -34,6 +35,10 @@
 .l-main{
   width: 100% - $sidebar-width;
   left: $sidebar-width;
+  background-color: white;
+  box-shadow: $header-shadow;
+  z-index: $main-z;
+
 
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
     left: $sidebar-width;
@@ -42,7 +47,7 @@
 }
 
 .l-main__list{
-  @include position(absolute, $song-list-header-height 0px 0px 0px);
+  @include position(absolute, $header-height 0px 0px 0px);
   overflow: scroll;
 }
 
@@ -71,6 +76,8 @@
 
 .l-absolute{position: absolute}
 
+
+//Verically center text with absolute positioning
 .l-center-text{
   text-align: center;
   position: absolute;
