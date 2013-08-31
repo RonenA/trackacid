@@ -70,6 +70,8 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   _initializeWithCollection: function(collection) {
+    var that = this;
+
     //Use the collection inside the player if there is a player,
     //because it has the correctly selected current song
     if (App.playerView && App.playerView.collection.feedId === collection.feedId) {
@@ -77,14 +79,27 @@ App.Routers.Main = Backbone.Router.extend({
     }
 
     if(this.mainView) this.mainView.remove();
-    this.mainView = new App.Views.SongIndex({collection: collection});
-    this.$mainEl.html( this.mainView.render().$el );
-    //TODO should not be routers responsibility
-    this.mainView.bindInfiniteScroll();
 
-    this.initializeSidebar(collection);
+    //Wait for the collection to load instead of
+    //rendering a "no songs" page
+    var collectionReady;
+    if(collection.length === 0) {
+      this.loading();
+      collectionReady = collection.loadNextPage();
+    } else {
+      collectionReady = $.Deferred.now();
+    }
 
-    this.bindWindowResize();
+    collectionReady.done(function(){
+      that.mainView = new App.Views.SongIndex({collection: collection});
+      that.$mainEl.html( that.mainView.render().$el );
+      //TODO should not be routers responsibility
+      that.mainView.bindInfiniteScroll();
+
+      that.initializeSidebar(collection);
+
+      that.bindWindowResize();
+    });
   },
 
   browseFeeds: function() {

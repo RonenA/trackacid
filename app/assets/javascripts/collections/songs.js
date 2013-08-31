@@ -22,9 +22,10 @@ App.Collections.Songs = Backbone.Collection.extend({
       this.listenTo(this, "change:favorited", this.changeFavoritedHandler);
     }
 
+    //TODO: Remove - the router handles this now
     //If you start off with very few items from this feed, and then
     //click the feed page, we'll need to get some more.
-    if (this.feedId && this.length < 10) this.loadNextPage();
+    //if (this.length < 10) this.loadNextPage();
   },
 
   setDefaults: function() {
