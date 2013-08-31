@@ -2,6 +2,7 @@
   & > li{
     padding: 13px $main-list-padding;
     border-bottom: 1px solid #eee;
+    @include clearfix;
 
     .btn{
       margin-top: 4px; //vertically center

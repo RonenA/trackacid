@@ -48,11 +48,20 @@ Handlebars.registerHelper('feedName', function(feedId) {
 });
 
 Handlebars.registerHelper('joinFeedNames', function(entries) {
+
   var feedNames = _(entries).map(function(entry){
-    return App.feeds.get(entry.feed_id).get('title');
+    //Have to make sure the feed actually exists.
+    //If the user deleted the feed, there may still be entries
+    //from the deleted feed in the other songs.
+
+    //TODO: Might make sense to remove all of those offending entries
+    //when a feed is deleted, either by manually killing them or
+    // just reloading all the songs.
+    var feed = App.feeds.get(entry.feed_id);
+    if (feed) return App.feeds.get(entry.feed_id).get('title');
   });
 
-  return new Handlebars.SafeString(feedNames.join(', '));
+  return new Handlebars.SafeString(_.compact(feedNames).join(', '));
 });
 
 Handlebars.registerHelper('feedNamesForPlayer', function(entries) {

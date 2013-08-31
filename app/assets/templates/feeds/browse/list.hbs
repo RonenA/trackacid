@@ -7,6 +7,12 @@
       </i>
       <h3 class="browse-feeds__title">{{title}}</h3>
     </a>
-  <p class="browse-feeds__secondary">{{description}}</p>
+  <p class="browse-feeds__secondary">
+    {{#if description}}
+      {{description}}
+    {{else}}
+      {{site_url}}
+    {{/if}}
+  </p>
 </li>
 {{/each}}

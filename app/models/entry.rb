@@ -11,15 +11,22 @@ class Entry < ActiveRecord::Base
 
   #TODO: Do we even need to store the content_encoded?
   #We just need to rip the song urls.
-  def self.create_from_json!(entryData, feed)
-    Entry.create!({
-      guid:            entryData.guid,
-      link:            entryData.link,
-      published_at:    entryData.pubDate,
-      title:           entryData.title,
-      content_encoded: CGI.unescapeHTML(entryData.content_encoded || entryData.description),
-      feed_id:         feed.id
-    })
+  def self.create_from_json!(entry_data, feed)
+    #I want to see the errors in dev
+    method = Rails.env != "development" ? "create!" : "create"
+
+    begin
+      Entry.send(method, {
+        guid:            entry_data.guid || entry_data.id || entry_data.link,
+        link:            entry_data.link,
+        published_at:    entry_data.pubDate || entry_data.modified,
+        title:           entry_data.title,
+        content_encoded: CGI.unescapeHTML(entry_data.content_encoded || entry_data.content|| entry_data.description),
+        feed_id:         feed.id
+      })
+    rescue ActiveRecord::RecordNotUnique
+      puts "Entry already exists"
+    end
   end
 
   def find_songs

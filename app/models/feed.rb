@@ -6,6 +6,8 @@ class Feed < ActiveRecord::Base
   has_many :entries, :dependent => :destroy
   has_many :songs, :through => :entries
 
+  before_save :clean_site_url
+
   def self.create_from_hash(attributes)
     begin
       feed_data = SimpleRSS.parse(open(attributes[:url]))
@@ -29,6 +31,7 @@ class Feed < ActiveRecord::Base
       self.title = feed_data.title
       self.site_url = feed_data.link
       self.description = feed_data.description
+
       save!
 
       existing_entry_guids = entries.pluck(:guid).sort
@@ -53,6 +56,15 @@ class Feed < ActiveRecord::Base
       where("title LIKE ?", "%#{query}%")
     else
       all
+    end
+  end
+
+  #For some reasons the site_url comes out with a <link> in from of it sometimes??
+  def clean_site_url
+    if site_url.starts_with?('<link>')
+      dirty_url = site_url
+      dirty_url.slice! "<link>"
+      self.site_url = dirty_url
     end
   end
 
