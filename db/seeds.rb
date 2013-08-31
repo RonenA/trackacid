@@ -19,7 +19,7 @@ feeds = [
   {:url => 'http://www.thestrut.com/feed/'},
   {:url => 'http://feeds.feedburner.com/stereogum/cBYa'},
   {:url => 'http://feeds.feedburner.com/BrooklynVeganFeed'},
-  {:url => 'http://noisey.vice.com/en_us/rss'},
+  {:url => 'http://noisey.vice.com/en_us/rss',              :content_selector => '.article_wrap'},
   {:url => 'http://cdnl.complex.com/feeds/channels/music.xml'}
 ]
 

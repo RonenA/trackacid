@@ -61,7 +61,10 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
     if (feed) return App.feeds.get(entry.feed_id).get('title');
   });
 
-  return new Handlebars.SafeString(_.compact(feedNames).join(', '));
+  feedNames = _.compact(feedNames);
+  //feedNames= _.uniq(feedNames);
+
+  return new Handlebars.SafeString(feedNames.join(', '));
 });
 
 Handlebars.registerHelper('feedNamesForPlayer', function(entries) {

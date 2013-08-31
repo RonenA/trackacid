@@ -1,5 +1,9 @@
 App.Models.Song = Backbone.Model.extend({
 
+  initialize: function() {
+    this.listenTo(this, 'change:listened', this.updateFeedUnheardCount);
+  },
+
   toJSON: function(options) {
     var json = _.clone(this.attributes);
     //Make sure the entries are in order of date
@@ -146,15 +150,19 @@ App.Models.Song = Backbone.Model.extend({
           //TODO: Handle error
         }
       });
-
-      if(attribute === "listened") this.updateFeedUnheardCount(value);
     }
   },
 
-  updateFeedUnheardCount: function(isListened) {
-    _(this.get('entries')).each(function(entry) {
-      var feed = App.feeds.get(entry.feed_id);
-      feed.changeUnheardCount(isListened ? -1 : 1);
+  updateFeedUnheardCount: function(model, value, options) {
+    var entries = this.get('entries');
+    var feeds = _(entries).map(function(entry) {
+      return App.feeds.get(entry.feed_id);
+    });
+
+    feeds = _.uniq(feeds);
+
+    _(feeds).each(function(feed) {
+      feed.changeUnheardCount(value ? -1 : 1);
     });
   },
 
