@@ -72,6 +72,7 @@ img.player__img#youtube-video{
 .player__duration{
   font-size: golden-ratio($gr-base, 2);
   color: $light-grey;
+  margin-left: 10px;
 }
 
 .player__secondary{

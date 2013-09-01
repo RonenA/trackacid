@@ -80,17 +80,8 @@ App.Routers.Main = Backbone.Router.extend({
 
     if(this.mainView) this.mainView.remove();
 
-    //Wait for the collection to load instead of
-    //rendering a "no songs" page
-    var collectionReady;
-    if(collection.length === 0) {
-      this.loading();
-      collectionReady = collection.loadNextPage();
-    } else {
-      collectionReady = $.Deferred.now();
-    }
-
-    collectionReady.done(function(){
+    this.loading();
+    collection.ready.done(function(){
       that.mainView = new App.Views.SongIndex({collection: collection});
       that.$mainEl.html( that.mainView.render().$el );
       //TODO should not be routers responsibility

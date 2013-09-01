@@ -1,4 +1,5 @@
 require 'cgi'
+require 'addressable/uri'
 
 class Entry < ActiveRecord::Base
   attr_accessible :guid, :link, :published_at, :title, :feed_id, :content_encoded
@@ -54,31 +55,29 @@ class Entry < ActiveRecord::Base
   end
 
   def find_and_create_provider_songs(dom, provider)
-    Song.PROVIDERS[provider][:queries].any? do |pair|
-      element, attribute, query = pair
+    Song.PROVIDERS[provider][:queries].any? do |query_attrs|
+      element, attribute, query = query_attrs
 
       song_nokos = dom.css(query)
       song_nokos.each do |song_noko|
-        url = song_noko.get_attribute(attribute)
-        url = Song.parse_iframe_src(url, provider) if element == :iframe
-        url = remove_url_params(url)
+        url_string = song_noko.get_attribute(attribute)
+        url_string = Song.parse_iframe_src(url_string, provider) if element == :iframe
 
-        song = Song.find_or_initialize_by_source_url(url)
-        unless song.persisted?
-          song.provider = provider
-          song.save
-        end
-        #Check again in case the song didn't save properly
-        self.songs << song if song.persisted?
+        uri_object = Addressable::URI.parse(url_string)
+        params = uri_object.query_values
+        uri_object.query_values = nil
+        url_string = uri_object.to_s
+
+        song = Song.find_or_create_from_hash({
+          :source_url => url_string,
+          :secret_token => params['secret_token'],
+          :provider => provider
+        });
+
+        self.songs << song if song
       end
       song_nokos.any?
     end
-  end
-
-  def remove_url_params(url)
-    u = Addressable::URI.parse(url)
-    u.query_values = nil
-    u.to_s
   end
 
 end

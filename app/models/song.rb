@@ -1,7 +1,7 @@
 require 'addressable/uri'
 
 class Song < ActiveRecord::Base
-  attr_accessible :provider, :source_url
+  attr_accessible :provider, :source_url, :secret_token
 
   before_validation :set_first_published_at, :on => :create
   before_validation :set_data_from_provider, :on => :create
@@ -41,6 +41,15 @@ class Song < ActiveRecord::Base
     end
   end
 
+  def self.find_or_create_from_hash(attrs)
+    song = Song.find_or_initialize_by_source_url(attrs[:source_url])
+    if not song.persisted?
+      song.update_attributes(attrs)
+      song.save
+    end
+    song.persisted? ? song : nil #Check again in case the song didn't save properly
+  end
+
   # This will most likely be overridden to an earlier date
   # when the Song is associated with an Entry, but if for some
   # reason that doesn't happen, such as if someone has an
@@ -57,7 +66,14 @@ class Song < ActiveRecord::Base
   def set_data_from_soundcloud
     begin
       client = Soundcloud.new(:client_id => API_KEYS[:SoundCloud])
-      track = client.get('/resolve', :url => source_url)
+      if secret_token
+        url_object = Addressable::URI.parse(source_url)
+        url_object.query_values = {:secret_token => secret_token}
+        url = url_object.to_s
+      else
+        url = source_url
+      end
+      track = client.get('/resolve', :url => url)
 
       return false if track.nil? ||
                      !track.streamable ||

@@ -61,7 +61,12 @@ App.Models.Song = Backbone.Model.extend({
       }
 
       id.done(function(id){
-        SC.stream( "/tracks/"+id,
+        var stream_url = "/tracks/"+id;
+        if (that.get('secret_token')) {
+          stream_url = stream_url+"?secret_token="+that.get('secret_token');
+        }
+
+        SC.stream(stream_url,
           {
             onplay: options.onplay,
             onpause: options.onpause,
