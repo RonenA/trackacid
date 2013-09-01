@@ -20,7 +20,8 @@ feeds = [
   {:url => 'http://feeds.feedburner.com/stereogum/cBYa'},
   {:url => 'http://feeds.feedburner.com/BrooklynVeganFeed'},
   {:url => 'http://noisey.vice.com/en_us/rss',              :content_selector => '.article_wrap'},
-  {:url => 'http://cdnl.complex.com/feeds/channels/music.xml'}
+  {:url => 'http://cdnl.complex.com/feeds/channels/music.xml'},
+  {:url => 'http://www.tinymixtapes.com/feed.xml'}
 ]
 
 feeds.each do |feed|

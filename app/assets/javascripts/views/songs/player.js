@@ -70,15 +70,20 @@ App.Views.Player = Backbone.View.extend({
   },
 
   render: function() {
+    //Youtube vid's done use this class
+    //and if its there, it breaks pause();
+    //TODO: This is messy
+    this.$el.removeClass('is-loading');
+
     this.setCurrentSong();
     if (!this.currentSong) return this;
+
     this.startLoadingSound();
 
     var song = this.renderingContext();
     this.renderVisual(song);
     this.renderInfo(song);
 
-    if (!this.currentSong.hasOwnSpinner()) this.showSpinner();
     this.play();
 
     return this;
@@ -129,6 +134,7 @@ App.Views.Player = Backbone.View.extend({
   },
 
   startLoadingSound: function(options) {
+    var that = this;
     if (this.sound) this.destroySound();
     this.sound = new $.Deferred();
 
@@ -143,18 +149,18 @@ App.Views.Player = Backbone.View.extend({
       //Start the spinner before the sound even starts loading
       //because there is time between startLoadingSound() and
       //the triggering of the buffering event.
-      if(!options.suppressSpinner){
-        this.showSpinner();
-      }
+      this.showSpinner();
     }
 
-    this.sound.become(this.currentSong.startLoadingSound({
+    this.currentSong.startLoadingSound({
       onplay: this.playToPause.bind(this),
       onpause: this.pauseToPlay.bind(this),
       onfinish: this.continuePlaylist.bind(this),
       onstartbuffering: startBuffering,
       onendbuffering: endBuffering
-    }));
+    }).done(function(sound){
+      that.sound.resolve(sound);
+    });
   },
 
   play: function() {
@@ -170,7 +176,6 @@ App.Views.Player = Backbone.View.extend({
   },
 
   pause: function() {
-
     //Pausing during loading causes all sorts of terrible
     //double playing issues that I cant figure out how to
     //deal with, so for now you can't do that.

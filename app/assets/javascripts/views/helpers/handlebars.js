@@ -22,7 +22,7 @@ Handlebars.registerHelper('feedToggleSubscriptionButton', function(id) {
 
 });
 
-Handlebars.registerHelper('buildDownloadLink', function(url ,provider) {
+Handlebars.registerHelper('buildDownloadLink', function(url, provider) {
   if (provider === "SoundCloud"){
     return new Handlebars.SafeString(
       url+"?client_id="+API_KEYS.SoundCloud
@@ -30,12 +30,16 @@ Handlebars.registerHelper('buildDownloadLink', function(url ,provider) {
   }
 });
 
-Handlebars.registerHelper('currentSongVisual', function(provider, artwork_url) {
+Handlebars.registerHelper('currentSongVisual', function(provider, artworkUrl) {
   var result;
+  if (artworkUrl === null) {
+    artworkUrl = App.defaultArtworkUrl;
+  }
+
   if(provider === "YouTube") {
-    result = "<img id='youtube-video' class='player__img' src='" +artwork_url+ "' />"
+    result = "<img id='youtube-video' class='player__img' src='" +artworkUrl+ "' />"
   } else {
-    result = "<img class='player__img' src='" +artwork_url+ "' />"
+    result = "<img class='player__img' src='" +artworkUrl+ "' />"
   }
 
   return new Handlebars.SafeString(result);
@@ -147,4 +151,13 @@ Handlebars.registerHelper('songKindBadge', function(kind) {
       "<span class='icon-list badge'>Playlist</span>"
     );
   }
+});
+
+//used by song
+Handlebars.registerHelper('songArtwork', function(artworkUrl) {
+  if (artworkUrl === null) {
+    artworkUrl = App.defaultArtworkUrl;
+  }
+
+  return new Handlebars.SafeString("<img src='"+artworkUrl+"'>")
 });

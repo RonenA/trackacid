@@ -25,7 +25,8 @@ window.App = {
 
 
     Backbone.history.start();
-  }
+  },
+  defaultArtworkUrl: '/assets/default_artwork.svg'
 };
 
 $(document).ready(function(){
