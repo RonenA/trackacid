@@ -39,6 +39,8 @@ class Entry < ActiveRecord::Base
 
       #If the site changes its html structure and the selector
       #no longer finds anything, fallback to body
+
+      #TODO: Requires repetative query for feed during reload process
       if entry_dom.css(feed.content_selector).empty?
         content_selector = "body"
       else
@@ -64,7 +66,7 @@ class Entry < ActiveRecord::Base
         url_string = Song.parse_iframe_src(url_string, provider) if element == :iframe
 
         uri_object = Addressable::URI.parse(url_string)
-        params = uri_object.query_values
+        params = uri_object.query_values || {}
         uri_object.query_values = nil
         url_string = uri_object.to_s
 
@@ -72,7 +74,7 @@ class Entry < ActiveRecord::Base
           :source_url => url_string,
           :secret_token => params['secret_token'],
           :provider => provider
-        });
+        })
 
         self.songs << song if song
       end
