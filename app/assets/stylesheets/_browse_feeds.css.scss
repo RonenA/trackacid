@@ -6,6 +6,7 @@
 
     .btn{
       margin-top: 4px; //vertically center
+      margin-left: 15px;
       width: 122px;
     }
   }
@@ -18,6 +19,8 @@
 
 .browse-feeds__title{
   @extend .song__title;
+  display: inline-block;
+  &:hover{text-decoration: underline}
   margin-top: 0;
   color: black;
 }

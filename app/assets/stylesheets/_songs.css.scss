@@ -59,7 +59,7 @@
 }
 
 .song__img-wrapper{
-  background-color: $blue;
+  background-color: #eee;
 
   width: $song-img-size;
   height: $song-img-size;
@@ -75,14 +75,6 @@
       left: 50%;
       margin-left: -((1/$youtube-thumbnail-ar) * $song-img-size) / 2;
     }
-  }
-
-  i{
-    display: block;
-    color: white;
-    font-size: 30px;
-    text-align: center;
-    line-height: $song-img-size;
   }
 }
 

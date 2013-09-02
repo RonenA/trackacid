@@ -11,7 +11,7 @@ class Feed < ActiveRecord::Base
   def self.create_from_hash(attributes)
     begin
       feed_data = SimpleRSS.parse(open(attributes[:url]))
-      attributes[:title] = feed_data.title
+      attributes[:title] = attributes[:title] || feed_data.title
       attributes[:site_url] = feed_data.link
       attributes[:description] = feed_data.description
       feed = Feed.create!(attributes)
@@ -28,11 +28,10 @@ class Feed < ActiveRecord::Base
   def reload
     begin
       feed_data = SimpleRSS.parse(open(url))
-      self.title = feed_data.title
       self.site_url = feed_data.link
       self.description = feed_data.description
 
-      save!
+      save
 
       existing_entry_guids = entries.pluck(:guid).sort
       feed_data.entries.each do |entry_data|
