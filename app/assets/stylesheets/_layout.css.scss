@@ -18,7 +18,9 @@
   width: $sidebar-width;
 
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
-    right: 100% - $sidebar-width;
+    //right: 100% - $sidebar-width;
+    width: $sidebar-width;
+
     &.l-absolute{right: 0}
   }
 }
@@ -27,14 +29,18 @@
   @include position(absolute, 58px 0px 51px 0px);
   overflow: scroll;
 
-  padding: 10px 0;
+  //padding-top: 2px;
+  padding-bottom: 10px;
 
   background-color: $sidebar-color;
 }
 
 .l-main{
-  width: 100% - $sidebar-width;
+  //width: 100% - $sidebar-width;
   left: $sidebar-width;
+
+  right: 0;
+
   background-color: white;
   box-shadow: $header-shadow;
   z-index: $main-z;

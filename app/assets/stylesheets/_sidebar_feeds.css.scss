@@ -1,5 +1,12 @@
+.sidebar__list.feed-list {
+  & > li > a{
+    //Give the icon less room
+    padding-right: 10px;
+  }
+}
+
 .feed__icon{
-  width: 25px;
+  width: $favicon-width;
   float: left;
 
   img{

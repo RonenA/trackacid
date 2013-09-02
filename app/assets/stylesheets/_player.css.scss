@@ -1,6 +1,7 @@
 .player{
   height: $player-height;
   background-color: white;
+  box-shadow: $player-shadow;
 
   @include clearfix;
 

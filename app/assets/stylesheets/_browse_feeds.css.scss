@@ -5,7 +5,6 @@
     @include clearfix;
 
     .btn{
-      margin-top: 4px; //vertically center
       margin-left: 15px;
       width: 122px;
     }
@@ -28,4 +27,6 @@
 .browse-feeds__secondary{
   color: $light-grey;
   line-height: 1.3em;
+
+  margin-left: $favicon-width;
 }
