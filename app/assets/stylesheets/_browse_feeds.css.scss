@@ -4,6 +4,10 @@
     border-bottom: 1px solid #eee;
     @include clearfix;
 
+    a:hover h3{
+      text-decoration: underline;
+    }
+
     .btn{
       margin-left: 15px;
       width: 122px;
@@ -13,13 +17,12 @@
 
 .browse-feeds__icon{
   @extend .feed__icon;
-  margin-top: 6px; //vertically center
+  margin-top: 4px; //vertically center
 }
 
 .browse-feeds__title{
   @extend .song__title;
   display: inline-block;
-  &:hover{text-decoration: underline}
   margin-top: 0;
   color: black;
 }

@@ -57,5 +57,9 @@ a{
   @include clearfix;
 }
 
+.text-center{
+  text-align: center;
+}
+
 .float-right{float: right}
 .float-left{float: left}
