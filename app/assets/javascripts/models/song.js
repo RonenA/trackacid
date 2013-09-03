@@ -26,11 +26,13 @@ App.Models.Song = Backbone.Model.extend({
     this._dataFromProvider = new $.Deferred();
 
     if(this.get('provider') === "SoundCloud") {
-      SC.get( this.get('source_url'),
-        function(response){
-          that._dataFromProvider.resolve(response);
-        }
-      );
+      App.SoundCloudReady.done(function() {
+        SC.get( that.get('source_url'),
+          function(response){
+            that._dataFromProvider.resolve(response);
+          }
+        );
+      });
     } else if (this.get('provider') === "YouTube") {
       this._dataFromProvider.resolve({});
     }
@@ -48,9 +50,9 @@ App.Models.Song = Backbone.Model.extend({
       var id = new $.Deferred();
 
       if(this.get('kind') === "playlist") {
-        this.dataFromProvider().done(function(data){
+        this.dataFromProvider().done(function(data) {
           //Use the most popular track if it is a playlist
-          var bestTrackId = _(data.tracks).sortBy(function(track){
+          var bestTrackId = _(data.tracks).sortBy(function(track) {
             return track.favoritings_count;
           }).reverse()[0].id;
 
@@ -66,23 +68,25 @@ App.Models.Song = Backbone.Model.extend({
           stream_url = stream_url+"?secret_token="+that.get('secret_token');
         }
 
-        SC.stream(stream_url,
-          {
-            onplay: options.onplay,
-            onpause: options.onpause,
-            onfinish: options.onfinish,
-            onbufferchange: function(){
-              if (this.isBuffering) {
-                options.onstartbuffering();
-              } else {
-                options.onendbuffering();
+        App.SoundCloudReady.done(function() {
+          SC.stream(stream_url,
+            {
+              onplay: options.onplay,
+              onpause: options.onpause,
+              onfinish: options.onfinish,
+              onbufferchange: function(){
+                if (this.isBuffering) {
+                  options.onstartbuffering();
+                } else {
+                  options.onendbuffering();
+                }
               }
+            },
+            function(response){
+              sound.resolve(new App.Models.SoundCloudSound(response));
             }
-          },
-          function(response){
-            sound.resolve(new App.Models.SoundCloudSound(response));
-          }
-        );
+          );
+        });
       });
 
     } else if (this.get('provider') === "YouTube") {

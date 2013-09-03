@@ -5,10 +5,6 @@ window.App = {
   Routers: {},
   Helpers: {},
   initialize: function() {
-    SC.initialize({
-      client_id: API_KEYS.SoundCloud
-    });
-
     App.currentUser = JSON.parse($('#user-json').html());
 
     App.feeds = new App.Collections.Feeds(
@@ -22,7 +18,6 @@ window.App = {
 
     App.$rootEl = $('.l-root');
     App.router = new App.Routers.Main();
-
 
     Backbone.history.start();
   },

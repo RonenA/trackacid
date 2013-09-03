@@ -59,9 +59,8 @@ feeds = [
   {:url => 'http://feeds.feedburner.com/OneHelloWorld',
    :title => 'One Hello World'},
 
-  #Not tested yet
   {:url => 'http://feeds.feedburner.com/dummymagazine',
-   :title => 'Dummy Mag'
+   :title => 'Dummy Mag',
    :content_selector => '.single-entry-section'},
 
   {:url => 'http://www.iguessimfloating.net/feed',
@@ -71,7 +70,10 @@ feeds = [
    :title => 'The Needle Drop'},
 
   {:url => 'http://feeds.feedburner.com/BPMfeed',
-   :title => "Beats Per Minute"}
+   :title => "Beats Per Minute"},
+
+  {:url => "http://feeds.feedburner.com/EARGASMusic",
+   :title => 'EARGASM'}
 ]
 
 feeds.each do |feed|

@@ -1,3 +1,5 @@
+require 'cgi'
+
 class Feed < ActiveRecord::Base
   attr_accessible :title, :url, :site_url, :description, :content_selector
 
@@ -13,7 +15,7 @@ class Feed < ActiveRecord::Base
       feed_data = SimpleRSS.parse(open(attributes[:url]))
       attributes[:title] = attributes[:title] || feed_data.title
       attributes[:site_url] = feed_data.link
-      attributes[:description] = feed_data.description
+      attributes[:description] = CGI.unescapeHTML(feed_data.description)
       feed = Feed.create!(attributes)
       feed_data.entries.each do |entry_data|
         Entry.create_from_json!(entry_data, feed)
@@ -29,7 +31,7 @@ class Feed < ActiveRecord::Base
     begin
       feed_data = SimpleRSS.parse(open(url))
       self.site_url = feed_data.link
-      self.description = feed_data.description
+      self.description = CGI.unescapeHTML(feed_data.description)
 
       save
 

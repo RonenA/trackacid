@@ -66,9 +66,7 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
   });
 
   feedNames = _.compact(feedNames);
-
-  //TODO: uncomment
-  //feedNames= _.uniq(feedNames);
+  feedNames = _.uniq(feedNames);
 
   return new Handlebars.SafeString(feedNames.join(', '));
 });

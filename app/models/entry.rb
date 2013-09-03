@@ -14,14 +14,14 @@ class Entry < ActiveRecord::Base
   #We just need to rip the song urls.
   def self.create_from_json!(entry_data, feed)
     #I want to see the errors in dev
-    method = Rails.env != "development" ? "create!" : "create"
+    method = (Rails.env == "development") ? "create!" : "create"
 
     begin
       Entry.send(method, {
         guid:            entry_data.guid || entry_data.id || entry_data.link,
-        link:            entry_data.link,
+        link:            CGI.unescapeHTML(entry_data.link),
         published_at:    entry_data.pubDate || entry_data.modified,
-        title:           entry_data.title,
+        title:           CGI.unescapeHTML(entry_data.title),
         content_encoded: CGI.unescapeHTML(entry_data.content_encoded || entry_data.content|| entry_data.description),
         feed_id:         feed.id
       })
@@ -35,7 +35,11 @@ class Entry < ActiveRecord::Base
     if find_and_create_songs(rss_dom)
       true
     else
-      entry_dom = Nokogiri::HTML( open(self.link, &:read) )
+      begin
+        entry_dom = Nokogiri::HTML( open(self.link, &:read) )
+      rescue URI::InvalidURIError
+        p "#{self.link} is invalid"
+      end
 
       #If the site changes its html structure and the selector
       #no longer finds anything, fallback to body

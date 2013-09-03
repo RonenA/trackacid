@@ -21,7 +21,7 @@
 //= require handlebars.runtime
 //
 //= require music_reader
-//= require youtube.js
+//= require providers
 //= require_tree ./utilities
 //= require_tree ../templates
 //= require_tree ./models
