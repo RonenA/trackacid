@@ -37,9 +37,6 @@ feeds = [
   {:url => 'http://www.rollingstone.com/siteServices/rss/musicNewsAndFeature',
    :title => 'Rolling Stone'},
 
-  {:url => 'http://www.thestrut.com/feed/',
-   :title => 'The Strut'},
-
   {:url => 'http://feeds.feedburner.com/stereogum/cBYa',
    :title => 'Stereogum'},
 

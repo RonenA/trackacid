@@ -84,8 +84,6 @@ App.Routers.Main = Backbone.Router.extend({
     collection.ready.done(function(){
       that.mainView = new App.Views.SongIndex({collection: collection});
       that.$mainEl.html( that.mainView.render().$el );
-      //TODO should not be routers responsibility
-      that.mainView.bindInfiniteScroll();
 
       that.initializeSidebar(collection);
 

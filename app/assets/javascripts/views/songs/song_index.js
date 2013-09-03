@@ -29,8 +29,15 @@ App.Views.SongIndex = Backbone.View.extend({
   },
 
   render: function() {
+    var that = this;
     this.renderHeader();
     this.renderList();
+
+    //Set timeout so that it is inserted into the DOM
+    //before it tries to bind the scroll event;
+    window.setTimeout(function(){
+      that.bindInfiniteScroll();
+    });
 
     return this;
   },

@@ -21,6 +21,7 @@
 //= require handlebars.runtime
 //
 //= require music_reader
+//= require api_keys
 //= require providers
 //= require_tree ./utilities
 //= require_tree ../templates

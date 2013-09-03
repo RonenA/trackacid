@@ -22,26 +22,16 @@ App.Views.FeedIndex = Backbone.View.extend({
 
     var selectedFeedId = this.options.mainCollection ? this.options.mainCollection.feedId : null;
 
-    var content = this.template({
+    var result = this.template({
       feeds:          data,
       selectedFeedId: selectedFeedId
     });
-    this.$el.html(content);
+
+    var oldScrollPosition = this.$el.scrollTop();
+    this.$el.html(result);
+    this.$el.scrollTop(oldScrollPosition);
+
     return this;
-  },
-
-  //TODO: Dont think this is used anymore
-  addFeed: function(e){
-    e.preventDefault();
-    var target = $(e.currentTarget);
-    var url = target.find('[name=url]').val();
-
-    App.feeds.create({url: url}, {
-      success: function(){
-        App.songs.fetch();
-      }
-    });
   }
-
 
 });

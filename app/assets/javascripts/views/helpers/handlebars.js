@@ -19,7 +19,10 @@ Handlebars.registerHelper('feedToggleSubscriptionButton', function(id) {
   return new Handlebars.SafeString(
     "<button class='btn float-right "+klass+"'>"+buttonText+"</button>"
   );
+});
 
+Handlebars.registerHelper('feedFavicon', function(url) {
+  return new Handlebars.SafeString('<img src="http://g.etfv.co/'+url+'">');
 });
 
 Handlebars.registerHelper('buildDownloadLink', function(url, provider) {
@@ -62,7 +65,7 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
     //when a feed is deleted, either by manually killing them or
     // just reloading all the songs.
     var feed = App.feeds.get(entry.feed_id);
-    if (feed) return App.feeds.get(entry.feed_id).get('title');
+    if (feed) return feed.get('title');
   });
 
   feedNames = _.compact(feedNames);
@@ -87,7 +90,6 @@ Handlebars.registerHelper('feedNamesForPlayer', function(entries) {
   return new Handlebars.SafeString(result);
 });
 
-//TODO: No longer in use
 Handlebars.registerHelper('firstEntryLink', function(entries) {
   return new Handlebars.SafeString(entries[0].link);
 });

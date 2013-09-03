@@ -27,7 +27,8 @@
 
 .l-sidebar__body{
   @include position(absolute, 58px 0px 51px 0px);
-  overflow: scroll;
+  height: auto; //override nanoscroller
+  &:not(.nano) { overflow: scroll; }
 
   //padding-top: 2px;
   padding-bottom: 10px;
@@ -54,7 +55,7 @@
 
 .l-main__list{
   @include position(absolute, $header-height 0px 0px 0px);
-  overflow: scroll;
+   &:not(.nano) {overflow: scroll;}
 }
 
 //Positioning
