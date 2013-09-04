@@ -88,3 +88,9 @@ $enough-text-inputs: 'input[type="text"], input[type="email"], input[type="passw
     @include absolute-center(650px, 176px);
   }
 }
+
+//Devise crap
+#error_explanation{
+  h2{display: none}
+  ul{@extend .two-field-form__errors}
+}

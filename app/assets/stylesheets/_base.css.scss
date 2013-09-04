@@ -36,6 +36,15 @@ h3{
   &.with-margin{ margin-bottom: golden-ratio($gr-base, 0); }
 }
 
+.notice, .alert{
+  padding: 1em 2.1em;
+  color: white;
+  &:empty{display: none}
+}
+
+.notice{ background-color: $blue }
+.alert{ background-color: $red}
+
 .reset-button{
   @include appearance(none);
   display: inline-block;
@@ -52,6 +61,9 @@ h3{
   border: none;
   outline: none;
 }
+
+//For placeholder.js
+.placeholder { color: #aaa; }
 
 .link-button{
   @extend .reset-button;

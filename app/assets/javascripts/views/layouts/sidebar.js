@@ -11,6 +11,7 @@ App.Views.Sidebar = Backbone.View.extend({
   },
 
   render: function() {
+    var that = this;
     var content = this.template();
     this.$el.html(content);
 
@@ -21,6 +22,10 @@ App.Views.Sidebar = Backbone.View.extend({
       });
       this.$el.find('#t--feeds').replaceWith( feedView.render().$el );
     }
+
+    window.setTimeout(function(){
+      that.$el.find('input, textarea').placeholder();
+    });
 
     return this;
   },
@@ -46,7 +51,7 @@ App.Views.Sidebar = Backbone.View.extend({
         App.router.root();
       },
       error: function(jqXHR, textStatus, errorThrown) {
-        var errors = jqXHR.responseJSON;
+        var errors = jqXHR.responseJSON.errors;
         var result = HandlebarsTemplates['layouts/error_list']({errors: errors});
         var $errorEl = form.find('.js-errors').html( result );
       },

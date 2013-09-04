@@ -28,7 +28,11 @@ window.App = {
 };
 
 $(document).ready(function(){
-  if ($('#start-app').length) App.initialize();
+  if ($('#start-app').length) {
+    App.initialize();
+  } else {
+    $('input, textarea').placeholder();
+  }
 
   $.ajaxSetup({
     beforeSend: function( xhr ) {
