@@ -34,7 +34,7 @@
 
   &.is-wider{
     width: $sidebar-wider-width;
-    section{padding: $sidebar-padding + 15px;}
+    section{padding: $sidebar-wider-padding;}
     .l-top, .l-top-full, .l-bottom, .l-bottom-full{
       width: $sidebar-wider-width;
     }

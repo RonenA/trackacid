@@ -18,7 +18,8 @@ $player-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 //Layout
 $sidebar-width: 270px;
 $sidebar-wider-width: $sidebar-width + 80px;
-$sidebar-padding: 17px;
+$sidebar-padding: 19px;
+$sidebar-wider-padding: 32px;
 $header-height: 57px;
 $favicon-width: 25px;
 
@@ -43,3 +44,4 @@ $player-in-duration: 0.3s;
 $player-z: 100;
 $header-z: 50;
 $main-z:   25;
+$sidebar-bottom-panel-z: 10;

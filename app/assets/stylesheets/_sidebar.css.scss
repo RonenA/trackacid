@@ -69,6 +69,8 @@ $sidebar-logo-large-size: 50px;
   font-weight: 500;
   font-size: 16px;
 
+  z-index: $sidebar-bottom-panel-z;
+
   &:hover{
     text-decoration: none;
     border-top: 1px solid lighten($sidebar-color, 10%);
