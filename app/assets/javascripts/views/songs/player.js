@@ -1,10 +1,10 @@
 App.Views.Player = Backbone.View.extend({
 
-  className: "player l-bottom-full",
+  className: "player l-bottom-full animated playerIn",
 
   events: {
-    'click .js-play':                     'play',
-    'click .js-pause':                    'pause',
+    'click .js-play':                     'togglePlay',
+    'click .js-pause':                    'togglePlay',
     'click .js-navigate-playlist':        'navigatePlaylist',
     'click .js-delete-song':              'deleteSong',
     'click .js-toggle-song-listened':     'toggleSongListened',
@@ -25,6 +25,8 @@ App.Views.Player = Backbone.View.extend({
     this.$infoEl = $('<div>');
     this.$el.append( this.$visualEl );
     this.$el.append( this.$infoEl );
+
+    this.ANIMATION_DURATION = 300;
   },
 
   changeCollection: function(newCollection) {
@@ -33,10 +35,13 @@ App.Views.Player = Backbone.View.extend({
   },
 
   remove: function() {
+    var that = this;
     this.stopListening();
-    $(document).off('keydown.keyboardShortcuts');
     this.destroySound();
-    this.$el.remove();
+    this.$el.toggleClass('playerIn playerOut');
+    window.setTimeout(function(){
+      that.$el.remove();
+    }, this.ANIMATION_DURATION);
 
     this.collection.setIndex(null);
 
@@ -70,6 +75,7 @@ App.Views.Player = Backbone.View.extend({
   },
 
   render: function() {
+    var that = this;
     //Youtube vid's done use this class
     //and if its there, it breaks pause();
     //TODO: This is messy
@@ -95,7 +101,7 @@ App.Views.Player = Backbone.View.extend({
       entry.feed = App.feeds.get(entry.feed_id).toJSON();
     });
 
-    song.playing = this.playing();
+    song.showPlayButton = this.showPlayButton();
 
     //This is pretty hacky. The song_control partial needs
     //to know if its being rendered for the song list or
@@ -103,6 +109,23 @@ App.Views.Player = Backbone.View.extend({
     song.forPlayer = true;
 
     return song;
+  },
+
+  showPlayButton: function() {
+    var bool;
+
+    if (this.sound.state() === 'resolved') {
+      this.sound.done(function(sound){
+        bool = sound.playing() || sound.buffering();
+      });
+    } else {
+      // Treat a not yet loaded sound as playing
+      // because being loaded is the same as buffering,
+      // and buffering is treated the same as playing.
+      bool = true;
+    }
+
+    return bool;
   },
 
   renderVisual: function(context) {
@@ -176,6 +199,22 @@ App.Views.Player = Backbone.View.extend({
   },
 
   pause: function() {
+    this.sound.done(function(sound) {
+      sound.pause();
+    });
+  },
+
+  playing: function() {
+    var bool;
+
+    this.sound.done(function(sound) {
+      bool = sound.playing();
+    });
+
+    return bool;
+  },
+
+  togglePlay: function() {
     //Pausing during loading causes all sorts of terrible
     //double playing issues that I cant figure out how to
     //deal with, so for now you can't do that.
@@ -185,28 +224,6 @@ App.Views.Player = Backbone.View.extend({
     //I found the object state to be less reliable.
     if (this.$el.hasClass('is-loading')) return;
 
-    this.sound.done(function(sound) {
-      sound.pause();
-    });
-  },
-
-  playing: function() {
-    var bool;
-
-    if (this.sound.state() === 'resolved') {
-      this.sound.done(function(sound) {
-        bool = sound.playing();
-      });
-    } else {
-      // Treat a not yet loaded sound as playing
-      // because being loaded is the same as buffering,
-      // and buffering is treated the same as playing.
-      bool = true;
-    }
-    return bool;
-  },
-
-  togglePlay: function() {
     if (this.playing()) {
       this.pause();
     } else {

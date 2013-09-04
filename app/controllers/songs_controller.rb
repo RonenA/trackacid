@@ -1,9 +1,14 @@
 class SongsController < ApplicationController
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => :index
 
   def index
-    render :json => current_user.song_list(params[:page], params[:feed_id])
+    if user_signed_in?
+      render :json => current_user.song_list(params[:page], params[:feed_id])
+    else
+      #Feed_id parameter is ignored when use is logged out
+      render :json => Song.page(params[:page]).to_json(:include => :entries)
+    end
   end
 
   def destroy

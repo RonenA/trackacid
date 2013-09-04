@@ -1,11 +1,20 @@
-{{#each songs}}
-  {{> songs/_song }}
-{{else}}
-  <h2 class="l-center-text song-list__empty icon-music">
-    No {{#if user.hide_heard_songs}} New {{/if}} Songs
-  </h2>
-{{/each}}
+{{#ifFollowingAnyBlogs}}
+  {{#each songs}}
+    {{> songs/_song }}
+  {{else}}
+    <h2 class="l-center-text song-list__empty icon-music">
+      No {{#if user.hide_heard_songs}} New {{/if}} Songs
+    </h2>
+  {{/each}}
 
-<div class="song-list__loading">
-  <i class="icon-spinner animate-spin"></i> Loading
-</div>
+  <div class="song-list__loading">
+    <i class="icon-spinner animate-spin"></i> Loading
+  </div>
+{{else}}
+  <h2 class="l-center-text song-list__empty has-button">
+    <p>You aren't following any blogs just yet.</p>
+    <a href="/#/browse" class="btn">
+      <span class="icon-plus">Add Blogs</span>
+    </a>
+  </h2>
+{{/ifFollowingAnyBlogs}}

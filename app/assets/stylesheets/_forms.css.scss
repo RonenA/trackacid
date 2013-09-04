@@ -1,0 +1,39 @@
+.two-field-form{
+  input, button{
+    font-size: golden-ratio($sidebar-logo-large-size, -2);
+    @include transition(font-size 0.3s);
+  }
+
+  input{
+    @extend .reset-input;
+    width: 100%;
+    margin: 0;
+  }
+
+  .top-half{
+    border-bottom: 2px solid #ddd;
+    padding: 0.95em 1.1em 0.71em 1.1em;
+    @include border-top-radius(3px);
+  }
+
+  .bottom-half{
+    padding: 0.71em 1.1em 0.95em 1.1em;
+    @include border-bottom-radius(3px);
+  }
+
+  button {
+    margin-top: 10px;
+  }
+}
+
+.two-field-form__errors{
+  &:empty{display: none}
+  background-color: $red;
+  color: white;
+  margin-bottom: 10px;
+  li{
+    border-bottom: 1px solid lighten($red, 10%);
+    padding: 0.7em 1.1em;
+    &:last-child{ border-bottom: 0 }
+  }
+}

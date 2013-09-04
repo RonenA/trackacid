@@ -5,7 +5,10 @@ window.App = {
   Routers: {},
   Helpers: {},
   initialize: function() {
-    App.currentUser = JSON.parse($('#user-json').html());
+
+    if ($('#user-json').length) {
+      App.currentUser = JSON.parse($('#user-json').html());
+    }
 
     App.feeds = new App.Collections.Feeds(
       JSON.parse($('#feed-json').html())
@@ -25,5 +28,12 @@ window.App = {
 };
 
 $(document).ready(function(){
-  App.initialize();
+  if ($('#start-app').length) App.initialize();
+
+  $.ajaxSetup({
+    beforeSend: function( xhr ) {
+      var token = $('meta[name="csrf-token"]').attr('content');
+      if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+    }
+  });
 });

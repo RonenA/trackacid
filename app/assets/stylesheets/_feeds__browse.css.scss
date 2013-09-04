@@ -4,6 +4,12 @@
     border-bottom: 1px solid #eee;
     @include clearfix;
 
+    &:last-child{
+      //For the "dont see your
+      //favorite blog here?" section;
+      padding: 25px 20px;
+    }
+
     a:hover h3{
       text-decoration: underline;
     }
@@ -11,6 +17,10 @@
     .btn{
       margin-left: 15px;
       width: 122px;
+
+      i{
+        font-size: 1.2em;
+      }
     }
   }
 }

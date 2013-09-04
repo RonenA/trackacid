@@ -10,12 +10,20 @@
 
   .player ~ & {
     bottom: $player-height;
+    @extend .animated;
+    @extend .makeRoomForPlayer;
+  }
+
+  .player.playerOut ~ & {
+    @extend .removeRoomForPlayer;
   }
 }
 
 .l-sidebar{
   background-color: $sidebar-color;
+  color: white;
   width: $sidebar-width;
+  section{padding: $sidebar-padding;}
 
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
     //right: 100% - $sidebar-width;
@@ -23,12 +31,36 @@
 
     &.l-absolute{right: 0}
   }
+
+  &.is-wider{
+    width: $sidebar-wider-width;
+    section{padding: $sidebar-padding + 15px;}
+    .l-top, .l-top-full, .l-bottom, .l-bottom-full{
+      width: $sidebar-wider-width;
+    }
+  }
+
+  .player ~ & {
+    .sidebar__logo--large{
+      font-size: 35px;
+      br{display: none}
+    }
+
+    .two-field-form{
+      button, input{
+        font-size: 15.7px;
+      }
+    }
+  }
 }
 
 .l-sidebar__body{
-  @include position(absolute, 58px 0px 51px 0px);
-  height: auto; //override nanoscroller
-  &:not(.nano) { overflow: scroll; }
+  @include position(absolute, 0px 0px 0px 0px);
+  overflow: scroll;
+
+  .sidebar__bottom-panel ~ & { bottom: 51px; }
+  .sidebar__logo ~ &         { top: 58px; }
+  .sidebar__logo--large ~ &  { top: 117px; }
 
   //padding-top: 2px;
   padding-bottom: 10px;
@@ -50,6 +82,13 @@
   .l-top, .l-top-full, .l-bottom, .l-bottom-full{
     left: $sidebar-width;
     &.l-absolute{left: 0}
+  }
+
+  .l-sidebar.is-wider ~ & {
+    left: $sidebar-wider-width;
+    .l-top, .l-top-full, .l-bottom, .l-bottom-full{
+      left: $sidebar-wider-width;
+    }
   }
 }
 

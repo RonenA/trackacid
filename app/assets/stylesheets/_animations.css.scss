@@ -32,3 +32,63 @@
     border: 0;
   }
 }
+
+
+//Animate.css
+
+.animated{
+  @include animation-fill-mode(both);
+  @include animation-duration(1s);
+}
+
+@include keyframes(pulse) {
+  0%    { @include transform(scale(1));   }
+  50%   { @include transform(scale(1.2)); }
+  100%  { @include transform(scale(1));   }
+}
+
+.pulse {
+  @include animation-name(pulse);
+}
+
+
+//Player in-out transition stuff
+@include keyframes(playerIn) {
+  from {
+    @include transform(translateY($player-height));
+  }
+  to {
+    @include transform(translateY(0));
+  }
+}
+
+@include keyframes(playerOut) {
+  from {
+    @include transform(translateY(0));
+  }
+  to {
+    @include transform(translateY($player-height));
+  }
+}
+
+.playerIn { @include animation-name(playerIn); }
+.playerOut { @include animation-name(playerOut); }
+
+@include keyframes(makeRoomForPlayer) {
+  from { bottom: 0; }
+  to   { bottom: $player-height; }
+}
+
+@include keyframes(removeRoomForPlayer) {
+  from   { bottom: $player-height; }
+  to { bottom: 0; }
+}
+
+.makeRoomForPlayer    { @include animation-name(makeRoomForPlayer); }
+.removeRoomForPlayer  { @include animation-name(removeRoomForPlayer); }
+
+
+.playerIn, .playerOut, .makeRoomForPlayer, .removeRoomForPlayer {
+  @include animation-duration($player-in-duration);
+  @include animation-timing-function(cubic-bezier(0.075, 0.820, 0.165, 1.000));
+}

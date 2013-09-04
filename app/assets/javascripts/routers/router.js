@@ -1,7 +1,7 @@
 App.Routers.Main = Backbone.Router.extend({
 
   routes: {
-    ""          : "all",
+    ""          : "root",
     "favorites" : "favorites",
     "feeds/:id" : "feedShow",
     "browse"    : "browseFeeds"
@@ -10,8 +10,8 @@ App.Routers.Main = Backbone.Router.extend({
   initialize: function() {
     this.$sidebarEl = $("<div>").addClass("l-sidebar");
     this.$mainEl = $("<div>").addClass("l-main");
-    App.$rootEl.prepend( this.$sidebarEl );
-    App.$rootEl.prepend( this.$mainEl );
+    App.$rootEl.append( this.$sidebarEl );
+    App.$rootEl.append( this.$mainEl );
 
     $(document).on('keydown.keyboardShortcuts', this.keyControlHandler.bind(this));
   },
@@ -45,8 +45,22 @@ App.Routers.Main = Backbone.Router.extend({
 
   },
 
-  all: function() {
-    this._initializeWithCollection(App.songs);
+  root: function() {
+    if (App.currentUser) {
+      this._initializeWithCollection(App.songs);
+    } else {
+      this.mainView = new App.Views.SongIndex({collection: App.songs});
+      this.$mainEl.html( this.mainView.render().$el );
+
+      this.initializeSidebar();
+      this.$sidebarEl.addClass('is-wider');
+
+      this.bindWindowResize();
+    }
+  },
+
+  signupModal: function() {
+    alert("TODO: modal");
   },
 
   favorites: function() {
@@ -112,6 +126,7 @@ App.Routers.Main = Backbone.Router.extend({
 
   initializeSidebar: function(mainCollection) {
     if (this.sidebarView) this.sidebarView.remove();
+    this.$sidebarEl.removeClass('is-wider'); //if you want it there, add it after calling this
     this.sidebarView = new App.Views.Sidebar({mainCollection: mainCollection});
     this.$sidebarEl.html( this.sidebarView.render().$el );
   },

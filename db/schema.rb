@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130901003557) do
+ActiveRecord::Schema.define(:version => 20130903224703) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20130901003557) do
     t.text     "download_url"
     t.integer  "duration"
     t.string   "secret_token"
+    t.string   "api_url"
   end
 
   add_index "songs", ["created_at"], :name => "index_songs_on_created_at"

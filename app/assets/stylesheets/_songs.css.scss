@@ -5,7 +5,7 @@
     position: relative;
     overflow: hidden;
 
-    &:hover{background-color: $list-hover-color}
+    &:hover  { background-color: $list-hover-color }
 
     //The 1.1em font size on the checkmark causes
     //the height to jitter very slightly without this rule.
@@ -46,6 +46,10 @@
   font-size: golden-ratio($gr-base, 1);
 
   .is-loading &{display: none}
+  &.has-button{margin-top: -61px;}
+  p{
+    margin-bottom: 30px;
+  }
 }
 
 .song-list__loading{
@@ -86,6 +90,11 @@
   display: block;
   &:hover{text-decoration: none;}
   color: black;
+
+  //Active state is on this, but the hover state
+  //is on the <li> so that you dont trigger the active
+  //state when using the controls.
+  &:active { box-shadow: $button-active-shadow   }
 }
 
 .song__title{
@@ -127,7 +136,10 @@
     float: right;
   }
 
-  .song-list > li:hover & {display: block}
+  .song-list > li:hover & {
+    display: block;
+    margin-right: 10px;
+  }
 
   button, a{
     @extend .reset-button;
@@ -138,6 +150,11 @@
     line-height: $song-img-size;
     margin-right: 10px;
     &:hover{color: black}
+    &:active{
+      @extend .animated;
+      @extend .pulse;
+      @include animation-duration(0.3s);
+    }
   }
 
   .tooltip{

@@ -8,11 +8,7 @@ function onYouTubeIframeAPIReady(){
 //SoundCloud
 App.SoundCloudReady = new $.Deferred();
 
-$.ajax({
-  url: 'http://connect.soundcloud.com/sdk.js',
-  dataType: "script",
-  success: function() {
+$.getScript('http://connect.soundcloud.com/sdk.js', function() {
     SC.initialize({ client_id: API_KEYS.SoundCloud });
     App.SoundCloudReady.resolve();
-  }
 });

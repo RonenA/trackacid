@@ -1,11 +1,15 @@
 .sidebar__logo{
+  @include transition(font-size 0.3s);
+
   font-weight: 500;
   color: white;
   font-size: golden-ratio($gr-base, 1);
   display: block;
   line-height: $header-height;
   box-sizing: border-box;
-  margin: 0 $sidebar-padding;
+
+  margin-bottom: 0.5em;
+  &.l-top-full{ margin: 0 $sidebar-padding; }
 
   //padding: 0 $sidebar-padding;
 
@@ -15,6 +19,26 @@
     text-decoration: none;
     color: darken(white, 15%);
   }
+}
+
+
+$sidebar-logo-large-size: 50px;
+.sidebar__logo--large{
+  @extend .sidebar__logo;
+  font-size: 50px;
+  line-height: inherit;
+}
+
+.sidebar__sub-heading{
+  font-size: golden-ratio($sidebar-logo-large-size, -2);
+  margin-bottom: golden-ratio($sidebar-logo-large-size, -3);
+  font-weight: 500;
+}
+
+.sidebar__lead{
+  color: #CCC;
+  line-height: 1.2em;
+  margin-bottom: golden-ratio($sidebar-logo-large-size, -1);
 }
 
 .sidebar__list{
@@ -29,9 +53,8 @@
       padding: 7px $sidebar-padding;
 
       color: white;
-      &:hover{
-        background-color: lighten($sidebar-color, 15%);
-      }
+      &:hover  { background-color: lighten($sidebar-color, 15%); }
+      &:active { box-shadow: $button-active-shadow   }
     }
   }
 }

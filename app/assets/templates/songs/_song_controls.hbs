@@ -1,12 +1,14 @@
-{{#if listened}}
-  <button class="js-toggle-song-listened" title="Mark as unheard">
-    <i class="icon-circle-empty"></i>
-  </button>
-{{else}}
-  <button class="js-toggle-song-listened" title="Mark as heard">
-    <i class="icon-check"></i>
-  </button>
-{{/if}}
+{{#ifCurrentUser}}
+  {{#if listened}}
+    <button class="js-toggle-song-listened" title="Mark as unheard">
+      <i class="icon-circle-empty"></i>
+    </button>
+  {{else}}
+    <button class="js-toggle-song-listened" title="Mark as heard">
+      <i class="icon-check"></i>
+    </button>
+  {{/if}}
+{{/ifCurrentUser}}
 
 <button class="js-toggle-song-favorited song__favorite"
         title="{{#if favorited}} Unfavourite {{else}} Favorite {{/if}}">
@@ -20,12 +22,15 @@
 {{/if}}
 
 {{#unless forPlayer}}
-  <a href="{{{firstEntryLink entries}}}" target="blank" title="Read post">
+  <a href="{{{firstEntryLink entries}}}" target="blank" title="Read post"
+      {{#unlessCurrentUser}}data-klass="top-right"{{/unlessCurrentUser}}>
     <i class="icon-external-link"></i>
   </a>
 {{/unless}}
 
-<button class="js-delete-song" title="Delete"
-        {{#unless forPlayer}} data-offsetLeft="-10" data-klass="top-right" {{/unless}}>
-  <i class="icon-cancel"></i>
-</button>
+{{#ifCurrentUser}}
+  <button class="js-delete-song" title="Delete"
+          {{#unless forPlayer}} data-offsetLeft="-10" data-klass="top-right" {{/unless}}>
+    <i class="icon-cancel"></i>
+  </button>
+{{/ifCurrentUser}}

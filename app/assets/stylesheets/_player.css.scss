@@ -6,12 +6,19 @@
   @include clearfix;
 
   z-index: $player-z;
+
+  .song__controls{
+    button, a{
+      line-height: $player-control-height;
+    }
+  }
 }
 
 .player__controls{
   button{
     @extend .reset-button;
-    font-size: 50px;
+    font-size: $player-control-height;
+    line-height: $player-control-height;
     color: $medium-grey;
     &:hover {color: black}
   }
@@ -61,6 +68,7 @@ img.player__img#youtube-video{
   .l-bottom-full{
     left: $player-body-padding;
     right: $player-body-padding;
+    bottom: $player-body-padding - 4px;
   }
 }
 

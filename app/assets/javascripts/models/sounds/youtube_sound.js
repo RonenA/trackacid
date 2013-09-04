@@ -35,9 +35,11 @@ App.Models.YouTubeSound = function() {
     // unstarted (-1), ended (0), playing (1), paused (2),
     // buffering (3), video cued (5).
 
-    //Treats buffering as playing deliberately. Only buffers
-    //during playing, so for all intents and purposes it is playing.
-    return _([1,3]).contains(this.object.getPlayerState());
+    return this.object.getPlayerState() === YT.PlayerState.PLAYING;
+  };
+
+  YouTubeSound.prototype.buffering = function() {
+    return this.object.getPlayerState() === YT.PlayerState.BUFFERING;
   };
 
   return YouTubeSound;

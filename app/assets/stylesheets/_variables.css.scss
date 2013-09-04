@@ -17,6 +17,7 @@ $player-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
 
 //Layout
 $sidebar-width: 270px;
+$sidebar-wider-width: $sidebar-width + 80px;
 $sidebar-padding: 17px;
 $header-height: 57px;
 $favicon-width: 25px;
@@ -27,11 +28,16 @@ $main-list-padding: 20px;
 //Player
 $player-height: 200px;
 $player-body-padding: 25px;
+$player-control-height: 50px;
 
 //Songs
 $song-img-size: 75px;
 
 $youtube-thumbnail-ar: (180/320);
+
+//Animations
+$player-in-duration: 0.3s;
+
 
 //Z-index
 $player-z: 100;

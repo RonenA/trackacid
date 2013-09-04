@@ -17,20 +17,22 @@
 
   <div class="l-bottom-full l-absolute">
     <div class="song__controls float-left {{#if favorited}} is-favorited {{/if}}">
-      {{> songs/_song_controls this }}
+      {{#ifCurrentUser}} {{! Because otherwise there would only be one icon }}
+        {{> songs/_song_controls this }}
+      {{/ifCurrentUser}}
     </div>
 
     <div class="player__controls float-right">
       <button class="js-navigate-playlist" data-direction="prev">
         <i class="icon-prev"></i>
       </button>
-      {{#if playing}}
-        <button class="js-pause">
-          <i class="icon-pause"></i>
-        </button>
-      {{else}}
+      {{#if showPlayButton}}
         <button class="js-play">
           <i class="icon-play"></i>
+        </button>
+      {{else}}
+        <button class="js-pause">
+          <i class="icon-pause"></i>
         </button>
       {{/if}}
       <button class="js-navigate-playlist" data-direction="next">

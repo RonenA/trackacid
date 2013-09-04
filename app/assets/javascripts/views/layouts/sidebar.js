@@ -1,55 +1,59 @@
 App.Views.Sidebar = Backbone.View.extend({
 
-  template: HandlebarsTemplates['layouts/sidebar'],
-
-  events: {
-    'typeahead:selected .js-add-feed': 'addFeed',
+  template: function() {
+    return App.currentUser ?
+            HandlebarsTemplates['layouts/sidebar']() :
+            HandlebarsTemplates['layouts/sidebar--homepage']()
   },
 
-  render: function(){
+  events: {
+    'submit .js-new-user' : 'newUser'
+  },
+
+  render: function() {
     var content = this.template();
     this.$el.html(content);
-    var feedView = new App.Views.FeedIndex({
-      collection:     App.feeds,
-      mainCollection: this.options.mainCollection
-    });
-    this.$el.find('#t--feeds').replaceWith( feedView.render().$el );
+
+    if (App.currentUser) {
+      var feedView = new App.Views.FeedIndex({
+        collection:     App.feeds,
+        mainCollection: this.options.mainCollection
+      });
+      this.$el.find('#t--feeds').replaceWith( feedView.render().$el );
+    }
 
     return this;
   },
 
-  initializeTypeahead: function() {
-    $('.js-add-feed').typeahead({
-      name: 'feeds',
-      valueKey: 'title',
-      prefetch: {
-        url: "/feeds?all=true",
-        filter: this._parseForTypeahead
+  newUser: function(e) {
+    e.preventDefault();
+    var form = $(e.currentTarget);
+    if (form.hasClass('is-loading')) return;
+    var userData = form.serializeJSON();
+
+    $.ajax({
+      url: '/users',
+      dataType: 'json',
+      type: 'post',
+      data: userData,
+      beforeSend: function() {
+        form.addClass('is-loading');
       },
-      template: '{{title}}',
-      engine: Hogan,
-      header: "<h3 class='tt-suggestion-heading'>Search Results</h3>"
-    });
-  },
-
-  _parseForTypeahead: function(data) {
-    _(data).each(function(feed){
-      feed.tokens = feed.title.split(" ");
-    });
-
-    return data;
-  },
-
-  addFeed: function(event, datum) {
-    if(App.feeds.get(datum.id) === undefined){
-      App.feeds.create({feed_id: datum.id}, {
-        success: function(){
-          App.songs.resetAndSeed();
-        }
-      });
-    } else {
-      $('.js-add-feed').typeahead('setQuery', "");
-    }
+      success: function(data, textStatus, jqXHR) {
+        App.currentUser = data;
+        App.feeds = new App.Collections.Feeds();
+        App.songs.reset();
+        App.router.root();
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        var errors = jqXHR.responseJSON;
+        var result = HandlebarsTemplates['layouts/error_list']({errors: errors});
+        var $errorEl = form.find('.js-errors').html( result );
+      },
+      complete: function() {
+        form.removeClass('is-loading');
+      }
+    })
   }
 
 });

@@ -15,6 +15,10 @@ class Song < ActiveRecord::Base
   has_many :entry_songs, :dependent => :destroy
   has_many :entries, :through => :entry_songs
 
+  paginates_per UserSong.SONGS_PER_PAGE
+
+  default_scope order('first_published_at DESC')
+
   @@PROVIDERS = {
     :SoundCloud => {
       :queries => [
@@ -82,6 +86,7 @@ class Song < ActiveRecord::Base
       self.kind               = track.kind
       self.id_from_provider   = track.id
       self.public_link        = track.permalink_url
+      self.api_url            = track.uri
       self.title              = track.title
       self.user_from_provider = track.user.username
       self.description        = track.description

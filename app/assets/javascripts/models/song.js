@@ -27,7 +27,7 @@ App.Models.Song = Backbone.Model.extend({
 
     if(this.get('provider') === "SoundCloud") {
       App.SoundCloudReady.done(function() {
-        SC.get( that.get('source_url'),
+        SC.get( that.get('api_url'),
           function(response){
             that._dataFromProvider.resolve(response);
           }
@@ -149,7 +149,7 @@ App.Models.Song = Backbone.Model.extend({
   },
 
   setAndPersist: function(attribute, value) {
-    if(this.get(attribute) !== value) {
+    if(App.currentUser && this.get(attribute) !== value) {
       this.set(attribute, value);
 
       $.ajax({

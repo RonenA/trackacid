@@ -1,9 +1,13 @@
 <div class="l-root">
 </div>
 
-<script type="application/data" id="user-json">
-  <%= @user.html_safe %>
-</script>
+<div id="start-app"></div>
+
+<% if @user %>
+  <script type="application/data" id="user-json">
+    <%= @user.html_safe %>
+  </script>
+<% end %>
 
 <script type="application/data" id="feed-json">
   <%= @feeds.html_safe %>

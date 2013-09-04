@@ -24,10 +24,11 @@
 @import "player";
 @import "header";
 @import "songs";
-@import "sidebar_feeds";
-@import "browse_feeds";
+@import "feeds__sidebar";
+@import "feeds__browse";
 @import "filters";
 @import "badge";
 @import "dropdown";
 @import "button";
 @import "loading";
+@import "forms";

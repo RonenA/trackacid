@@ -1,19 +1,32 @@
 .sidebar__list.feed-list {
   & > li > a{
     //Give the icon less room
-    padding-right: 10px;
+    padding-right: 13px;
   }
 }
 
 .feed__icon{
+  $icon-shadow: 0 1px 1px rgba(black, 0.5);
+
   width: $favicon-width;
   float: left;
 
   img{
     background-color: white;
-    border-radius: 2px;
+    border-radius: 50%;
     max-width: 16px;
     max-height: 16px;
+
+    border: 1px solid white;
+    @include box-sizing(border-box);
+  }
+
+  img{
+    @include box-shadow($icon-shadow)
+  }
+
+  i{
+    text-shadow: $icon-shadow;
   }
 }
 
@@ -23,7 +36,7 @@
 
 .feed__unheard-count{
   background-color: black;
-  color: #FFF;
+  color: #e4e4e4;
 
   margin-left: 10px;
   line-height: 1.2em;

@@ -4,8 +4,16 @@ body, input, button{
   -webkit-font-smoothing: antialiased;
 }
 
+body{
+  background-color: $medium-grey;
+}
+
 div, input, textarea, button, a{
   @include box-sizing(border-box);
+}
+
+strong{
+  font-weight: bold;
 }
 
 a{
@@ -16,6 +24,7 @@ a{
 
 .reset-button{
   @include appearance(none);
+  display: inline-block;
   border: 0;
   margin: 0;
   padding: 0;

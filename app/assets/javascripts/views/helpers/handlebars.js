@@ -1,5 +1,38 @@
 //TODO: Organize by view
 
+Handlebars.registerHelper('ifCurrentUser', function(options) {
+  if(App.currentUser) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+
+Handlebars.registerHelper('unlessCurrentUser', function(options) {
+  if(!App.currentUser) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+
+Handlebars.registerHelper('ifFollowingAnyBlogs', function(options) {
+  if(App.feeds.length > 0) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+});
+
+
+Handlebars.registerHelper('contactEmail', function() {
+  return new Handlebars.SafeString('TODO:Contact email');
+});
+
+Handlebars.registerHelper('capitalize', function(string) {
+  return new Handlebars.SafeString(string.capitalize());
+});
+
 //Used in feed index
 Handlebars.registerHelper('selectedFeedClass', function(selectedFeedId, id) {
   if (selectedFeedId == id) {

@@ -1,9 +1,13 @@
 NewReader::Application.routes.draw do
   root to: "root#root"
 
-  devise_for :users
-  devise_scope :users do
-    put "users/settings", :to => "settings#update", :as => "update_user_settings"
+  devise_for :users, :controllers => {registrations: 'registrations'}
+  devise_scope :user do
+    #path to update settings
+    put "users/settings", :to => "settings#update", :as => :update_user_settings
+
+    #custom login path
+    get 'login' => 'devise/sessions#new', :as => :new_user_session
   end
 
   resources :feeds, only: [:index, :create, :destroy] do

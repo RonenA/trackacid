@@ -1,29 +1,45 @@
-<ul class="header__controls float-right">
+{{#ifCurrentUser}}
 
-  {{#if feed.site_url}}
-  <li>
-    <button class="js-unsubscribe-feed">Unfollow</button>
-  </li>
-  {{/if}}
+  <ul class="header__controls float-right">
 
-  <li>
-    <button class="js-mark-all-as-heard">Mark all as heard</button>
-  </li>
+    {{#if feed.site_url}}
+    <li>
+      <button class="js-unsubscribe-feed">Unfollow</button>
+    </li>
+    {{/if}}
 
-  <li>
-    <button class="js-toggle-view-heard">
-      {{#if user.hide_heard_songs}} Show {{else}} Hide {{/if}} heard songs
-    </button>
-  </li>
+    <li>
+      <button class="js-mark-all-as-heard">Mark all as heard</button>
+    </li>
 
-  {{> layouts/_settings_dropdown }}
+    <li>
+      <button class="js-toggle-view-heard">
+        {{#if user.hide_heard_songs}} Show {{else}} Hide {{/if}} heard songs
+      </button>
+    </li>
 
-</ul>
+    {{> layouts/_settings_dropdown }}
 
-<h1 class="header__title l-ellip">
-  {{#if feed.site_url}}
-    <a href="{{feed.site_url}}" target="blank">{{feed.title}}</a>
-  {{else}}
-    {{feed.title}}
-  {{/if}}
-</h1>
+  </ul>
+
+  <h1 class="header__title l-ellip">
+    {{#if feed.site_url}}
+      <a href="{{feed.site_url}}" target="blank">{{feed.title}}</a>
+    {{else}}
+      {{feed.title}}
+    {{/if}}
+  </h1>
+
+{{else}}
+
+  <ul class="header__controls float-right">
+    <li>
+      <a class="large icon-mail" href="mailto:{{{contactEmail this}}}">Contact</a>
+    </li>
+    <li>
+      <a class="large" href="/login">Login</a>
+    </li>
+  </ul>
+  <h1 class="header__title l-ellip">Latest Songs</h1>
+
+{{/ifCurrentUser}}

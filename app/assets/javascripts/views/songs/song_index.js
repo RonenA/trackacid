@@ -128,8 +128,12 @@ App.Views.SongIndex = Backbone.View.extend({
   },
 
   toggleSongFavorited: function(e) {
-    var target = $(e.currentTarget);
-    this.toggleSongAttribute("favorited", target);
+    if (App.currentUser) {
+      var target = $(e.currentTarget);
+      this.toggleSongAttribute("favorited", target);
+    } else {
+      App.router.signupModal();
+    }
   },
 
   toggleSongAttribute: function(attribute, target) {

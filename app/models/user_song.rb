@@ -24,7 +24,7 @@ class UserSong < ActiveRecord::Base
     true
   end
 
-  def as_json(options)
+  def as_json(options = {})
     json = super(:except => [:user_id, :song_id, :created_ay, :updated_at])
 
     song_json = JSON.parse(song.to_json(:except => [:created_at, :updated_at]))

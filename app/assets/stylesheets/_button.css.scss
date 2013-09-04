@@ -20,6 +20,7 @@
   //the non-hover rules of btn--hollow
   &:hover{
     color: white;
+    text-decoration: none;
   }
 
   &:active{
@@ -27,7 +28,6 @@
   }
 
   i{
-    font-size: 1.2em;
     margin-right: 3px;
   }
 
@@ -37,6 +37,13 @@
 
 .btn--red{
   @include button-color($red);
+}
+
+.btn--has-loader{
+  @extend .btn;
+  @include transition(width 0.5s);
+  .icon-spinner {display: none}
+  .is-loading & .icon-spinner {display: inline-block}
 }
 
 //So you can swap the text on a button

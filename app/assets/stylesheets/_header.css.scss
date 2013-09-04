@@ -20,23 +20,39 @@
 
   //Applies to all links and buttons
   & > li > button,
+  & > li > a,
   .dropdown-menu > li > a,
   .dropdown-menu > li > form button {
     color: $light-grey;
   }
 
   //Applies only to the immediately visible menu
-  & > li > button{
+  & > li > button,
+  & > li > a{
     @extend .reset-button;
     font-size: 12px;
-    &:hover, &:focus { background-color: lighten($list-hover-color, 2%) }
+    &:hover, &:focus { background-color: lighten($list-hover-color, 2%);
+                       text-decoration: none }
     &:focus          { outline: none}
     &:active         { box-shadow: $button-active-shadow }
 
     height: $header-height;
+    line-height: $header-height;
     padding: 0 13px;
 
     i{font-size: 20px}
+
+    &.large{
+      font-size: 16px;
+      //font-weight: 500;
+      padding: 0 17px;
+    }
+
+    &.blue{
+      background-color: $blue;
+      color: white;
+      &:hover{background-color: darken($blue, 5%)}
+    }
   }
 
   //Applies only to the dropdown
