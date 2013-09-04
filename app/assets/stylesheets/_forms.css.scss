@@ -1,12 +1,12 @@
+$enough-text-inputs: 'input[type="text"], input[type="email"], input[type="password"]';
+
 .two-field-form{
   input, button{
     font-size: golden-ratio($sidebar-logo-large-size, -2);
     @include transition(font-size 0.3s);
   }
 
-  input[type="text"],
-  input[type="email"],
-  input[type="password"]{
+  #{$enough-text-inputs}{
     @extend .reset-input;
     width: 100%;
     margin: 0;
@@ -14,12 +14,12 @@
     &.top-half{
       border-bottom: 2px solid #ddd;
       padding: 0.95em 1.1em 0.71em 1.1em;
-      @include border-top-radius(3px);
+      @include border-top-radius($input-border-radius);
     }
 
     &.bottom-half{
       padding: 0.71em 1.1em 0.95em 1.1em;
-      @include border-bottom-radius(3px);
+      @include border-bottom-radius($input-border-radius);
     }
   }
 
@@ -40,6 +40,16 @@
   }
 }
 
+.one-field-form{
+  @extend .two-field-form;
+
+  #{$enough-text-inputs}{
+    padding:  0.95em  1.1em;
+    @include border-top-radius($input-border-radius);
+    @include border-bottom-radius($input-border-radius);
+  }
+}
+
 
 
 .form-and-details{
@@ -55,6 +65,10 @@
 
     h2,h3{
       a{color: white}
+    }
+
+    ul{
+      margin-top: 15px;
     }
 
     .bullet-list{
