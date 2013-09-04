@@ -1,3 +1,26 @@
+.bullet-list{
+  list-style: disc inside none;
+  & > li{
+    margin-bottom: 1px;
+  }
+}
+
+.bullet-list--block{
+  list-style: none;
+  & > li{
+    margin-bottom: 1px;
+    display: block;
+
+    padding-left: 1em;
+    text-indent: -.7em;
+
+    &:before{
+      content: '\2022';
+      color: inherit;
+    }
+  }
+}
+
 .inline-list{
   & > li{
     display: inline-block;
@@ -22,5 +45,12 @@
       line-height: 0;
     }
     &:last-child:after{display: none}
+  }
+}
+
+
+.paragraph-list{
+  li{
+    @extend p;
   }
 }

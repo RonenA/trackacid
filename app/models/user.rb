@@ -59,4 +59,8 @@ class User < ActiveRecord::Base
       .page(page)
   end
 
+  def remember_me
+    true
+  end
+
 end

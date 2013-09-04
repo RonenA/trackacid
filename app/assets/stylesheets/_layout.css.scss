@@ -142,3 +142,16 @@
 
   line-height: 1.2em;
 }
+
+.l-absolute-center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+@mixin absolute-center($width, $height) {
+  width: $width;
+  margin-left: -$width/2;
+  height: $height;
+  margin-top: -$height/2;
+}

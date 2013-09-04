@@ -4,24 +4,26 @@
     @include transition(font-size 0.3s);
   }
 
-  input{
+  input[type="text"],
+  input[type="email"],
+  input[type="password"]{
     @extend .reset-input;
     width: 100%;
     margin: 0;
+
+    &.top-half{
+      border-bottom: 2px solid #ddd;
+      padding: 0.95em 1.1em 0.71em 1.1em;
+      @include border-top-radius(3px);
+    }
+
+    &.bottom-half{
+      padding: 0.71em 1.1em 0.95em 1.1em;
+      @include border-bottom-radius(3px);
+    }
   }
 
-  .top-half{
-    border-bottom: 2px solid #ddd;
-    padding: 0.95em 1.1em 0.71em 1.1em;
-    @include border-top-radius(3px);
-  }
-
-  .bottom-half{
-    padding: 0.71em 1.1em 0.95em 1.1em;
-    @include border-bottom-radius(3px);
-  }
-
-  button {
+  button, .btn {
     margin-top: 10px;
   }
 }
@@ -35,5 +37,36 @@
     border-bottom: 1px solid lighten($red, 10%);
     padding: 0.7em 1.1em;
     &:last-child{ border-bottom: 0 }
+  }
+}
+
+
+
+.form-and-details{
+
+  .details{
+    float: left;
+    color: white;
+    margin-right: 50px;
+
+    h2{
+      margin-bottom: 8px;
+    }
+
+    .bullet-list{
+      color: #aaa;
+    }
+
+    a{
+      color: #aaa;
+    }
+  }
+
+  form {
+    overflow: hidden;
+  }
+
+  &.l-absolute-center{
+    @include absolute-center(650px, 176px);
   }
 }
