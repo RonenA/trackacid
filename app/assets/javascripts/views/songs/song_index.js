@@ -46,6 +46,7 @@ App.Views.SongIndex = Backbone.View.extend({
     this.removeTooltips();
 
     var songs = this.collection.toJSON();
+
     if (this.collection.currentIdx !== null) {
       songs[this.collection.currentIdx].selected = true;
     }

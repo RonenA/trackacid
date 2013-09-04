@@ -116,13 +116,13 @@ App.Views.Player = Backbone.View.extend({
 
     if (this.sound.state() === 'resolved') {
       this.sound.done(function(sound){
-        bool = sound.playing() || sound.buffering();
+        bool = !(sound.playing() || sound.buffering());
       });
     } else {
       // Treat a not yet loaded sound as playing
       // because being loaded is the same as buffering,
       // and buffering is treated the same as playing.
-      bool = true;
+      bool = false;
     }
 
     return bool;

@@ -103,6 +103,7 @@ App.Collections.Songs = Backbone.Collection.extend({
 
   setIndex: function(newIdx) {
     var that = this;
+    var deferred;
 
     //If the new index is above the current index,
     //load the next page before triggering changeIndex.
@@ -119,8 +120,9 @@ App.Collections.Songs = Backbone.Collection.extend({
     deferred.done(function(){
       //If its still greater than the length after loading
       //the next page, set the index to null.
-      that.currentIdx = ( (newIdx >= this.length || newIdx < 0) ? null : newIdx);
-      that.trigger("changeIndex", newIdx);
+      var targetIdx = (newIdx >= that.length || newIdx < 0) ? null : newIdx;
+      that.currentIdx = targetIdx;
+      that.trigger("changeIndex", targetIdx);
     });
   },
 
