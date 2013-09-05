@@ -2,22 +2,30 @@ App.Models.Song = Backbone.Model.extend({
 
   initialize: function() {
     this.listenTo(this, 'change:listened', this.updateFeedUnheardCount);
+
+    var sortedEntries = _(this.get('entries')).sortBy(function(entry) {
+      return new Date(entry.published_at);
+    });
+
+    this.set('entries', sortedEntries, {silent: true});
   },
 
   toJSON: function(options) {
     var json = _.clone(this.attributes);
-    //Make sure the entries are in order of date
-    json.entries = _(json.entries).sortBy(function(entry) {
-      return new Date(entry.published_at);
-    });
-
     json.ownedByUser = this.ownedByUser();
-
     return json;
   },
 
   url: function() {
     return '/songs/'+this.id;
+  },
+
+  firstPublishedForFeed: function(feedId){
+    if (!isNaN(feedId)) {
+      return _(this.get('entries')).findWhere({feed_id: feedId}).published_at;
+    } else {
+      return this.get('first_published_at');
+    }
   },
 
   dataFromProvider: function() {

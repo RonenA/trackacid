@@ -10,6 +10,8 @@ class Entry < ActiveRecord::Base
 
   after_create :find_songs
 
+  #default_scope order('published_at DESC')
+
   #TODO: Do we even need to store the content_encoded?
   #We just need to rip the song urls.
   def self.create_from_json!(entry_data, feed)
@@ -65,6 +67,8 @@ class Entry < ActiveRecord::Base
       element, attribute, query = query_attrs
 
       song_nokos = dom.css(query)
+      songs_found = false
+
       song_nokos.each do |song_noko|
         url_string = song_noko.get_attribute(attribute)
         url_string = Song.parse_iframe_src(url_string, provider) if element == :iframe
@@ -80,9 +84,13 @@ class Entry < ActiveRecord::Base
           :provider => provider
         })
 
-        self.songs << song if song
+        if song
+          self.songs << song
+          songs_found = true
+        end
       end
-      song_nokos.any?
+
+      songs_found
     end
   end
 

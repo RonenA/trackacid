@@ -60,10 +60,6 @@ App.Routers.Main = Backbone.Router.extend({
     }
   },
 
-  signupModal: function() {
-    alert("TODO: modal");
-  },
-
   favorites: function() {
     var favoriteSongs = App.songs.select(function(song) {
       return song.get("favorited");
@@ -76,6 +72,7 @@ App.Routers.Main = Backbone.Router.extend({
   feedShow: function(id) {
     this.loading();
 
+    id = parseInt(id);
     var that = this;
     var feedSongs;
     var feed = new $.Deferred();
@@ -86,7 +83,7 @@ App.Routers.Main = Backbone.Router.extend({
 
       feedSongs = App.songs.select(function(song) {
         return _(song.get('entries')).any(function(entry) {
-          return entry.feed_id === parseInt(id);
+          return entry.feed_id === id;
         });
       });
     } else {

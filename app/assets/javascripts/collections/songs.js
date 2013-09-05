@@ -3,8 +3,8 @@ App.Collections.Songs = Backbone.Collection.extend({
   model: App.Models.Song,
 
   comparator: function(songA, songB) {
-    if (songA.get("first_published_at") > songB.get("first_published_at")) return -1;
-    if (songA.get("first_published_at") < songB.get("first_published_at")) return 1;
+    if (songA.firstPublishedForFeed(this.feedId) > songB.firstPublishedForFeed(this.feedId)) return -1;
+    if (songA.firstPublishedForFeed(this.feedId) < songB.firstPublishedForFeed(this.feedId)) return 1;
     return 0;
   },
 
@@ -41,11 +41,14 @@ App.Collections.Songs = Backbone.Collection.extend({
   feedData: function() {
     if (this.feed){
       var json = this.feed.toJSON();
+      //If the feedId is not a number, the user owns the feed
+      //If the feedId is a number, check if its in App.feeds
       json.ownedByUser = !!App.feeds.get(this.feedId);
       return json;
     } else {
       return {
-        title: this.feedId.capitalize()
+        title: this.feedId.capitalize(),
+        ownedByUser: true
       }
     }
   },
