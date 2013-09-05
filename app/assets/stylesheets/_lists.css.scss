@@ -52,5 +52,6 @@
 .paragraph-list{
   li{
     @extend p;
+    margin-bottom: 2px;
   }
 }

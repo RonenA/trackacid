@@ -50,6 +50,13 @@ App.Routers.Main = Backbone.Router.extend({
       this._initializeWithCollection(App.songs);
     } else {
       this.mainView = new App.Views.SongIndex({collection: App.songs});
+
+      //Only animate for home page
+      this.$mainEl.addClass('animated bounceInLeft');
+      window.setTimeout(function(){
+        this.$mainEl.removeClass('animated bounceInLeft');
+      }, 1000);
+
       this.$mainEl.html( this.mainView.render().$el );
 
       this.initializeSidebar();
