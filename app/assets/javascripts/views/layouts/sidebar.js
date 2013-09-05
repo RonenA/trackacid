@@ -24,8 +24,8 @@ App.Views.Sidebar = Backbone.View.extend({
     }
 
     window.setTimeout(function(){
-      that.$el.find('input, textarea').placeholder();
       that.hideScrollbar();
+      that.$el.find('input, textarea').placeholder();
     });
 
     return this;
@@ -64,10 +64,13 @@ App.Views.Sidebar = Backbone.View.extend({
 
   hideScrollbar: function() {
     var sidebarBody = $('.l-sidebar__body');
-    var clientWidth = sidebarBody[0].clientWidth;
-    var fullWidth = sidebarBody.width();
 
-    sidebarBody.css('right', clientWidth - fullWidth);
+    if(sidebarBody.length) {
+      var clientWidth = sidebarBody[0].clientWidth;
+      var fullWidth = $('.l-sidebar').width();
+
+      sidebarBody.css('right', clientWidth - fullWidth);
+    }
   }
 
 });

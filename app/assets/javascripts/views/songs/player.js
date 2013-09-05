@@ -147,7 +147,7 @@ App.Views.Player = Backbone.View.extend({
     this.$infoEl.find('.song__controls > button, .song__controls > a').tooltip({
       placement: 'top',
       container: 'body',
-      offsetTop: 25
+      offsetTop: 15
     });
   },
 

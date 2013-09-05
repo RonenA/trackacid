@@ -36,6 +36,9 @@
     margin-right: 3px;
   }
 
+  //Fixed bug in firefox where icon is above text
+  & > span {white-space: nowrap;}
+
   //default color
   @include button-color($blue);
 }

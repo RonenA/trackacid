@@ -20,7 +20,7 @@
 //= require hogan
 //= require underscore
 //= require backbone
-//= require handlebars.runtime
+//= require handlebars-latest
 //
 //= require music_reader
 //= require api_keys

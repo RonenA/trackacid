@@ -1,23 +1,22 @@
 {{#each feeds}}
   <li data-id="{{id}}">
     {{{feedToggleSubscriptionButton id}}}
+    <i class="browse-feeds__icon media__img">
+      {{{feedFavicon site_url}}}
+    </i>
+    <div class="media__body">
       <a href="/#/feeds/{{id}}">
-        <i class="browse-feeds__icon">
-          {{{feedFavicon site_url}}}
-        </i>
         <h3 class="browse-feeds__title">{{title}}</h3>
       </a>
-    <p class="browse-feeds__secondary">
-      {{#if description}}
-        {{description}}
-      {{else}}
-        {{site_url}}
-      {{/if}}
-    </p>
+      <p class="browse-feeds__secondary">
+        {{#if description}} {{description}} {{else}} {{site_url}} {{/if}}
+      </p>
+    </div>
   </li>
 {{/each}}
-  <li class="text-center">
-    <span class="browse-feeds__title">
-      Don't see your favourite blog here? <a href="mailto:{{{contactEmail}}}" class="icon-mail">Contact Us.</a>
-    </span>
-  </li>
+
+<li class="text-center">
+  <span class="browse-feeds__title">
+    Don't see your favourite blog here? <a href="mailto:{{{contactEmail}}}" class="icon-mail">Contact Us.</a>
+  </span>
+</li>

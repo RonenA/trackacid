@@ -8,26 +8,31 @@
 .feed__icon{
   $icon-shadow: 0 1px 1px rgba(black, 0.5);
 
-  width: $favicon-width;
+  margin-right: 9px;
   float: left;
+
+  width: $favicon-width;
+  height: $favicon-width;
 
   img{
     background-color: white;
-    border-radius: 50%;
-    max-width: 16px;
-    max-height: 16px;
+    max-width: 100%;
+    max-height: 100%;
 
     border: 1px solid white;
     @include box-sizing(border-box);
   }
 
-  img{
-    @include box-shadow($icon-shadow)
-  }
+  box-shadow: $icon-shadow;
 
   i{
     text-shadow: $icon-shadow;
   }
+}
+
+.feed__icon--not-favicon{
+  @extend .feed__icon;
+  box-shadow: none;
 }
 
 .feed__title{

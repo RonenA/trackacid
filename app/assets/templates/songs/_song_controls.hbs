@@ -10,6 +10,7 @@
   {{/if}}
 
   <button class="js-toggle-song-favorited song__favorite"
+          {{#if forPlayer}} data-offsetTop="20" {{/if}}
           title="{{#if favorited}} Unfavourite {{else}} Favorite {{/if}}">
     <i class="icon-heart"></i>
   </button>
@@ -22,7 +23,8 @@
 {{/if}}
 
 {{#unless forPlayer}}
-  <a href="{{{firstEntryLink entries}}}" target="blank" title="Read post">
+  <a href="{{{firstEntryLink entries}}}" target="blank" title="Read post"
+      {{#unless ownedByUser}} data-offsetLeft="-25" data-klass="top-right" {{/unless}}>
     <i class="icon-external-link"></i>
   </a>
 {{/unless}}
