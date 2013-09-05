@@ -25,6 +25,7 @@ App.Views.Sidebar = Backbone.View.extend({
 
     window.setTimeout(function(){
       that.$el.find('input, textarea').placeholder();
+      that.hideScrollbar();
     });
 
     return this;
@@ -59,6 +60,14 @@ App.Views.Sidebar = Backbone.View.extend({
         form.removeClass('is-loading');
       }
     })
+  },
+
+  hideScrollbar: function() {
+    var sidebarBody = $('.l-sidebar__body');
+    var clientWidth = sidebarBody[0].clientWidth;
+    var fullWidth = sidebarBody.width();
+
+    sidebarBody.css('right', clientWidth - fullWidth);
   }
 
 });

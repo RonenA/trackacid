@@ -56,7 +56,9 @@
 
 .l-sidebar__body{
   @include position(absolute, 0px 0px 0px 0px);
-  overflow: scroll;
+  //right: -15px; //hide scrollbar
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   .sidebar__bottom-panel ~ & { bottom: 51px; }
   .sidebar__logo ~ &         { top: 58px; }
@@ -94,7 +96,10 @@
 
 .l-main__list{
   @include position(absolute, $header-height 0px 0px 0px);
-   &:not(.nano) {overflow: scroll;}
+   &:not(.nano) {
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
 }
 
 //Positioning
