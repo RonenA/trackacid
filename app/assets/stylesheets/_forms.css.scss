@@ -15,10 +15,12 @@ $enough-text-inputs: 'input[type="text"], input[type="email"], input[type="passw
       border-bottom: 2px solid #ddd;
       padding: 0.95em 1.1em 0.71em 1.1em;
       @include border-top-radius($input-border-radius);
+      @include border-bottom-radius(0);
     }
 
     &.bottom-half{
       padding: 0.71em 1.1em 0.95em 1.1em;
+      @include border-top-radius(0);
       @include border-bottom-radius($input-border-radius);
     }
   }
@@ -40,19 +42,54 @@ $enough-text-inputs: 'input[type="text"], input[type="email"], input[type="passw
   }
 }
 
+//Devise crap - happens in the standalone signup page
+#error_explanation{
+  h2{display: none}
+  ul{@extend .two-field-form__errors}
+}
+
 .one-field-form{
   @extend .two-field-form;
+}
+
+.vertical-form{
+  input{
+    &:focus{box-shadow: $subtle-shadow}
+  }
+
+  label{
+    display: block;
+    color: #ccc;
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .hint{
+    color: #888;
+    font-size: 0.9em;
+  }
+
+  fieldset{
+    margin-bottom: 30px;
+  }
 
   #{$enough-text-inputs}{
-    padding:  0.95em  1.1em;
-    @include border-top-radius($input-border-radius);
-    @include border-bottom-radius($input-border-radius);
+    @extend .reset-input;
+    width: 100%;
+    border-radius: $input-border-radius;
+  }
+}
+
+.small-input-form{
+  input{
+    @extend .small-input;
   }
 }
 
 
-
 .form-and-details{
+
+  color: white;
 
   .details{
     float: left;
@@ -63,10 +100,6 @@ $enough-text-inputs: 'input[type="text"], input[type="email"], input[type="passw
       margin-bottom: 8px;
     }
 
-    h2,h3{
-      a{color: white}
-    }
-
     ul{
       margin-top: 15px;
     }
@@ -75,22 +108,24 @@ $enough-text-inputs: 'input[type="text"], input[type="email"], input[type="passw
       color: #aaa;
     }
 
-    a{
-      color: #aaa;
+    a, .link-button{ color: #aaa; }
+               .btn{ color: white }
+
+    h2,h3{ a{color: white} }
+
+    button, .btn {
+      margin-top: 20px;
     }
   }
 
-  form {
+  & > form {
     overflow: hidden;
   }
 
-  &.l-absolute-center{
-    @include absolute-center(650px, 176px);
+  &.l-absolute-center{ @include absolute-center(650px, 176px);}
+  &.l-horizontal-center {
+    width: 650px;
+    margin: 0 auto;
+    margin-top: 40px;
   }
-}
-
-//Devise crap
-#error_explanation{
-  h2{display: none}
-  ul{@extend .two-field-form__errors}
 }

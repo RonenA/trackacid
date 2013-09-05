@@ -62,6 +62,16 @@ h3{
   outline: none;
 }
 
+#{$all-text-inputs} {
+  @extend .reset-input;
+  padding:  0.95em  1.1em;
+  border-radius: $input-border-radius;
+}
+
+.small-input{
+  padding: 0.75em 1em;
+}
+
 //For placeholder.js
 .placeholder { color: #aaa; }
 
@@ -88,13 +98,10 @@ h3{
   overflow: hidden;
 }
 
-.cf{
-  @include clearfix;
-}
-
-.text-center{
-  text-align: center;
-}
+.cf{ @include clearfix; }
+.text-center{ text-align: center; }
+.inline{display: inline}
+.inline-block{display: inline-block}
 
 .float-right{float: right}
 .float-left{float: left}
