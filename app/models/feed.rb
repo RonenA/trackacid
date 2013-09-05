@@ -44,7 +44,7 @@ class Feed < ActiveRecord::Base
       end
 
       self
-    rescue Timeout::Error, SimpleRSSError => e
+    rescue => e
       p "Could not reload #{this.title} due to #{e.message}"
       return false
     end
