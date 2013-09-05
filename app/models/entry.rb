@@ -19,10 +19,10 @@ class Entry < ActiveRecord::Base
     begin
       Entry.send(method, {
         guid:            entry_data.guid || entry_data.id || entry_data.link,
-        link:            CGI.unescapeHTML(entry_data.link),
-        published_at:    entry_data.pubDate || entry_data.modified,
-        title:           CGI.unescapeHTML(entry_data.title),
-        content_encoded: CGI.unescapeHTML(entry_data.content_encoded || entry_data.content|| entry_data.description),
+        link:            CGI.unescapeHTML(entry_data.link || ""),  #Requires || "" because unescapeHTML
+        published_at:    entry_data.pubDate || entry_data.modified, #only a nil throws an error.
+        title:           CGI.unescapeHTML(entry_data.title || ""),
+        content_encoded: CGI.unescapeHTML(entry_data.content_encoded || entry_data.content|| entry_data.description || ""),
         feed_id:         feed.id
       })
     rescue ActiveRecord::RecordNotUnique

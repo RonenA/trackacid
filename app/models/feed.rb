@@ -32,7 +32,7 @@ class Feed < ActiveRecord::Base
     begin
       feed_data = SimpleRSS.parse(open(url))
       self.site_url = feed_data.link
-      self.description = CGI.unescapeHTML(feed_data.description)
+      self.description = CGI.unescapeHTML(feed_data.description || "")
 
       save
 
@@ -44,13 +44,17 @@ class Feed < ActiveRecord::Base
       end
 
       self
-    rescue SimpleRSSError
+    rescue Timeout::Error, SimpleRSSError => e
+      p "Could not reload #{this.title} due to #{e.message}"
       return false
     end
   end
 
   def self.reload_all
+    before = Time.now
     all.each(&:reload)
+    later = Time.now
+    p "Completed reload in #{ (later-before)/60 } minutes"
   end
 
   def self.search(query)
