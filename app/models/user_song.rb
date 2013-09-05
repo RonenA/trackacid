@@ -9,6 +9,8 @@ class UserSong < ActiveRecord::Base
   belongs_to :user
   belongs_to :song
 
+  default_scope where(:deleted => false)
+
   @@SONGS_PER_PAGE = 20
   paginates_per @@SONGS_PER_PAGE
 

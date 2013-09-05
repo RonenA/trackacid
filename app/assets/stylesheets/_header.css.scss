@@ -1,6 +1,5 @@
 .header{
   height: $header-height;
-  padding-left: 22px;
   position: relative;
   z-index: $header-z;
   box-shadow: $header-shadow;
@@ -11,11 +10,19 @@
 }
 
 .header__controls{
-  margin-left: 10px;
-
   & > li {
     float: left; //Fixes weird spacing issue
     border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+  }
+
+  &.float-right {
+    & > li { border-right: 0 }
+    margin-left: 10px;
+  }
+  &.float-left {
+    & > li { border-left: 0 }
+    margin-left: 0;
   }
 
   //Applies to all links and buttons
@@ -66,4 +73,5 @@
   font-size: golden-ratio($gr-base, 1);
   font-weight: 500;
   line-height: $header-height;
+  padding-left: 22px;
 }

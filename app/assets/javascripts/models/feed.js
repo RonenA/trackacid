@@ -16,3 +16,19 @@ App.Models.Feed = Backbone.Model.extend({
     this.set('unheard_count', currentCount + delta);
   }
 });
+
+App.Models.Feed.follow = function(feed_id, options) {
+  options = options || {};
+
+  App.feeds.create({feed_id: feed_id}, {
+    success: function() {
+      App.songs.resetAndSeed();
+      if (options.success) options.success();
+    },
+    error: function(model, xhr, options) {
+      App.Alerts.new("error", "Feed could not be added due to: " + xhr.statusText);
+      if (options.error) options.error();
+    },
+    wait: true
+  });
+};

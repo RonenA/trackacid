@@ -51,12 +51,6 @@ App.Routers.Main = Backbone.Router.extend({
     } else {
       this.mainView = new App.Views.SongIndex({collection: App.songs});
 
-      //Only animate for home page
-      this.$mainEl.addClass('animated bounceInLeft');
-      window.setTimeout(function(){
-        this.$mainEl.removeClass('animated bounceInLeft');
-      }, 1000);
-
       this.$mainEl.html( this.mainView.render().$el );
 
       this.initializeSidebar();
@@ -80,14 +74,40 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   feedShow: function(id) {
-    var feedSongs = App.songs.select(function(song) {
-      return _(song.get('entries')).any(function(entry) {
-        return entry.feed_id === parseInt(id);
-      });
-    });
+    this.loading();
 
-    var feedSongCollection = new App.Collections.Songs(feedSongs, {feedId: id});
-    this._initializeWithCollection(feedSongCollection);
+    var that = this;
+    var feedSongs;
+    var feed = new $.Deferred();
+
+    var usersFeed = App.feeds.get(id);
+    if (usersFeed) { //if the user has this feed
+      feed.resolve(usersFeed);
+
+      feedSongs = App.songs.select(function(song) {
+        return _(song.get('entries')).any(function(entry) {
+          return entry.feed_id === parseInt(id);
+        });
+      });
+    } else {
+      App.allFeeds().done(function(allFeeds) {
+        feed.resolve( allFeeds.get(id) );
+      });
+
+      feedSongs = [];
+    }
+
+    feed.done(function(feed){
+      if (!feed) {
+        App.Alerts.new("error", "Feed not found");
+        that.navigate("", {trigger: true});
+      } else {
+        var options = {feedId: id};
+        if (!usersFeed) options.feed = feed;
+        var feedSongCollection = new App.Collections.Songs(feedSongs, options);
+        that._initializeWithCollection(feedSongCollection);
+      }
+    });
   },
 
   _initializeWithCollection: function(collection) {
@@ -117,20 +137,13 @@ App.Routers.Main = Backbone.Router.extend({
     if(this.mainView) this.mainView.remove();
     this.loading();
 
+    App.allFeeds().done(function(allFeeds){
+      that.mainView = new App.Views.BrowseFeeds({collection: allFeeds});
+      that.$mainEl.html( that.mainView.render().$el );
 
-    $.ajax({
-      url: "/feeds?all=true",
-      success: function(feeds) {
-        that.mainView = new App.Views.BrowseFeeds({collection: feeds});
-        that.$mainEl.html( that.mainView.render().$el );
+      that.initializeSidebar();
 
-        that.initializeSidebar();
-
-        that.bindWindowResize();
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        App.Alerts.new("error", "Could not load feeds due to: " + errorThrown);
-      },
+      that.bindWindowResize();
     });
   },
 

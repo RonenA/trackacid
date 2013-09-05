@@ -24,10 +24,30 @@ window.App = {
 
     Backbone.history.start();
   },
-  defaultArtworkUrl: '/assets/default_artwork.svg'
+  defaultArtworkUrl: '/assets/default_artwork.svg',
+  allFeeds: function() {
+
+    if (!App._allFeeds) {
+      App._allFeeds = new $.Deferred();
+
+      $.ajax({
+        url: "/feeds?all=true",
+        success: function(feeds) {
+          App._allFeeds.resolve(new App.Collections.Feeds(feeds));
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          App.Alerts.new("error", "Could not load feeds due to: " + errorThrown);
+        },
+      });
+    }
+
+    return App._allFeeds;
+  }
 };
 
 $(document).ready(function(){
+  App.Alerts.initalize();
+
   if ($('#start-app').length) {
     App.initialize();
   } else {

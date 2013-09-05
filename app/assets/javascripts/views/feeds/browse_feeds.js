@@ -21,7 +21,7 @@ App.Views.BrowseFeeds = Backbone.View.extend({
   },
 
   renderList: function() {
-    var result = HandlebarsTemplates['feeds/browse/list']({feeds: this.collection});
+    var result = HandlebarsTemplates['feeds/browse/list']({ feeds: this.collection.toJSON() });
     var oldScrollPosition = this.$listEl.scrollTop();
     this.$listEl.html(result);
     this.$listEl.scrollTop(oldScrollPosition);
@@ -52,16 +52,7 @@ App.Views.BrowseFeeds = Backbone.View.extend({
     var id = this._idFromTarget(target);
 
     target.find('.icon-plus').toggleClass('icon-plus icon-spinner animate-spin');
-
-    App.feeds.create({feed_id: id}, {
-      success: function() {
-        App.songs.resetAndSeed();
-      },
-      error: function(model, xhr, options) {
-        App.Alerts.new("error", "Feed could not be added due to: " + xhr.statusText);
-      },
-      wait: true
-    });
+    App.Models.Feed.follow(id);
   }
 
 

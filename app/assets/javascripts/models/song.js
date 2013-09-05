@@ -10,6 +10,9 @@ App.Models.Song = Backbone.Model.extend({
     json.entries = _(json.entries).sortBy(function(entry) {
       return new Date(entry.published_at);
     });
+
+    json.ownedByUser = this.ownedByUser();
+
     return json;
   },
 
@@ -176,7 +179,7 @@ App.Models.Song = Backbone.Model.extend({
   },
 
   setAndPersist: function(attribute, value) {
-    if(App.currentUser && this.get(attribute) !== value) {
+    if (this.get(attribute) !== value && App.currentUser && this.ownedByUser()) {
       this.set(attribute, value);
 
       $.ajax({
@@ -208,7 +211,14 @@ App.Models.Song = Backbone.Model.extend({
 
   hasOwnSpinner: function() {
     return App.Models.Song.providerInfo[this.get("provider")].hasOwnSpinner;
-  }
+  },
+
+  ownedByUser: function() {
+    if (!App.currentUser) return false;
+    return _(this.get('entries')).all(function(entry){
+      return App.feeds.get(entry.feed_id);
+    });
+  },
 
 });
 

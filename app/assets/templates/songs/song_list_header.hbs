@@ -1,22 +1,36 @@
 {{#ifCurrentUser}}
 
+  {{#unless feed.ownedByUser}}
+    <ul class="header__controls float-left">
+      <li class="large">
+        <a href="/#/browse"><i class="icon-left-open"></i></a>
+      </li>
+    </ul>
+  {{/unless}}
+
   <ul class="header__controls float-right">
 
     {{#if feed.site_url}}
-    <li>
-      <button class="js-unsubscribe-feed">Unfollow</button>
-    </li>
+      <li>
+        {{#if feed.ownedByUser}}
+          <button class="js-unsubscribe-feed">Unfollow</button>
+        {{else}}
+          <button class="js-follow-feed blue large icon-plus">Follow</button>
+        {{/if}}
+      </li>
     {{/if}}
 
-    <li>
-      <button class="js-mark-all-as-heard">Mark all as heard</button>
-    </li>
+    {{#if feed.ownedByUser}}
+      <li>
+        <button class="js-mark-all-as-heard">Mark all as heard</button>
+      </li>
 
-    <li>
-      <button class="js-toggle-view-heard">
-        {{#if user.hide_heard_songs}} Show {{else}} Hide {{/if}} heard songs
-      </button>
-    </li>
+      <li>
+        <button class="js-toggle-view-heard">
+          {{#if user.hide_heard_songs}} Show {{else}} Hide {{/if}} heard songs
+        </button>
+      </li>
+    {{/if}}
 
     {{> layouts/_settings_dropdown }}
 

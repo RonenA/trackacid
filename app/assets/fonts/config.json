@@ -167,6 +167,12 @@
       "src": "elusive"
     },
     {
+      "uid": "3c0ef77f5fbb5c933c23f2c437d8cab8",
+      "css": "error",
+      "code": 59421,
+      "src": "elusive"
+    },
+    {
       "uid": "20370af73ca90f73b4bda366d92303d9",
       "css": "play",
       "code": 59392,
@@ -177,6 +183,12 @@
       "css": "pause",
       "code": 59393,
       "src": "elusive"
+    },
+    {
+      "uid": "04960bf02134620e6c61bac8d6569502",
+      "css": "left-open",
+      "code": 59422,
+      "src": "websymbols"
     }
   ]
 }

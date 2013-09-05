@@ -123,5 +123,13 @@ class Song < ActiveRecord::Base
     end
   end
 
+  def as_json(options = {})
+    options[:except] ||= []
+    options[:except] += [:created_at, :updated_at]
+    options[:include] ||= :entries
+
+    super(options)
+  end
+
 end
 

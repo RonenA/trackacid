@@ -109,7 +109,7 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
 
 Handlebars.registerHelper('feedNamesForPlayer', function(entries) {
   var firstEntry = entries[0];
-  var firstFeedName = App.feeds.get(firstEntry.feed_id).get('title');
+  var firstFeedName = firstEntry.feed.title;
   var result = "Blogged by <a target='blank' href='" + firstEntry.link+"'>" +
                   firstFeedName + " " +
                   $.timeago(firstEntry.published_at) + "</a>";

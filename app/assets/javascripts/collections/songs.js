@@ -13,6 +13,7 @@ App.Collections.Songs = Backbone.Collection.extend({
 
     this.url = "/songs";
     this.feedId = options.feedId || "all";
+    this.feed = options.feed || App.feeds.get(this.feedId);
     this.setDefaults();
 
     this.listenTo(this, "remove", this.removeHandler);
@@ -37,13 +38,11 @@ App.Collections.Songs = Backbone.Collection.extend({
     this.page = Math.floor(this.length/App.SONGS_PER_PAGE);
   },
 
-  feed: function() {
-    return App.feeds.get(this.feedId);
-  },
-
   feedData: function() {
-    if (!isNaN(this.feedId)){
-      return this.feed().toJSON();
+    if (this.feed){
+      var json = this.feed.toJSON();
+      json.ownedByUser = !!App.feeds.get(this.feedId);
+      return json;
     } else {
       return {
         title: this.feedId.capitalize()

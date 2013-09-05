@@ -1,7 +1,7 @@
 App.Alerts = {
   icons: {
     notice: "info",
-    error: "cancel"
+    error: "error"
   },
 
   initalize: function() {
@@ -36,5 +36,3 @@ App.Alerts = {
     this.$el.append(alert);
   },
 };
-
-$(document).ready( App.Alerts.initalize.bind(App.Alerts) );

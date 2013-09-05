@@ -1,4 +1,4 @@
-{{#ifCurrentUser}}
+{{#if ownedByUser}}
   {{#if listened}}
     <button class="js-toggle-song-listened" title="Mark as unheard">
       <i class="icon-circle-empty"></i>
@@ -8,12 +8,12 @@
       <i class="icon-check"></i>
     </button>
   {{/if}}
-{{/ifCurrentUser}}
 
-<button class="js-toggle-song-favorited song__favorite"
-        title="{{#if favorited}} Unfavourite {{else}} Favorite {{/if}}">
-  <i class="icon-heart"></i>
-</button>
+  <button class="js-toggle-song-favorited song__favorite"
+          title="{{#if favorited}} Unfavourite {{else}} Favorite {{/if}}">
+    <i class="icon-heart"></i>
+  </button>
+{{/if}}
 
 {{#if download_url}}
   <a href="{{{buildDownloadLink download_url provider}}}" target="blank" title="Download">
@@ -22,15 +22,14 @@
 {{/if}}
 
 {{#unless forPlayer}}
-  <a href="{{{firstEntryLink entries}}}" target="blank" title="Read post"
-      {{#unlessCurrentUser}}data-klass="top-right"{{/unlessCurrentUser}}>
+  <a href="{{{firstEntryLink entries}}}" target="blank" title="Read post">
     <i class="icon-external-link"></i>
   </a>
 {{/unless}}
 
-{{#ifCurrentUser}}
+{{#if ownedByUser}}
   <button class="js-delete-song" title="Delete"
           {{#unless forPlayer}} data-offsetLeft="-10" data-klass="top-right" {{/unless}}>
     <i class="icon-cancel"></i>
   </button>
-{{/ifCurrentUser}}
+{{/if}}
