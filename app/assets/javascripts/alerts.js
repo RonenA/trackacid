@@ -21,7 +21,7 @@ App.Alerts = {
     var that = this;
     var existingAlerts = JSON.parse( $('#alerts-json').html() );
     _(existingAlerts).each(function(value, key) {
-      if (value !== null) that.new(key, value);
+      if (value !== null && value !== "") that.new(key, value);
     });
   },
 
