@@ -54,8 +54,11 @@ App.Views.BrowseFeeds = Backbone.View.extend({
     target.find('.icon-plus').toggleClass('icon-plus icon-spinner animate-spin');
 
     App.feeds.create({feed_id: id}, {
-      success: function(){
+      success: function() {
         App.songs.resetAndSeed();
+      },
+      error: function(model, xhr, options) {
+        App.Alerts.new("error", "Feed could not be added due to: " + xhr.statusText);
       },
       wait: true
     });

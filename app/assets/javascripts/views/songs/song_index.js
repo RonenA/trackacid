@@ -164,9 +164,9 @@ App.Views.SongIndex = Backbone.View.extend({
         that.collection.resetAndSeed();
         that.renderHeader();
       },
-      error: function() {
-        //TODO: Handle error
-      }
+      error: function(jqXHR, textStatus, errorThrown) {
+        App.Alerts.new("error", "Settings could not be saved due to: " + errorThrown);
+      },
     });
   },
 

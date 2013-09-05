@@ -114,11 +114,23 @@
   right: 0;
 }
 
+.l-bottom-right{
+  @extend .l-bottom;
+  right: 0;
+}
+
+.l-top-right{
+  @extend .l-top;
+  right: 0;
+}
+
 .l-top-full{
   @extend .l-top;
   right: 0;
   left: 0;
 }
+
+
 
 .l-absolute{position: absolute}
 
@@ -150,6 +162,7 @@
 }
 
 @mixin absolute-center($width, $height) {
+  @extend .l-absolute-center;
   width: $width;
   margin-left: -$width/2;
   height: $height;

@@ -1,0 +1,36 @@
+.alerts{
+  @extend .l-bottom-right;
+  z-index: $alert-z;
+
+  margin-right: 20px;
+  margin-bottom: 20px;
+  max-width: 245px;
+
+  & > li {
+    @extend .animated;
+    @extend .fadeInDown;
+
+    display: block;
+    padding: 20px;
+    margin-bottom: 10px;
+    &:last-child{margin-bottom: 0}
+
+
+    background-color: $red;
+    color: white;
+    line-height: 1.1em;
+
+    &.notice{
+      background-color: $blue;
+    }
+
+              .corner-delete {display: none}
+    &:hover{  .corner-delete {display: inline-block} }
+
+  }
+}
+
+.alert__icon{
+  font-size: 20px;
+  margin-right: 20px;
+}

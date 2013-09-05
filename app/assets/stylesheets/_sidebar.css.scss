@@ -44,6 +44,7 @@ $sidebar-logo-large-size: 50px;
 .sidebar__list{
   & > li{
     &.selected > a{
+      color : white;
       background-color: lighten($sidebar-color, 10%);
     }
 
@@ -52,8 +53,9 @@ $sidebar-logo-large-size: 50px;
       text-decoration: none;
       padding: 7px $sidebar-padding;
 
-      color: white;
-      &:hover  { background-color: lighten($sidebar-color, 15%); }
+      color: #ddd;
+      &:hover  { background-color: lighten($sidebar-color, 15%);
+                 color : white; }
       &:active { box-shadow: $button-active-shadow   }
     }
   }

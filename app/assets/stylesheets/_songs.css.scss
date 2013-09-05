@@ -5,7 +5,9 @@
     position: relative;
     overflow: hidden;
 
-    &:hover  { background-color: $list-hover-color }
+    &:hover  {
+      background-color: $list-hover-color;
+    }
 
     //The 1.1em font size on the checkmark causes
     //the height to jitter very slightly without this rule.

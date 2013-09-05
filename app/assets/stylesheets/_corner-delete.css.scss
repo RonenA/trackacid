@@ -1,0 +1,33 @@
+$corner-delete-size: 10px;
+
+.corner-delete{
+  @extend .reset-button;
+  @extend .l-top-right;
+
+  font-size: $corner-delete-size;
+  margin-top: -$corner-delete-size/2 + 2px;
+  margin-right: -$corner-delete-size/2 + 2px;
+
+  color: white;
+
+  &:active{top: 1px}
+
+  .icon-cancel{
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.corner-delete--inverse{
+  @extend .corner-delete;
+  color: black;
+  &:active{}
+  .corner-delete__color-fill {background-color: white}
+}
+
+.corner-delete__color-fill{
+  @include absolute-center($corner-delete-size+6, $corner-delete-size+6);
+  border-radius: 50%;
+  z-index: 1;
+  background-color: black;
+}

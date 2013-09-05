@@ -85,8 +85,8 @@ App.Collections.Songs = Backbone.Collection.extend({
             that.page++;
           }
         },
-        error: function() {
-          //TODO: Handle error
+        error: function(jqXHR, textStatus, errorThrown) {
+          App.Alerts.new("error", "The songs could not be loaded due to: " + errorThrown);
         },
         complete: function() {
           that.trigger('endLoading');
@@ -143,9 +143,9 @@ App.Collections.Songs = Backbone.Collection.extend({
         });
         that.trigger('change:listened');
       },
-      error: function() {
-        //TODO: Handle error
-      }
+      error: function(jqXHR, textStatus, errorThrown) {
+        App.Alerts.new("error", "Could not mark all as heard due to: " + errorThrown);
+      },
     });
   },
 

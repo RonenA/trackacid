@@ -10,10 +10,11 @@
 </head>
 <body>
 
-<div class="l-out-of-root">
-  <p class="notice icon-info"><%= notice %></p>
-  <p class="alert icon-cancel"><%= alert %></p>
-</div>
+<div class="alerts"></div>
+
+<script type="application/data" id="alerts-json">
+  <%= {:notice => notice, :error => alert}.to_json.html_safe %>
+</script>
 
 <%= yield %>
 

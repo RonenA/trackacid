@@ -127,7 +127,10 @@ App.Routers.Main = Backbone.Router.extend({
         that.initializeSidebar();
 
         that.bindWindowResize();
-      }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        App.Alerts.new("error", "Could not load feeds due to: " + errorThrown);
+      },
     });
   },
 

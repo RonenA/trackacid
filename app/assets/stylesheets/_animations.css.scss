@@ -68,6 +68,20 @@
   @include animation-name(bounceInLeft);
 }
 
+@include keyframes (fadeInDown) {
+  0% {
+    opacity: 0;
+    @include transform(translateY(-20px));
+  } 100% {
+    opacity: 1;
+    @include transform(translateY(0));
+  }
+}
+
+.fadeInDown {
+  @include animation-name(fadeInDown);
+}
+
 //Player in-out transition stuff
 @include keyframes(playerIn) {
   from {
