@@ -140,10 +140,10 @@ App.Models.Song = Backbone.Model.extend({
 
                 switch(resp.data) {
                 case 2:
-                  reason = "invalid parameter value";
+                  reason = "of invalid parameter value";
                   break;
                 case 100:
-                  reason = "video not found";
+                  reason = "video could not be found";
                   break;
                 case 101:
                   reason = "owner has disabled video embedding";
@@ -152,11 +152,14 @@ App.Models.Song = Backbone.Model.extend({
                   reason = "owner has disabled video embedding";
                   break;
                 default:
-                  reason = "unknown error";
+                  //Disabled as it seems to do this randomly
+                  //reason = "of an unknown error";
                 }
 
-                App.Alerts.new("error", that.get('title') + " could not be loaded due to " + reason);
-                that.skip();
+                if(reason) {
+                  App.Alerts.new("error", that.get('title') + " could not be loaded because " + reason);
+                  that.skip();
+                }
               }
             }
           });
