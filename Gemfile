@@ -72,5 +72,8 @@ gem 'iso8601'
 #Soundcloud API
 gem 'soundcloud'
 
+#Newrelic
+gem 'newrelic_rpm'
+
 #Heroku asked me to
 ruby '1.9.3'

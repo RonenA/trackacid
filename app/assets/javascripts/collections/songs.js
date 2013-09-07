@@ -88,7 +88,11 @@ App.Collections.Songs = Backbone.Collection.extend({
           }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          App.Alerts.new("error", "The songs could not be loaded due to: " + errorThrown);
+          if (errorThrown) {
+            App.Alerts.new("error", "The songs could not be loaded due to: " + errorThrown);
+          } else {
+            App.Alerts.new("error", "Couldn't load songs - experiencing connection issues.");
+          }
         },
         complete: function() {
           that.trigger('endLoading');
