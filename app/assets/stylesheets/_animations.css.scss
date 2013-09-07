@@ -47,9 +47,15 @@
   100%  { @include transform(scale(1));   }
 }
 
-.pulse {
-  @include animation-name(pulse);
+@include keyframes(pulseSubtle) {
+  0%    { @include transform(scale(1));   }
+  50%   { @include transform(scale(1.05)); }
+  100%  { @include transform(scale(1));   }
 }
+
+.pulse { @include animation-name(pulse); }
+.pulseSubtle { @include animation-name(pulseSubtle); }
+
 
 @include keyframes(bounceInLeft) {
   0% {

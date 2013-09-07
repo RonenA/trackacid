@@ -32,6 +32,11 @@ App.Views.FeedIndex = Backbone.View.extend({
     this.$el.scrollTop(oldScrollPosition);
 
     return this;
+  },
+
+  changeCollection: function(newCollection) {
+    this.options.mainCollection = newCollection;
+    this.render();
   }
 
 });

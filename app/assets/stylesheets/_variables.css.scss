@@ -9,6 +9,7 @@ $blue: #428bca;
 $red: #CA4242;
 $secondary-text-color: $light-grey;
 $sidebar-color: $medium-grey;
+$sidebar-selected-color: lighten($sidebar-color, 10%);
 
 //Shadows
 $button-active-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.125);

@@ -26,7 +26,7 @@ Handlebars.registerHelper('ifFollowingAnyBlogs', function(options) {
 
 
 Handlebars.registerHelper('contactEmail', function() {
-  return new Handlebars.SafeString('TODO:Contact email');
+  return new Handlebars.SafeString('contact@trackacid.com');
 });
 
 Handlebars.registerHelper('capitalize', function(string) {

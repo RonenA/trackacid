@@ -5,28 +5,36 @@
   color: white;
   font-size: golden-ratio($gr-base, 1);
   display: block;
-  line-height: $header-height;
+  height: $header-height;
   box-sizing: border-box;
 
   margin-bottom: 0.5em;
-  &.l-top-full{ margin: 0 $sidebar-padding; }
+  &.l-top-full{
+    border-bottom: 1px solid $sidebar-selected-color;
 
-  //padding: 0 $sidebar-padding;
+    img{
+        margin-top: 16px;
+        width: 65%;
+        margin-left: $sidebar-padding;
+      }
+  }
 
-  //border-bottom: 1px solid darken($sidebar-color, 1.5%);
-
-  &:hover{
-    text-decoration: none;
-    color: darken(white, 15%);
+  &:hover img {
+    @extend .animated;
+    @extend .pulseSubtle;
+    @include animation-duration(0.5s);
   }
 }
-
 
 $sidebar-logo-large-size: 50px;
 .sidebar__logo--large{
   @extend .sidebar__logo;
   font-size: 50px;
   line-height: inherit;
+
+  img{
+    width: 100%;
+  }
 }
 
 .sidebar__sub-heading{
@@ -45,7 +53,7 @@ $sidebar-logo-large-size: 50px;
   & > li{
     &.selected > a{
       color : white;
-      background-color: lighten($sidebar-color, 10%);
+      background-color: $sidebar-selected-color;
     }
 
     & > a{

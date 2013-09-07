@@ -49,15 +49,18 @@ App.Routers.Main = Backbone.Router.extend({
     if (App.currentUser) {
       this._initializeWithCollection(App.songs);
     } else {
-      this.mainView = new App.Views.SongIndex({collection: App.songs});
-
-      this.$mainEl.html( this.mainView.render().$el );
-
-      this.initializeSidebar();
-      this.$sidebarEl.addClass('is-wider');
-
-      this.bindWindowResize();
+      this.home();
     }
+  },
+
+  home: function() {
+    this.mainView = new App.Views.SongIndex({collection: App.songs});
+    this.$mainEl.html( this.mainView.render().$el );
+
+    this.initializeSidebar();
+    this.$sidebarEl.addClass('is-wider');
+
+    this.bindWindowResize();
   },
 
   favorites: function() {
@@ -144,11 +147,20 @@ App.Routers.Main = Backbone.Router.extend({
     });
   },
 
-  initializeSidebar: function(mainCollection) {
-    if (this.sidebarView) this.sidebarView.remove();
+  initializeSidebar: function(mainCollection, options) {
+    options = options || {};
+
     this.$sidebarEl.removeClass('is-wider'); //if you want it there, add it after calling this
-    this.sidebarView = new App.Views.Sidebar({mainCollection: mainCollection});
-    this.$sidebarEl.html( this.sidebarView.render().$el );
+
+    if (this.sidebarView) {
+      //This method rerenders and updates the subview's collection.
+      //We prefer this instead of just insantiating a new sidebar view
+      //because the logo image would flash when switching feeds.
+      this.sidebarView.changeMainCollection(mainCollection);
+    } else {
+      this.sidebarView = new App.Views.Sidebar({mainCollection: mainCollection});
+      this.$sidebarEl.html( this.sidebarView.render().$el );
+    }
   },
 
   loading: function() {

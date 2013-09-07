@@ -10,18 +10,19 @@ App.Views.Sidebar = Backbone.View.extend({
     'submit .js-new-user' : 'newUser'
   },
 
+  remove: function() {
+    if (this.feedView) this.feedView.remove();
+    this.$el.remove();
+    this.stopListening();
+    return this;
+  },
+
   render: function() {
     var that = this;
     var content = this.template();
     this.$el.html(content);
 
-    if (App.currentUser) {
-      var feedView = new App.Views.FeedIndex({
-        collection:     App.feeds,
-        mainCollection: this.options.mainCollection
-      });
-      this.$el.find('#t--feeds').replaceWith( feedView.render().$el );
-    }
+    if (App.currentUser) this.renderFeedList();
 
     window.setTimeout(function(){
       that.hideScrollbar();
@@ -29,6 +30,24 @@ App.Views.Sidebar = Backbone.View.extend({
     });
 
     return this;
+  },
+
+  renderFeedList: function() {
+    this.feedView = new App.Views.FeedIndex({
+      collection:     App.feeds,
+      mainCollection: this.options.mainCollection
+    });
+
+    this.$el.find('#t--feeds').replaceWith( this.feedView.render().$el );
+  },
+
+  changeMainCollection: function(collection) {
+    if (this.feedView) {
+      this.feedView.changeCollection(collection);
+    } else {
+      this.options.mainCollection = collection;
+      this.render();
+    }
   },
 
   newUser: function(e) {
