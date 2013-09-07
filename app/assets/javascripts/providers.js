@@ -1,9 +1,14 @@
 //YouTube
 App.YouTubeReady = new $.Deferred();
 
+$.getScript('https://www.youtube.com/iframe_api');
+
+//No success function needed, it will call the
+//next fuction on its own when its done.
 function onYouTubeIframeAPIReady(){
   App.YouTubeReady.resolve();
 };
+
 
 //SoundCloud
 App.SoundCloudReady = new $.Deferred();

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TrackAcid</title>
+  <title><% if Rails.env == "development" %> DEVELOPMENT <% end %>TrackAcid</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -16,8 +16,6 @@
     ga('send', 'pageview');
 
   </script>
-
-  <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 

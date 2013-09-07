@@ -116,7 +116,8 @@ App.Models.Song = Backbone.Model.extend({
             videoId: that.get('id_from_provider'),
             playerVars: {
               controls: 0,
-              showinfo: 0
+              showinfo: 0,
+              origin: document.location.origin
             },
             events: {
               'onReady': function(e) {
