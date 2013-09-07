@@ -158,6 +158,13 @@ App.Collections.Songs = Backbone.Collection.extend({
   resetAndSeed: function() {
     this.reset();
     this.loadNextPage();
+  },
+
+  filterHeard: function() {
+    var that = this;
+    this.each(function(song) {
+      if (song.get('listened')) that.remove(song, {silent: true});
+    });
   }
 
 });

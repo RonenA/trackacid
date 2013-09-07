@@ -35,8 +35,6 @@ Handlebars.registerHelper('capitalize', function(string) {
 
 //Used in feed index
 Handlebars.registerHelper('selectedFeedClass', function(selectedFeedId, id) {
-  debugger;
-
   if (selectedFeedId == id) {
     return new Handlebars.SafeString('selected');
   }

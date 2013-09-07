@@ -119,6 +119,15 @@ App.Routers.Main = Backbone.Router.extend({
       collection = App.playerView.collection;
     }
 
+    //Filters out the songs that came from App.songs. If they had become
+    //listened since App.songs was first seeded, they need to be removed.
+    //This can't be done in the song changeListenedHandler because we
+    //don't want to actaully remove the songs from the collection until
+    //the user changes pages.
+    if (App.currentUser &&
+        App.currentUser.hide_heard_songs &&
+        collection.feedId !== "favorites") collection.filterHeard();
+
     if(this.mainView) this.mainView.remove();
 
     this.loading();
