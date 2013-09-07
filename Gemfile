@@ -38,7 +38,7 @@ gem 'jquery-rails'
 # gem 'capistrano'
 
 # To use debugger
-gem 'debugger'
+#gem 'debugger'
 
 group :development do
   gem 'better_errors'
@@ -71,3 +71,6 @@ gem 'iso8601'
 
 #Soundcloud API
 gem 'soundcloud'
+
+#Heroku asked me to
+ruby '1.9.3'
