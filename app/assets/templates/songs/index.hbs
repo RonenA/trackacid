@@ -1,8 +1,8 @@
 {{#each songs}}
   {{> songs/_song }}
 {{else}}
-  <h2 class="l-center-text song-list__empty icon-music">
-    No {{#if user.hide_heard_songs}} New {{/if}} Songs
+  <h2 class="l-center-text song-list__empty {{#if favorites}} icon-heart {{else}} icon-music {{/if}}">
+    {{{songsEmptyMessage this}}}
   </h2>
 {{/each}}
 

@@ -1,7 +1,8 @@
 App.Models.Song = Backbone.Model.extend({
 
   initialize: function() {
-    this.listenTo(this, 'change:listened', this.updateFeedUnheardCount);
+    this.listenTo(this, 'change:listened', this.changeListenedHandler);
+    this.listenTo(this, 'destroy', this.destroyHandler);
 
     var sortedEntries = _(this.get('entries')).sortBy(function(entry) {
       return new Date(entry.published_at);
@@ -203,7 +204,15 @@ App.Models.Song = Backbone.Model.extend({
     }
   },
 
-  updateFeedUnheardCount: function(model, value, options) {
+  changeListenedHandler: function(model, value, options) {
+    this.updateFeedUnheardCount(value ? -1 : 1);
+  },
+
+  destroyHandler: function(model, collection, options) {
+    this.updateFeedUnheardCount(-1);
+  },
+
+  updateFeedUnheardCount: function(delta) {
     var entries = this.get('entries');
     var feeds = _(entries).map(function(entry) {
       return App.feeds.get(entry.feed_id);
@@ -212,7 +221,7 @@ App.Models.Song = Backbone.Model.extend({
     feeds = _.uniq(feeds);
 
     _(feeds).each(function(feed) {
-      feed.changeUnheardCount(value ? -1 : 1);
+      feed.changeUnheardCount(delta);
     });
   },
 

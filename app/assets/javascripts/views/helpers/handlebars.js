@@ -35,6 +35,8 @@ Handlebars.registerHelper('capitalize', function(string) {
 
 //Used in feed index
 Handlebars.registerHelper('selectedFeedClass', function(selectedFeedId, id) {
+  debugger;
+
   if (selectedFeedId == id) {
     return new Handlebars.SafeString('selected');
   }
@@ -193,4 +195,18 @@ Handlebars.registerHelper('songArtwork', function(artworkUrl) {
   }
 
   return new Handlebars.SafeString("<img src='"+artworkUrl+"'>")
+});
+
+Handlebars.registerHelper('songsEmptyMessage', function(context) {
+  var message;
+
+  if (context.favorites) {
+    message = "No songs favorited"
+  } else if (context.user.hide_heard_songs) {
+    message = "No new songs"
+  } else {
+    message = "No songs"
+  }
+
+  return new Handlebars.SafeString(message);
 });

@@ -56,7 +56,12 @@ App.Views.SongIndex = Backbone.View.extend({
     if (this.collection.currentIdx !== null) {
       songs[this.collection.currentIdx].selected = true;
     }
-    var result = this.template({songs: songs, user: App.currentUser});
+
+    var result = this.template({
+      songs: songs,
+      user: App.currentUser,
+      favorites: this.collection.feedId === "favorites"
+    });
 
     var oldScrollPosition = this.$listEl.scrollTop();
     this.$listEl.html(result);
