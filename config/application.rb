@@ -64,3 +64,11 @@ module NewReader
     config.assets.initialize_on_precompile = false
   end
 end
+
+#This is in here instead of an initializer because of heroku
+#https://github.com/leshill/handlebars_assets/issues/34
+if "assets" == ENV["RAILS_GROUPS"] || ["development", "test"].include?(ENV["RAILS_ENV"])
+    #Gem uses outdated version of handlebars with bugs in safari
+    HandlebarsAssets::Config.compiler = 'handlebars-latest.js' # Change the name of the compiler file
+    HandlebarsAssets::Config.compiler_path = Rails.root.join('vendor/assets/javascripts') # Change the location of the compiler file
+end
