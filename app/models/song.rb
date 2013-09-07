@@ -94,7 +94,7 @@ class Song < ActiveRecord::Base
       self.artwork_url        = track.artwork_url
       self.download_url       = track.download_url if track.downloadable
     rescue => e
-      p "Could not set data from souncloud due to #{e.message}"
+      p "Could not set data from souncloud on #{self.source_url} due to #{e.message}"
       return false
     end
   end
@@ -118,7 +118,7 @@ class Song < ActiveRecord::Base
       self.artwork_url        = data["snippet"]["thumbnails"]["medium"]["url"]
       self.kind               = data["kind"].match(/youtube#(.*)/)[1]
     rescue => e
-      p "Could not set data from youtube due to #{e.message}"
+      p "Could not set data from youtube on #{self.source_url} due to #{e.message}"
       return false
     end
   end
