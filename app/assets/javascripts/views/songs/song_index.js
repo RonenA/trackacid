@@ -32,7 +32,12 @@ App.Views.SongIndex = Backbone.View.extend({
   render: function() {
     var that = this;
     this.renderHeader();
-    this.renderList();
+
+    if (this.collection.feedId === "all" && App.feeds.length === 0) {
+      this.notFollowingAnyBlogs();
+    } else {
+      this.renderList();
+    }
 
     //Set timeout so that it is inserted into the DOM
     //before it tries to bind the scroll event;
@@ -58,6 +63,10 @@ App.Views.SongIndex = Backbone.View.extend({
     this.$listEl.scrollTop(oldScrollPosition);
 
     this.bindTooltips();
+  },
+
+  notFollowingAnyBlogs: function() {
+    this.$listEl.html( HandlebarsTemplates['songs/not_following_any_blogs']() );
   },
 
   renderHeader: function() {
