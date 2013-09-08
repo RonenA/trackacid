@@ -7,7 +7,8 @@ class SongsController < ApplicationController
       render :json => current_user.song_list(params[:page], params[:feed_id])
     else
       #Feed_id parameter is ignored when use is logged out
-      render :json => Song.page(params[:page])
+      #Includes entries to prevent n+1 query
+      render :json => Song.page(params[:page]).includes(:entries)
     end
   end
 
