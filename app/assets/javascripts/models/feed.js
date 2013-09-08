@@ -24,10 +24,12 @@ App.Models.Feed.follow = function(feed_id, options) {
     success: function() {
       App.songs.resetAndSeed();
       if (options.success) options.success();
+      if (options.complete) options.complete();
     },
     error: function(model, xhr, options) {
       App.Alerts.new("error", "Feed could not be added due to: " + xhr.statusText);
       if (options.error) options.error();
+      if (options.complete) options.complete();
     },
     wait: true
   });

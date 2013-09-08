@@ -41,17 +41,22 @@ Handlebars.registerHelper('selectedFeedClass', function(selectedFeedId, id) {
 });
 
 //Used in browse feeds
-Handlebars.registerHelper('feedToggleSubscriptionButton', function(id) {
+Handlebars.registerHelper('feedToggleSubscriptionButton', function(id, loading) {
   var userHasFeed = !!App.feeds.get(id);
-  var klass = userHasFeed ? 'js-unsubscribe-feed btn--hollow btn--red' : 'js-subscribe-feed';
-  var buttonText = userHasFeed ?
-    "<span class='standard-text'><i class='icon-check'></i> Following</span>\
-     <span class='hover-text'><i class='icon-cancel'></i> Unfollow</span>" :
-    "<span><i class='icon-plus'></i> Follow</span>";
+  var button = $("<button>").addClass('btn float-right');
 
-  return new Handlebars.SafeString(
-    "<button class='btn float-right "+klass+"'>"+buttonText+"</button>"
-  );
+  if (userHasFeed) {
+    button.addClass('js-unsubscribe-feed btn--hollow btn--red');
+    var s = $('<span>').addClass('standard-text').html("<i class='icon-check'></i> Following");
+    var h = $('<span>').addClass('hover-text').html("<i class='icon-cancel'></i> Unfollow");
+    button.append(s, h);
+  } else {
+    button.addClass('js-subscribe-feed');
+    var icon = $("<i>").addClass(loading ? 'icon-spinner animate-spin' : 'icon-plus');
+    var span = $("<span>").append(icon, "Follow");
+    button.html(span);
+  }
+  return new Handlebars.SafeString(button.prop('outerHTML'));
 });
 
 Handlebars.registerHelper('feedFavicon', function(url) {

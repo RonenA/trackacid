@@ -7,6 +7,7 @@ App.Views.BrowseFeeds = Backbone.View.extend({
 
   initialize: function() {
     this.listenTo(App.feeds, "destroy add", this.renderList);
+    this.listenTo(this.collection, "change:loading", this.renderList);
 
     this.$listEl = $('<ul>').addClass('browse-feeds-list l-main__list');
     this.$headerEl = $('<div>').addClass('header');
@@ -35,7 +36,7 @@ App.Views.BrowseFeeds = Backbone.View.extend({
 
   //Using id from target instead of model from target
   //because this.collection is ALL the feeds, and the model
-  //we want is generally the model in App.feeds
+  //we want may be the model in App.feeds
   _idFromTarget: function(target) {
     return target.closest('.browse-feeds-list > li').data('id');
   },
@@ -48,11 +49,18 @@ App.Views.BrowseFeeds = Backbone.View.extend({
   },
 
   subscribeFeed: function(e) {
+    var that = this;
     var target = $(e.currentTarget);
     var id = this._idFromTarget(target);
 
-    target.find('.icon-plus').toggleClass('icon-plus icon-spinner animate-spin');
-    App.Models.Feed.follow(id);
+    var feed = this.collection.get(id);
+    feed.set('loading', true);
+
+    App.Models.Feed.follow(id, {
+      complete: function(){
+        feed.set('loading', false);
+      }
+    });
   }
 
 
