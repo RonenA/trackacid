@@ -135,7 +135,9 @@
   left: 0;
 }
 
-
+.l-absolute-full{
+  @include position(absolute, 0px 0px 0px 0px);
+}
 
 .l-absolute{position: absolute}
 
