@@ -70,7 +70,13 @@ feeds = [
    :title => "Beats Per Minute"},
 
   {:url => "http://feeds.feedburner.com/EARGASMusic",
-   :title => 'EARGASM'}
+   :title => 'EARGASM'},
+
+  {:url => 'http://www.discobelle.net/feed/',
+   :title => "Disco Belle"},
+
+  {:url => 'http://www.gottadancedirty.com/feed/',
+   :title => 'Gotta Dance Dirty'}
 ]
 
 feeds.each do |feed|
