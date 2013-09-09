@@ -28,6 +28,12 @@ class Feed < ActiveRecord::Base
     feed
   end
 
+  def self.create_from_hashes(hashes)
+    hashes.each do |hash|
+      Feed.create_from_hash(hash)
+    end
+  end
+
   def reload
     begin
       feed_data = SimpleRSS.parse(open(url))

@@ -76,7 +76,19 @@ feeds = [
    :title => "Disco Belle"},
 
   {:url => 'http://www.gottadancedirty.com/feed/',
-   :title => 'Gotta Dance Dirty'}
+   :title => 'Gotta Dance Dirty'},
+
+  {:url => 'http://thissongissick.com/blog/feed/',
+   :title => 'This Song Is Sick'},
+
+  {:url => 'http://feeds2.feedburner.com/earmilk',
+   :title => 'Earmilk'},
+
+  {:url => 'http://feeds.feedburner.com/salacioussound/',
+   :title => 'Salacious Sound'},
+
+  {:url => 'http://feeds2.feedburner.com/theburningear',
+   :title => 'The Burning Ear'}
 ]
 
 feeds.each do |feed|
