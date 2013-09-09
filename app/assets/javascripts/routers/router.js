@@ -24,11 +24,20 @@ App.Routers.Main = Backbone.Router.extend({
           case 74:  //J
               App.playerView.continuePlaylist('next');
             break;
+          case 39: //right
+              App.playerView.continuePlaylist('next');
+            break;
           case 75: //K
+              App.playerView.continuePlaylist('prev');
+            break;
+          case 37: //left
               App.playerView.continuePlaylist('prev');
             break;
           case 32: //space
               App.playerView.togglePlay();
+            break;
+          case 70: //f
+              App.playerView.toggleSongFavorited();
             break;
           case 27: //esc
               App.playerView.remove();
@@ -37,7 +46,7 @@ App.Routers.Main = Backbone.Router.extend({
 
       } else if (this.mainView &&
                  this.mainView.kind === "SongIndex" &&
-                 _([74, 75, 32]).include(e.which)) {
+                 _([74, 75, 32, 37, 39]).include(e.which)) {
         this.mainView.collection.setIndex(0);
         App.Views.Player.create( this.mainView.collection );
       }
