@@ -22,7 +22,6 @@ App.Models.Feed.follow = function(feed_id, options) {
 
   App.feeds.create({feed_id: feed_id}, {
     success: function() {
-      App.songs.resetAndSeed();
       if (options.success) options.success();
       if (options.complete) options.complete();
     },

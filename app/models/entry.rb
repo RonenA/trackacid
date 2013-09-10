@@ -70,17 +70,11 @@ class Entry < ActiveRecord::Base
       songs_found = false
 
       song_nokos.each do |song_noko|
-        url_string = song_noko.get_attribute(attribute)
-        url_string = Song.parse_iframe_src(url_string, provider) if element == :iframe
-
-        uri_object = Addressable::URI.parse(url_string)
-        params = uri_object.query_values || {}
-        uri_object.query_values = nil
-        url_string = uri_object.to_s
+        url = song_noko.get_attribute(attribute)
+        url = Song.parse_iframe_src(url, provider) if element == :iframe
 
         song = Song.find_or_create_from_hash({
-          :source_url => url_string,
-          :secret_token => params['secret_token'],
+          :source_url => url,
           :provider => provider
         })
 

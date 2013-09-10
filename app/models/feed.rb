@@ -51,7 +51,7 @@ class Feed < ActiveRecord::Base
 
       self
     rescue => e
-      p "Could not reload #{this.title} due to #{e.message}"
+      p "Could not reload #{self.title} due to #{e.message}"
       return false
     end
   end

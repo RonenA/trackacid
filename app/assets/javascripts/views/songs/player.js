@@ -15,7 +15,13 @@ App.Views.Player = Backbone.View.extend({
   },
 
   initialize: function(options) {
-    this.bindListeners();
+    this.bindCollectionListeners();
+
+    this.listenTo(App.feeds, "remove", function(removedFeed){
+      if(this.collection.feedId === removedFeed.id) {
+        this.remove();
+      }
+    });
 
     this.$visualEl = $('<div>');
     this.$infoEl = $('<div>');
@@ -25,8 +31,9 @@ App.Views.Player = Backbone.View.extend({
     this.ANIMATION_DURATION = 300;
   },
 
-  bindListeners: function() {
-    this.listenTo(this.collection, "changeIndex", function(newIdx) {
+  bindCollectionListeners: function() {
+    this.listenTo(this.collection, "changeIndex", function(newIdx, options) {
+      if (options.ignorePlayer) return;
       (newIdx === null) ? this.remove() : this.render();
     });
 
@@ -36,7 +43,7 @@ App.Views.Player = Backbone.View.extend({
   changeCollection: function(newCollection) {
     this.stopListening(this.collection);
     this.collection = newCollection;
-    this.bindListeners();
+    this.bindCollectionListeners();
     this.render();
   },
 

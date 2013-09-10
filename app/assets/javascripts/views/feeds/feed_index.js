@@ -10,6 +10,9 @@ App.Views.FeedIndex = Backbone.View.extend({
 
   initialize: function(){
     this.listenTo( this.collection, "change add remove sync reset", this.render );
+    this.listenTo(this.collection, "add remove", function(){
+      App.songs.resetAndSeed();
+    });
   },
 
   render: function(){

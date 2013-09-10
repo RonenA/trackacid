@@ -4,7 +4,7 @@ class Song < ActiveRecord::Base
   attr_accessible :provider, :source_url, :secret_token
 
   before_validation :set_first_published_at, :on => :create
-  before_validation :set_data_from_provider, :on => :create
+  #before_validation :set_data_from_provider, :on => :create
 
   validates_presence_of :provider, :source_url, :first_published_at,
     :id_from_provider, :public_link, :title, :kind
@@ -33,6 +33,8 @@ class Song < ActiveRecord::Base
     }
   }
 
+  @@SAFE_SOURCE_URL_PARAMS = [:secret_token]
+
   def self.PROVIDERS
     @@PROVIDERS
   end
@@ -45,11 +47,32 @@ class Song < ActiveRecord::Base
     end
   end
 
+  def self.clean_source_url(url)
+    uri_object = Addressable::URI.parse(url)
+    params = uri_object.query_values || {}
+    safe_params = params.select do |key, val|
+      @@SAFE_SOURCE_URL_PARAMS.include?(key.to_sym)
+    end
+    #Set to nil instead of {} to avoid trailing '?' in the url
+    uri_object.query_values = safe_params.empty? ? nil : safe_params
+    uri_object.to_s
+  end
+
   def self.find_or_create_from_hash(attrs)
+    attrs[:source_url] = Song.clean_source_url(attrs[:source_url])
     song = Song.find_or_initialize_by_source_url(attrs[:source_url])
     if not song.persisted?
       song.update_attributes(attrs)
-      song.save
+      song.set_data_from_provider
+      begin
+        song.save!
+      rescue => e
+        if song.id_from_provider && e.message == "Validation failed: Id from provider has already been taken"
+          return Song.find_by_id_from_provider_and_provider(song.id_from_provider.to_s, song.provider)
+        else
+          puts "Could not save #{song.source_url} due to #{e.message}"
+        end
+      end
     end
     song.persisted? ? song : nil #Check again in case the song didn't save properly
   end
@@ -69,15 +92,9 @@ class Song < ActiveRecord::Base
 
   def set_data_from_soundcloud
     begin
+      set_secret_token(source_url)
       client = Soundcloud.new(:client_id => API_KEYS[:SoundCloud])
-      if secret_token
-        url_object = Addressable::URI.parse(source_url)
-        url_object.query_values = {:secret_token => secret_token}
-        url = url_object.to_s
-      else
-        url = source_url
-      end
-      track = client.get('/resolve', :url => url)
+      track = client.get('/resolve', :url => source_url)
 
       return false if track.nil? ||
                      !track.streamable ||
@@ -93,10 +110,20 @@ class Song < ActiveRecord::Base
       self.duration           = track.duration
       self.artwork_url        = track.artwork_url
       self.download_url       = track.download_url if track.downloadable
+
+      # If the source_url is from an href, not an iframe
+      # then the first set_secret_token wouldn't find one.
+      set_secret_token(api_url) unless secret_token
     rescue => e
       p "Could not set data from souncloud on #{self.source_url} due to #{e.message}"
       return false
     end
+  end
+
+  def set_secret_token(url)
+    uri_object = Addressable::URI.parse(url)
+    params = uri_object.query_values || {}
+    self.secret_token = params['secret_token']
   end
 
   def set_data_from_youtube

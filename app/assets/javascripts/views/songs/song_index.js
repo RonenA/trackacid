@@ -189,9 +189,6 @@ App.Views.SongIndex = Backbone.View.extend({
   unsubscribeFeed: function() {
     this.collection.feed.destroy();
     App.router.navigate("", {trigger: true});
-    if(App.playerView && App.playerView.collection === this.collection) {
-      App.playerView.remove();
-    }
   },
 
   followFeed: function() {

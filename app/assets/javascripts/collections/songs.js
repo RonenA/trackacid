@@ -107,8 +107,9 @@ App.Collections.Songs = Backbone.Collection.extend({
     return this.at(this.currentIdx);
   },
 
-  setIndex: function(newIdx) {
+  setIndex: function(newIdx, options) {
     var that = this;
+    options = options || {};
     var deferred;
 
     //If the new index is above the current index,
@@ -128,12 +129,24 @@ App.Collections.Songs = Backbone.Collection.extend({
       //the next page, set the index to null.
       var targetIdx = (newIdx >= that.length || newIdx < 0) ? null : newIdx;
       that.currentIdx = targetIdx;
-      that.trigger("changeIndex", targetIdx);
+      that.trigger("changeIndex", targetIdx, options);
     });
   },
 
   incrementIndex: function(delta) {
-    var newIdx = this.currentIdx + delta;
+    var newIdx;
+
+    //If you are trying to incrementIndex and the current index is null,
+    //you probably triggered resetAndSeed on the current songs collection
+    //while you were playing a sond that was removed by the reset.
+    //So when that song in the player ended, it will try to go to the next
+    //song in the collection by doing "null + 1" but that equals 1.
+    //We want it to start at the beginning, so we need to set it to 0.
+    if (this.currentIdx !== null) {
+      newIdx = this.currentIdx + delta;
+    } else {
+      newIdx = 0;
+    }
     this.setIndex(newIdx);
   },
 
@@ -156,8 +169,16 @@ App.Collections.Songs = Backbone.Collection.extend({
   },
 
   resetAndSeed: function() {
+    var that = this;
+    var oldCurrentSong = this.currentSong();
     this.reset();
-    this.loadNextPage();
+
+    this.loadNextPage().done(function() {
+      if (oldCurrentSong) {
+        var newCurrentSong = that.get(oldCurrentSong.id);
+        if (newCurrentSong) that.setIndex( that.indexOf(newCurrentSong), {ignorePlayer: true} );
+      }
+    });
   },
 
   filterHeard: function() {

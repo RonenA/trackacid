@@ -1,26 +1,25 @@
 //TODO: Organize by view
 
 Handlebars.registerHelper('ifCurrentUser', function(options) {
-  if(App.currentUser) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
+  return App.currentUser ? options.fn(this) : options.inverse(this);
 });
 
 Handlebars.registerHelper('unlessCurrentUser', function(options) {
-  if(!App.currentUser) {
-    return options.fn(this);
-  } else {
-    return options.inverse(this);
-  }
+  return !App.currentUser ? options.fn(this) : options.inverse(this);
 });
 
 Handlebars.registerHelper('ifFollowingAnyBlogs', function(options) {
-  if(App.feeds.length > 0) {
-    return options.fn(this);
+  return App.feeds.length > 0 ? options.fn(this) : options.inverse(this);
+});
+
+Handlebars.registerHelper('ifPositive', function(value, options) {
+  if (options && options.fn) {
+    //For calling helper block style
+    //{{#ifPositive val}} something {{/ifPositive}}
+    return value > 0 ? options.fn(this) : options.inverse(this);
   } else {
-    return options.inverse(this);
+    //For calling helper regularly {{{ifPositive val}}} --> val
+    if (value > 0) return value;
   }
 });
 

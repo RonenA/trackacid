@@ -7,9 +7,7 @@
 
     &:hover  {
       background-color: $list-hover-color;
-      .song__img-icon{
-        display: block;
-      }
+      .song__img-icon{ display: block; }
     }
 
     //The 1.1em font size on the checkmark causes
@@ -29,6 +27,7 @@
         background-color: $blue;
         color: white;
       }
+      .song__img-icon{ display: block; }
       .song__title{color: white}
       .badge{
         background-color: transparent;
