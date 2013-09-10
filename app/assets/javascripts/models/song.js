@@ -232,6 +232,7 @@ App.Models.Song = Backbone.Model.extend({
     });
 
     feeds = _.uniq(feeds);
+    feeds = _.compact(feeds);
 
     _(feeds).each(function(feed) {
       feed.changeUnheardCount(delta);

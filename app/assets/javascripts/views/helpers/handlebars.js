@@ -91,7 +91,7 @@ Handlebars.registerHelper('feedName', function(feedId) {
   );
 });
 
-Handlebars.registerHelper('joinFeedNames', function(entries) {
+Handlebars.registerHelper('joinFeedNames', function(entries, ownedByUser) {
 
   var feedNames = _(entries).map(function(entry){
     //Have to make sure the feed actually exists.
@@ -101,7 +101,15 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
     //TODO: Might make sense to remove all of those offending entries
     //when a feed is deleted, either by manually killing them or
     // just reloading all the songs.
-    var feed = App.feeds.get(entry.feed_id);
+    var feed;
+    if (ownedByUser){
+      feed = App.feeds.get(entry.feed_id);
+    } else {
+      //The router calls this already so this deffered shouldnt need to wait
+      App.allFeeds().done(function(allFeeds){
+        feed = allFeeds.get(entry.feed_id);
+      });
+    }
     if (feed) return feed.get('title');
   });
 
@@ -111,11 +119,14 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
   return new Handlebars.SafeString(feedNames.join(', '));
 });
 
-Handlebars.registerHelper('feedNamesForPlayer', function(entries) {
+Handlebars.registerHelper('feedNamesForPlayer', function(entries, ownedByUser) {
   //TODO: This should be done on the backend
-  entries = _(entries).select(function(entry) {
-    return App.feeds.get(entry.feed_id);
-  });
+
+  if (ownedByUser) {
+    entries = _(entries).select(function(entry) {
+      return App.feeds.get(entry.feed_id);
+    });
+  }
 
   var firstEntry = entries[0];
   var firstFeedName = firstEntry.feed.title;
