@@ -97,6 +97,18 @@ App.Models.Song = Backbone.Model.extend({
                   options.onendbuffering();
                 }
               },
+              onload: function(success) {
+                // readyState of 2 means 'failed/error'
+
+                // According to the SoundManager docs for onload,
+                // flash sometimes reports failure when it was just
+                // cached, so I'm being paranoid and checking if
+                // the position is null before declaring an error.
+                if(this.readyState === 2 && this.position === null) {
+                  that.skip();
+                  App.Alerts.new('error', 'Could not load "'+that.get('title')+'". Try listening directly on SoundCloud.');
+                }
+              }
             },
             function(response){
               sound.resolve(new App.Models.SoundCloudSound(response));
