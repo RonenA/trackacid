@@ -248,7 +248,7 @@ App.Models.Song = Backbone.Model.extend({
 
   ownedByUser: function() {
     if (!App.currentUser) return false;
-    return _(this.get('entries')).all(function(entry){
+    return _(this.get('entries')).any(function(entry) {
       return App.feeds.get(entry.feed_id);
     });
   },

@@ -112,6 +112,11 @@ Handlebars.registerHelper('joinFeedNames', function(entries) {
 });
 
 Handlebars.registerHelper('feedNamesForPlayer', function(entries) {
+  //TODO: This should be done on the backend
+  entries = _(entries).select(function(entry) {
+    return App.feeds.get(entry.feed_id);
+  });
+
   var firstEntry = entries[0];
   var firstFeedName = firstEntry.feed.title;
   var result = "Blogged by <a target='blank' href='" + firstEntry.link+"'>" +
