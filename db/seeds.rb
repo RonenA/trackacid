@@ -88,9 +88,15 @@ feeds = [
    :title => 'Salacious Sound'},
 
   {:url => 'http://feeds2.feedburner.com/theburningear',
-   :title => 'The Burning Ear'}
+   :title => 'The Burning Ear'},
+
+  {:url => 'http://mybandsbetterthanyourband.com/feed/',
+   :title => "My Band's Better Than Your Band"}
 ]
 
 feeds.each do |feed|
   Feed.create_from_hash(feed)
 end
+
+#To add: http://drownedinsound.com/feed
+#        http://redlitedj.com/
