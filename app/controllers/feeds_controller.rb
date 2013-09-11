@@ -1,11 +1,11 @@
 class FeedsController < ApplicationController
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => :index
 
   def index
     if params[:all]
       render :json => Feed.order("lower(title)").to_json
-    else
+    elsif user_signed_in?
       render :json => current_user.feeds
     end
   end
