@@ -136,7 +136,7 @@ Handlebars.registerHelper('feedNamesForPlayer', function(entries, ownedByUser) {
 });
 
 Handlebars.registerHelper('firstEntryLink', function(entries) {
-  return new Handlebars.SafeString(entries[0].link);
+  if (entries.length) return new Handlebars.SafeString(entries[0].link);
 });
 
 Handlebars.registerHelper('firstEntryTimeAgo', function(entries) {
