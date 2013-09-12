@@ -15,7 +15,7 @@ App.Collections.Songs = Backbone.Collection.extend({
     //If you unfollow a feed but for some reason the usersong gets deleted,
     //it may cause js errors.
     for(var i=0; i < models.length; i++) {
-      if (models[i].entries.length === 0) {
+      if (models[i] && models[i].entries && models[i].entries.length === 0) {
         models.splice(i, 1);
         i--;
       }
