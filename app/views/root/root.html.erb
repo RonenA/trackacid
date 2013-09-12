@@ -10,7 +10,11 @@
 <% end %>
 
 <script type="application/data" id="feed-json">
-  <%= @feeds.html_safe %>
+  <%= @feeds ? @feeds.html_safe : [] %>
+</script>
+
+<script type="application/data" id="all-feed-json">
+  <%= @all_feeds.html_safe %>
 </script>
 
 <script type="application/data" id="song-json">

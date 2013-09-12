@@ -64,6 +64,8 @@ App.Routers.Main = Backbone.Router.extend({
 
   home: function() {
     this.mainView = new App.Views.SongIndex({collection: App.songs});
+
+    this.loading();
     this.$mainEl.html( this.mainView.render().$el );
 
     this.initializeSidebar();
@@ -99,10 +101,10 @@ App.Routers.Main = Backbone.Router.extend({
         });
       });
     } else {
-      App.allFeeds().done(function(allFeeds) {
-        feed.resolve( allFeeds.get(id) );
-      });
-
+      //TODO: This uses Deferreds even though it doesn't need to
+      //because I changed allFeeds to be bootstrapped. Need to
+      //remove the defered structure.
+      feed.resolve( App.allFeeds.get(id) );
       feedSongs = [];
     }
 
@@ -151,18 +153,15 @@ App.Routers.Main = Backbone.Router.extend({
   },
 
   browseFeeds: function() {
-    var that = this;
     if(this.mainView) this.mainView.remove();
     this.loading();
 
-    App.allFeeds().done(function(allFeeds){
-      that.mainView = new App.Views.BrowseFeeds({collection: allFeeds});
-      that.$mainEl.html( that.mainView.render().$el );
+    this.mainView = new App.Views.BrowseFeeds({collection: App.allFeeds});
+    this.$mainEl.html( this.mainView.render().$el );
 
-      that.initializeSidebar();
+    this.initializeSidebar();
 
-      that.bindWindowResize();
-    });
+    this.bindWindowResize();
   },
 
   initializeSidebar: function(mainCollection, options) {

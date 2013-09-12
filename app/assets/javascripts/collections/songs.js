@@ -13,7 +13,7 @@ App.Collections.Songs = Backbone.Collection.extend({
 
     this.url = "/songs";
     this.feedId = options.feedId || "all";
-    this.feed = options.feed || App.feeds.get(this.feedId);
+    this.feed = options.feed || (App.feeds && App.feeds.get(this.feedId));
     this.setDefaults();
 
     this.listenTo(this, "remove", this.removeHandler);

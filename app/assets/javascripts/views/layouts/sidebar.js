@@ -65,6 +65,8 @@ App.Views.Sidebar = Backbone.View.extend({
         form.addClass('is-loading');
       },
       success: function(data, textStatus, jqXHR) {
+        ga('send', 'event', 'users', 'signup', 'homepage', data.email);
+
         App.currentUser = data;
         App.feeds = new App.Collections.Feeds();
         App.songs.reset();

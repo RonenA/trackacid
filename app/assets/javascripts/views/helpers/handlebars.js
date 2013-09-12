@@ -101,15 +101,7 @@ Handlebars.registerHelper('joinFeedNames', function(entries, ownedByUser) {
     //TODO: Might make sense to remove all of those offending entries
     //when a feed is deleted, either by manually killing them or
     // just reloading all the songs.
-    var feed;
-    if (ownedByUser){
-      feed = App.feeds.get(entry.feed_id);
-    } else {
-      //The router calls this already so this deffered shouldnt need to wait
-      App.allFeeds().done(function(allFeeds){
-        feed = allFeeds.get(entry.feed_id);
-      });
-    }
+    var feed = App.allFeeds.get(entry.feed_id)
     if (feed) return feed.get('title');
   });
 

@@ -33,7 +33,9 @@ App.Views.SongIndex = Backbone.View.extend({
     var that = this;
     this.renderHeader();
 
-    if (this.collection.feedId === "all" && App.feeds.length === 0) {
+    if (App.currentUser &&
+        this.collection.feedId === "all" &&
+        App.feeds.length === 0) {
       this.notFollowingAnyBlogs();
     } else {
       this.renderList();
