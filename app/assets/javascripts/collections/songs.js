@@ -10,6 +10,13 @@ App.Collections.Songs = Backbone.Collection.extend({
 
   initialize: function(models, options) {
     var options = options || {};
+    var that = this;
+
+    //If you unfollow a feed but for some reason the usersong gets deleted,
+    //it may cause js errors.
+    this.each(function(song){
+      if (!song.get('entries').length) that.remove(song, {silent: true});
+    });
 
     this.url = "/songs";
     this.feedId = options.feedId || "all";

@@ -120,6 +120,8 @@ Handlebars.registerHelper('feedNamesForPlayer', function(entries, ownedByUser) {
     });
   }
 
+  if(!entries.length) return;
+
   var firstEntry = entries[0];
   var firstFeedName = firstEntry.feed.title;
   var result = "Blogged by <a target='blank' href='" + firstEntry.link+"'>" +
@@ -140,7 +142,7 @@ Handlebars.registerHelper('firstEntryLink', function(entries) {
 });
 
 Handlebars.registerHelper('firstEntryTimeAgo', function(entries) {
-  return new Handlebars.SafeString( $.timeago(entries[0].published_at) );
+  if (entries.length) return new Handlebars.SafeString( $.timeago(entries[0].published_at) );
 });
 
 Handlebars.registerHelper('totalUnheardCount', function(feeds) {
