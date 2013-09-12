@@ -89,6 +89,9 @@ App.Collections.Songs = Backbone.Collection.extend({
                feed_id: this.feedId},
         success: function(data) {
           if(data.length > 0) {
+            data = _(data).reject(function(song){
+              return !song.entries.length;
+            });
             that.add(data, {previousLength: that.length});
             that.loadMore = true;
             that.page++;
