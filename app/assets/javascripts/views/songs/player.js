@@ -111,11 +111,10 @@ App.Views.Player = Backbone.View.extend({
   renderingContext: function() {
     var that = this;
     var song = this.currentSong.toJSON();
-    _(song.entries).each(function(entry) {
-      var usersFeed = App.feeds.get(entry.feed_id);
-      //If the user doesnt have this feed, look at the collection's internal feed
-      entry.feed = usersFeed ? usersFeed.toJSON() : that.collection.feed.toJSON();
-    });
+    // _(song.entries).each(function(entry) {
+    //   //If the user doesnt have this feed, look at the collection's internal feed
+    //   entry.feed = usersFeed ? usersFeed.toJSON() : that.collection.feed.toJSON();
+    // });
 
     song.showPlayButton = this.showPlayButton();
 
