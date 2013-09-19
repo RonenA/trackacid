@@ -23,11 +23,22 @@ class User < ActiveRecord::Base
   end
 
   def make_user_songs
-    songs.where("songs.created_at > ?", requested_songs_at).each do |song|
-      user_songs.create(:song_id => song.id)
+    last_user_song = user_songs.order(:created_at).last
+    last_user_song_created_at = last_user_song ? last_user_song.created_at : 10.days.ago
+
+    new_user_song_attrs = []
+
+    songs.where("songs.created_at > ?", last_user_song_created_at).each do |song|
+      new_user_song_attrs << {:song_id => song.id}
     end
 
-    touch(:requested_songs_at)
+    user_songs.create(new_user_song_attrs)
+
+    # Stopped using this because Ben somehow ended up
+    # with requested_songs_at getting updated but
+    # no songs being created.
+
+    #touch(:requested_songs_at)
   end
 
   def add_feed(feed)
@@ -36,9 +47,13 @@ class User < ActiveRecord::Base
   end
 
   def make_user_songs_for(feed)
+    new_user_song_attrs = []
+
     feed.songs.limit(NEW_SONGS_PER_FEED).each do |song|
-      user_songs.create(:song_id => song.id)
+      new_user_song_attrs << {:song_id => song.id}
     end
+
+    user_songs.create(new_user_song_attrs)
   end
 
   def song_list(page, feed_id = "all")

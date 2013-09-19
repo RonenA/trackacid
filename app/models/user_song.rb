@@ -1,7 +1,7 @@
 class UserSong < ActiveRecord::Base
   attr_accessible :song_id
 
-  validates_presence_of :user, :song
+  validates_presence_of :user_id, :song_id
   validates_uniqueness_of :user_id, :scope => [:song_id]
 
   before_create :set_defaults

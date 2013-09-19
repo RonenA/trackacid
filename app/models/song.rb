@@ -41,7 +41,8 @@ class Song < ActiveRecord::Base
 
   def self.parse_iframe_src(src, provider)
     if provider == :SoundCloud
-      CGI::parse( URI.parse(src).query )["url"].first
+      uri_object = Addressable::URI.parse(src)
+      uri_object.query_values["url"]
     elsif provider == :YouTube
       src
     end
@@ -115,7 +116,7 @@ class Song < ActiveRecord::Base
       # then the first set_secret_token wouldn't find one.
       set_secret_token(api_url) unless secret_token
     rescue => e
-      p "Could not set data from souncloud on #{self.source_url} due to #{e.message}"
+      p "Could not set data from SoundCloud on #{self.source_url} due to #{e.message}"
       return false
     end
   end
