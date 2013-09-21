@@ -175,7 +175,7 @@ App.Models.Song = Backbone.Model.extend({
                 if(reason) {
                   window.setTimeout(function(){
                     sound.done(function(sound){
-                      if (!sound.playing()) {
+                      if (!(sound.playing() || sound.buffering())) {
                         App.Alerts.new("error", that.get('title') + " could not be loaded because " + reason);
                         that.skip();
                       }
