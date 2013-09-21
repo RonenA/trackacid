@@ -229,6 +229,16 @@ App.Views.Player = Backbone.View.extend({
     return bool;
   },
 
+  buffering: function() {
+    var bool;
+
+    this.sound.done(function(sound) {
+      bool = sound.buffering();
+    });
+
+    return bool;
+  },
+
   togglePlay: function() {
     //Pausing during loading causes all sorts of terrible
     //double playing issues that I cant figure out how to
@@ -239,7 +249,9 @@ App.Views.Player = Backbone.View.extend({
     //I found the object state to be less reliable.
     if (this.$el.hasClass('is-loading')) return;
 
-    if (this.playing()) {
+    console.log(this.playing());
+
+    if (this.playing() || this.buffering()) {
       this.pause();
     } else {
       this.play();
