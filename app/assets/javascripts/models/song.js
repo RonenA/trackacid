@@ -132,10 +132,10 @@ App.Models.Song = Backbone.Model.extend({
               origin: document.location.origin
             },
             events: {
-              'onReady': function(e) {
+              onReady: function(e) {
                 sound.resolve(new App.Models.YouTubeSound(e.target));
               },
-              'onStateChange': function(e) {
+              onStateChange: function(e) {
                 if (e.data === YT.PlayerState.PLAYING ||
                     e.data === YT.PlayerState.BUFFERING) {
                   options.onplay();
@@ -149,7 +149,7 @@ App.Models.Song = Backbone.Model.extend({
                   options.onfinish();
                 }
               },
-              'onError': function(resp) {
+              onError: function(resp) {
                 var reason;
 
                 switch(resp.data) {
@@ -160,10 +160,12 @@ App.Models.Song = Backbone.Model.extend({
                   reason = "video could not be found";
                   break;
                 case 101:
-                  reason = "owner has disabled video embedding";
+                  reason = "owner has disabled video embedding.\
+                    <a target='blank' href="+that.get('public_link')+">View on Youtube.</a>";
                   break;
                 case 150:
-                  reason = "owner has disabled video embedding";
+                  reason = "owner has disabled video embedding.\
+                    <a target='blank' href="+that.get('public_link')+">View on Youtube.</a>";
                   break;
                 default:
                   //Disabled as it seems to do this randomly
@@ -171,8 +173,14 @@ App.Models.Song = Backbone.Model.extend({
                 }
 
                 if(reason) {
-                  App.Alerts.new("error", that.get('title') + " could not be loaded because " + reason);
-                  that.skip();
+                  window.setTimeout(function(){
+                    sound.done(function(sound){
+                      if (!sound.playing()) {
+                        App.Alerts.new("error", that.get('title') + " could not be loaded because " + reason);
+                        that.skip();
+                      }
+                    });
+                  }, 2000);
                 }
               }
             }
