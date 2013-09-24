@@ -219,6 +219,7 @@ App.Models.Song = Backbone.Model.extend({
         type: (value ? "POST" : "DELETE"),
         url: this.url()+"/"+App.Models.Song.attributeToResource[attribute],
         error: function(jqXHR, textStatus, errorThrown) {
+          if (!errorThrown) errorThrown = "unknown error";
           App.Alerts.new("error", "Song " + attribute + " state could not be updated due to: " + errorThrown);
         }
       });

@@ -88,4 +88,8 @@ class Entry < ActiveRecord::Base
     end
   end
 
+  def as_json(options = {})
+    super(:except => :content_encoded)
+  end
+
 end

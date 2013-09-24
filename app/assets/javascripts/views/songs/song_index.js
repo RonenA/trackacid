@@ -183,6 +183,7 @@ App.Views.SongIndex = Backbone.View.extend({
         that.renderHeader();
       },
       error: function(jqXHR, textStatus, errorThrown) {
+        if (!errorThrown) errorThrown = "unknown error";
         App.Alerts.new("error", "Settings could not be saved due to: " + errorThrown);
       },
     });
