@@ -9,7 +9,7 @@ class RootController < ApplicationController
       @feeds = current_user.feeds.to_json({:user => current_user})
       @songs = current_user.song_list(1).to_json
     else
-      @songs = Song.page(1).to_json(:include => :entries)
+      @songs = Song.page(1).to_json(:include => {:entries => {:except => :content_encoded}})
     end
 
     @all_feeds = Feed.order("lower(title)").to_json
