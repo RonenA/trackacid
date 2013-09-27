@@ -154,6 +154,7 @@ class Song < ActiveRecord::Base
   def as_json(options = {})
     options[:except] ||= []
     options[:except] += [:created_at, :updated_at]
+    #TODO: Why do I have to do this manually, why doesn't the as_json handle it?
     options[:include] ||= {:entries => { :except => :content_encoded }}
 
     super(options)

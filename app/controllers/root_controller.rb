@@ -8,7 +8,7 @@ class RootController < ApplicationController
       @user = current_user.to_json(:only => [:email, :hide_heard_songs])
       @feeds = current_user.feeds.to_json({:user => current_user})
       @songs = current_user.song_list(1).to_json
-    else
+    else #TODO: Why do I have to do this manually, why doesn't the as_json handle it?
       @songs = Song.page(1).to_json(:include => {:entries => {:except => :content_encoded}})
     end
 

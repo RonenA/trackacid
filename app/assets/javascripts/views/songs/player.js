@@ -249,8 +249,6 @@ App.Views.Player = Backbone.View.extend({
     //I found the object state to be less reliable.
     if (this.$el.hasClass('is-loading')) return;
 
-    console.log(this.playing());
-
     if (this.playing() || this.buffering()) {
       this.pause();
     } else {
