@@ -18,6 +18,10 @@
 
     background-color: $red;
     color: white;
+    a {
+      color: white;
+      text-decoration: underline;
+    }
     line-height: 1.1em;
 
     &.notice{

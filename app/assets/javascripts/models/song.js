@@ -106,7 +106,8 @@ App.Models.Song = Backbone.Model.extend({
                 // the position is null before declaring an error.
                 if(this.readyState === 2 && this.position === null) {
                   that.skip();
-                  App.Alerts.new('error', 'Could not load "'+that.get('title')+'". Try listening directly on SoundCloud.');
+                  App.Alerts.new('error', that.get('title') + " could be loaded.\
+                   <a target='blank' href="+that.get('public_link')+">Try listening on SoundCloud.</a>");
                 }
               }
             },
@@ -161,11 +162,11 @@ App.Models.Song = Backbone.Model.extend({
                   break;
                 case 101:
                   reason = "owner has disabled video embedding.\
-                    <a target='blank' href="+that.get('public_link')+">View on Youtube.</a>";
+                    <a target='blank' href="+that.get('public_link')+">Try viewing on Youtube.</a>";
                   break;
                 case 150:
                   reason = "owner has disabled video embedding.\
-                    <a target='blank' href="+that.get('public_link')+">View on Youtube.</a>";
+                    <a target='blank' href="+that.get('public_link')+">Try viewing on Youtube.</a>";
                   break;
                 default:
                   //Disabled as it seems to do this randomly
