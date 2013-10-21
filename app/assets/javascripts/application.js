@@ -22,7 +22,7 @@
 //= require backbone
 //= require handlebars-latest
 //
-//= require music_reader
+//= require trackacid
 //= require api_keys
 //= require providers
 //= require_tree ./utilities

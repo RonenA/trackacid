@@ -47,6 +47,11 @@ $sidebar-logo-large-size: 50px;
   color: #CCC;
   line-height: 1.3em;
   margin-bottom: golden-ratio($sidebar-logo-large-size, -1);
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
 }
 
 .sidebar__list{
