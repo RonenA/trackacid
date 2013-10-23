@@ -1,4 +1,4 @@
-== TrackAcid
+## TrackAcid
 
 An RSS Reader for music blogs built on Rails and Backbone. This project was built by [@RonenA](https://twitter.com/RonenA) after graduating from [App Academy](http://www.appacademy.io/), with the help of [Sam Eisenstat](https://github.com/SamEisenstat).
 
