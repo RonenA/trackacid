@@ -20,7 +20,7 @@
     font-size: $player-control-height;
     line-height: $player-control-height;
     color: $medium-grey;
-    &:hover {color: black}
+    &:hover, &:focus {color: black}
   }
 }
 

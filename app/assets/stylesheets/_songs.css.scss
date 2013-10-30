@@ -38,7 +38,7 @@
       .song__controls{
         button, a{
           color: rgba(white, 0.8);
-          &:hover{color: white}
+          &:hover, &:focus{color: white}
         }
       }
     }
@@ -167,8 +167,8 @@
     font-size: $song-control-icon-size;
     line-height: $song-img-size;
     margin-right: 10px;
-    &:hover{color: black}
-    &:active{
+    &:hover, &:focus{color: black}
+    &:active {
       @extend .animated;
       @extend .pulse;
       @include animation-duration(0.3s);
