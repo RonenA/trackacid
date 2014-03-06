@@ -40,7 +40,7 @@ class Entry < ActiveRecord::Base
       begin
         entry_dom = Nokogiri::HTML( open(self.link, &:read) )
       rescue URI::InvalidURIError
-        p "#{self.link} is invalid"
+        puts "#{self.link} is invalid"
       end
 
       #If the site changes its html structure and the selector

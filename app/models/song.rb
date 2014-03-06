@@ -116,7 +116,7 @@ class Song < ActiveRecord::Base
       # then the first set_secret_token wouldn't find one.
       set_secret_token(api_url) unless secret_token
     rescue => e
-      p "Could not set data from SoundCloud on #{self.source_url} due to #{e.message}"
+      puts "Could not set data from SoundCloud on #{self.source_url} due to #{e.message}"
       return false
     end
   end
@@ -146,7 +146,7 @@ class Song < ActiveRecord::Base
       self.artwork_url        = data["snippet"]["thumbnails"]["medium"]["url"]
       self.kind               = data["kind"].match(/youtube#(.*)/)[1]
     rescue => e
-      p "Could not set data from youtube on #{self.source_url} due to #{e.message}"
+      puts "Could not set data from youtube on #{self.source_url} due to #{e.message}"
       return false
     end
   end

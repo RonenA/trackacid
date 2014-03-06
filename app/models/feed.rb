@@ -51,7 +51,7 @@ class Feed < ActiveRecord::Base
 
       self
     rescue => e
-      p "Could not reload #{self.title} due to #{e.message}"
+      puts "Could not reload #{self.title} due to #{e.message}"
       return false
     end
   end
@@ -60,7 +60,7 @@ class Feed < ActiveRecord::Base
     before = Time.now
     all.each(&:reload)
     later = Time.now
-    p "Completed reload in #{ (later-before)/60 } minutes"
+    puts "Completed reload in #{ (later-before)/60 } minutes"
   end
 
   def self.search(query)
@@ -71,7 +71,7 @@ class Feed < ActiveRecord::Base
     end
   end
 
-  #For some reasons the site_url comes out with a <link> in from of it sometimes??
+  #For some reasons the site_url comes out with a <link> in front of it sometimes??
   def clean_site_url
     if site_url.starts_with?('<link>')
       dirty_url = site_url
