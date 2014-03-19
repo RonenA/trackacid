@@ -145,16 +145,6 @@ Handlebars.registerHelper('firstEntryTimeAgo', function(entries) {
   if (entries.length) return new Handlebars.SafeString( $.timeago(entries[0].published_at) );
 });
 
-Handlebars.registerHelper('totalUnheardCount', function(feeds) {
-  var count = feeds.reduce(function(memo, feed) {
-                if (feed.unheard_count === "") return memo;
-                return memo + feed.unheard_count;
-              }, 0);
-
-  if (count == 0) count = "";
-  return new Handlebars.SafeString(count);
-});
-
 Handlebars.registerHelper('msToTimestamp', function(ms) {
   var rawSeconds = ms/1000;
   var result = "";

@@ -16,22 +16,20 @@ App.Views.FeedIndex = Backbone.View.extend({
   },
 
   render: function(){
-    var data = this.collection.toJSON();
-    _(data).each(function(feed){
-      if (feed.unheard_count === 0) {
-        feed.unheard_count = "";
-      }
-    });
+    var feeds = this.collection.toJSON();
+        selectedFeedId = this.options.mainCollection ?
+            this.options.mainCollection.feedId : null,
+        totalUnheardCount =  feeds.reduce(function(memo, feed) {
+                                return memo + feed.unheard_count;
+                              }, 0),
+        context = {
+          feeds: feeds,
+          totalUnheardCount: totalUnheardCount,
+          selectedFeedId: selectedFeedId
+        },
+        oldScrollPosition = this.$el.scrollTop();
 
-    var selectedFeedId = this.options.mainCollection ? this.options.mainCollection.feedId : null;
-
-    var result = this.template({
-      feeds:          data,
-      selectedFeedId: selectedFeedId
-    });
-
-    var oldScrollPosition = this.$el.scrollTop();
-    this.$el.html(result);
+    this.$el.html( this.template(context) );
     this.$el.scrollTop(oldScrollPosition);
 
     return this;
