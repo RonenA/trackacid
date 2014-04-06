@@ -74,11 +74,17 @@ App.Models.Song = Backbone.Model.extend({
       if(this.get('kind') === "playlist") {
         this.dataFromProvider().done(function(data) {
           //Use the most popular track if it is a playlist
-          var bestTrackId = _(data.tracks).sortBy(function(track) {
-            return track.favoritings_count;
-          }).reverse()[0].id;
+          var bestTrack = _(data.tracks).sortBy(function(track) {
+            return -track.favoritings_count;
+          })[0];
 
-          id.resolve(bestTrackId);
+          // TODO: this is ugly.
+          // When we figure out what song we're actaully gonna play,
+          // we have to update the duration or else seeking will not
+          // work properly.
+          that.set('duration', bestTrack.duration);
+
+          id.resolve(bestTrack.id);
         });
       } else if (this.get('kind') === "track") {
         id.resolve(that.get('id_from_provider'));
