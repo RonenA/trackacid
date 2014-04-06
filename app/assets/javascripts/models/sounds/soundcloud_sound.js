@@ -9,6 +9,7 @@ App.Models.SoundCloudSound = function() {
     play:     'play',
     pause:    'pause',
     stop:     'stop',
+    setPosition: 'setPosition',
     destroy:  'destruct'
   });
 

@@ -3,8 +3,7 @@
   <h2 class="player__title l-ellip">          {{title}}                          </h2>
   <span class="player__secondary l-ellip">    {{{feedNamesForPlayer entries ownedByUser}}} </span>
   <span class="player__tertiary"> {{!Put back l-ellip here if you're gonna make
-                                    this longer. It was removed cause the overflow: hidden
-                                    was cutting off the badge.}}
+                                    this longer. It was removed cause the overflow: hidden was cutting off the badge.}}
     <ul class="inline-list">
       <li>{{{songKindBadge kind}}}</li>
       <li>
@@ -22,22 +21,35 @@
       {{/ifCurrentUser}}
     </div>
 
-    <div class="player__controls float-right">
-      <button class="js-navigate-playlist" data-direction="prev">
-        <i class="icon-prev"></i>
-      </button>
-      {{#if showPlayButton}}
-        <button class="js-play">
-          <i class="icon-play"></i>
+    <div class="of-h">
+      <div class="player__controls float-right">
+        <button class="js-navigate-playlist" data-direction="prev">
+          <i class="icon-prev"></i>
         </button>
-      {{else}}
-        <button class="js-pause">
-          <i class="icon-pause"></i>
+        {{#if showPlayButton}}
+          <button class="js-play">
+            <i class="icon-play"></i>
+          </button>
+        {{else}}
+          <button class="js-pause">
+            <i class="icon-pause"></i>
+          </button>
+        {{/if}}
+        <button class="js-navigate-playlist" data-direction="next">
+          <i class="icon-next"></i>
         </button>
-      {{/if}}
-      <button class="js-navigate-playlist" data-direction="next">
-        <i class="icon-next"></i>
-      </button>
+      </div>
+
+
+      <div class="of-h player__progress-container v-center__outer">
+        <div class="v-centered js-progress-bar player__progress
+          {{#if waveform_url}}player__progress--waveform{{/if}}"
+          {{#if waveform_url}}style="background-image: url({{waveform_url}}){{/if}}">
+
+          <div class="player__progress__inner js-progress-bar-inner"
+               style="width: {{percentage position duration}}"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -3,6 +3,7 @@ App.Models.Song = Backbone.Model.extend({
   initialize: function() {
     this.listenTo(this, 'change:listened', this.changeListenedHandler);
     this.listenTo(this, 'destroy', this.destroyHandler);
+    this.listenTo(this, 'done', this.doneHandler);
 
     var sortedEntries = _(this.get('entries')).sortBy(function(entry) {
       return new Date(entry.published_at);
@@ -56,6 +57,11 @@ App.Models.Song = Backbone.Model.extend({
     return this._dataFromProvider;
   },
 
+  // TODO: reimplement this to use event driven architecture.
+  // This is crazy coupled with the player view right now.
+  // Really all the options.onEvent stuff below should just
+  // trigger events on the song, and the player should listen
+  // to them.
   startLoadingSound: function(options) {
     //TODO: Handle errors here
     var that = this;
@@ -89,7 +95,10 @@ App.Models.Song = Backbone.Model.extend({
             {
               onplay: options.onplay,
               onpause: options.onpause,
-              onfinish: options.onfinish,
+              onfinish: function() {
+                options.onfinish();
+                this.trigger('done');
+              },
               onbufferchange: function() {
                 if (this.isBuffering) {
                   options.onstartbuffering();
@@ -109,6 +118,9 @@ App.Models.Song = Backbone.Model.extend({
                   App.Alerts.new('error', that.get('title') + " could be loaded.\
                    <a target='blank' href="+that.get('public_link')+">Try listening on SoundCloud.</a>");
                 }
+              },
+              whileplaying: function() {
+                that.updatePosition(this.position);
               }
             },
             function(response){
@@ -134,8 +146,22 @@ App.Models.Song = Backbone.Model.extend({
             },
             events: {
               onReady: function(e) {
-                sound.resolve(new App.Models.YouTubeSound(e.target));
+                sound.resolve(
+                  // TODO: Have to pass this directly into the
+                  // YouTubeSound because Youtube doesn't implement
+                  // a 'whileplaying' event for you as SC does.
+                  // I think this process will be made much simpler
+                  // when updating to event driven architecture.
+
+                  // Note: the SC equivalent is called whileplaying
+                  new App.Models.YouTubeSound(e.target, {
+                    onPositionChange: function(newPosition) {
+                      that.updatePosition(newPosition);
+                    }
+                  })
+                );
               },
+
               onStateChange: function(e) {
                 if (e.data === YT.PlayerState.PLAYING ||
                     e.data === YT.PlayerState.BUFFERING) {
@@ -150,6 +176,7 @@ App.Models.Song = Backbone.Model.extend({
                   options.onfinish();
                 }
               },
+
               onError: function(resp) {
                 var reason;
 
@@ -183,7 +210,7 @@ App.Models.Song = Backbone.Model.extend({
                     });
                   }, 2000);
                 }
-              }
+              },
             }
           });
         });
@@ -263,6 +290,17 @@ App.Models.Song = Backbone.Model.extend({
       return App.feeds.get(entry.feed_id);
     });
   },
+
+  updatePosition: function(position) {
+    // Do this silently because we dont want to rerender
+    // the entire player view every second.
+    this.set('position', position, {silent: true});
+    this.trigger('positionChanged', position);
+  },
+
+  doneHandler: function() {
+    this.set('position', 0);
+  }
 
 });
 

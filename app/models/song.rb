@@ -110,6 +110,7 @@ class Song < ActiveRecord::Base
       self.description        = track.description
       self.duration           = track.duration
       self.artwork_url        = track.artwork_url
+      self.waveform_url       = track.waveform_url
       self.download_url       = track.download_url if track.downloadable
 
       # If the source_url is from an href, not an iframe

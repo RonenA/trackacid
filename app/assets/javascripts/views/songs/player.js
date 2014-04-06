@@ -11,6 +11,7 @@ App.Views.Player = Backbone.View.extend({
     'dblclick .js-toggle-song-listened':   function(){return false},
     'click .js-toggle-song-favorited':    'toggleSongFavorited',
     'dblclick .js-toggle-song-favorited':  function(){return false},
+    'click .js-progress-bar':            'seek'
 
   },
 
@@ -68,20 +69,30 @@ App.Views.Player = Backbone.View.extend({
       //now we dont'. Lots of mystery errors
       //in the YouTube code.
 
-      if(sound.provider !== "YouTube"){
+      //if(sound.provider !== "YouTube"){
         sound.destroy();
-      }
+      //}
     });
   },
 
   setCurrentSong: function() {
-    if (this.currentSong) this.stopListening(this.currentSong);
+    if (this.currentSong) {
+      // To prevent the progress bar from starting at the old position.
+      // Will want to remove this when you implement postition remembering.
+      // The only reason implemention position remembering wasn't trivial
+      // was that SoundCloud only lets you setPosition in already loaded
+      // parts of the song -.-
+      this.currentSong.set('position', 0);
+      this.stopListening(this.currentSong);
+    }
     this.currentSong = this.collection.currentSong();
 
     if (this.currentSong) {
       this.listenTo(this.currentSong, "change", function(){
         this.renderInfo( this.renderingContext() );
       });
+
+      this.listenTo(this.currentSong, "positionChanged", this.positionHandler);
     } else {
       this.remove();
     }
@@ -306,6 +317,24 @@ App.Views.Player = Backbone.View.extend({
 
   toggleSongFavorited: function() {
     this.currentSong.setAndPersist("favorited", !this.currentSong.get("favorited"));
+  },
+
+  positionHandler: function(position) {
+    var duration = this.currentSong.get('duration');
+
+    this.$('.js-progress-bar-inner')
+        .width((position/duration) * 100 + "%");
+  },
+
+  seek: function(e) {
+    var $this = $(e.currentTarget),
+        x = e.pageX - $this.offset().left,
+        duration = this.currentSong.get('duration'),
+        destination = x/$this.width() * duration;
+
+    this.sound.done(function(sound) {
+      sound.setPosition(destination);
+    });
   }
 
 });

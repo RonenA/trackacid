@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130903224703) do
+ActiveRecord::Schema.define(:version => 20140405223203) do
 
   create_table "entries", :force => true do |t|
     t.string   "guid",            :null => false
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20130903224703) do
     t.integer  "duration"
     t.string   "secret_token"
     t.string   "api_url"
+    t.text     "waveform_url"
   end
 
   add_index "songs", ["created_at"], :name => "index_songs_on_created_at"

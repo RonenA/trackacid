@@ -175,3 +175,28 @@
   height: $height;
   margin-top: -$height/2;
 }
+
+//For Vertical Centering
+.v-center__outer {
+  text-align: center;
+  font-size: 0;
+}
+
+.v-center__outer:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+/* If what you are centering might be text, you will
+   want to reset the font size on this element. It is
+   set to 0 in the v-center__outer to deal with the
+   space between inline block elements. */
+
+.v-centered {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  font-size: $base-font-size;
+}

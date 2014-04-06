@@ -212,3 +212,7 @@ Handlebars.registerHelper('songsEmptyMessage', function(context) {
 
   return new Handlebars.SafeString(message);
 });
+
+Handlebars.registerHelper('percentage', function(a, b) {
+  return new Handlebars.SafeString((a/b) * 100 + "%");
+});
